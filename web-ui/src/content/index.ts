@@ -1,0 +1,11 @@
+export { site } from './site';
+export { nav } from './nav';
+export { home } from './home';
+export { works } from './works';
+export { history, historyIntro } from './history';
+export { contact } from './contact';
+export { services } from './services';
+export { tours, getTourBySlug } from './tours';
+export { stays, getStayBySlug } from './stays';
+export { poojas, getPoojaBySlug } from './poojas';
+export type * from './types';
