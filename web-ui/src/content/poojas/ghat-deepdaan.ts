@@ -1,3 +1,4 @@
+import { images } from '../images';
 import type { PoojaPackage } from '../types';
 
 export const ghatDeepdaan: PoojaPackage = {
@@ -6,8 +7,7 @@ export const ghatDeepdaan: PoojaPackage = {
   summary: 'Offer lamps on the sacred ghats at dusk.',
   description:
     'A gentle lamp offering by the lake — quiet, photogenic, and meaningful for first-time visitors.',
-  image:
-    'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1600&q=80',
+  image: images.poojaGhatDeepdaan,
   gallery: [],
   inclusions: ['Diyas & oil', 'Host assistance', 'Safe ghat guidance'],
   duration: '~30 minutes',

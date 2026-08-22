@@ -1,6 +1,7 @@
 import { useState, type ReactNode, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
+import { images } from '../content/images';
 import { site as siteMeta } from '../content/site';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { buildCallUrl, buildWhatsAppUrl } from '../lib/whatsapp';
@@ -49,7 +50,7 @@ export function ContactPage() {
         eyebrow={t('pages.contactEyebrow')}
         title={t('contact.title', { ns: 'content' })}
         subtitle={t('contact.subtitle', { ns: 'content' })}
-        image="https://images.unsplash.com/photo-1596178065887-1198b6142102?auto=format&fit=crop&w=1800&q=80"
+        image={images.contactHero}
       />
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>

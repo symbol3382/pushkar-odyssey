@@ -1,3 +1,4 @@
+import { images } from '../images';
 import type { TourPackage } from '../types';
 
 export const pushkarSacredCircuit: TourPackage = {
@@ -6,12 +7,8 @@ export const pushkarSacredCircuit: TourPackage = {
   summary: 'Temples, ghats, and sunset camel trail in two unhurried days.',
   description:
     'A paced introduction to Pushkar’s spiritual heart — Brahma Temple, lake ghats, Savitri viewpoint, and a desert evening under soft saffron light.',
-  image:
-    'https://images.unsplash.com/photo-1596178065887-1198b6142102?auto=format&fit=crop&w=1600&q=80',
-  gallery: [
-    'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=80',
-  ],
+  image: images.tourSacredCircuit,
+  gallery: [images.tourSacredCircuitGallery1, images.tourSacredCircuitGallery2],
   inclusions: [
     'Local guide',
     'Temple entry coordination',

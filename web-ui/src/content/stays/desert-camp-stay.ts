@@ -1,3 +1,4 @@
+import { images } from '../images';
 import type { StayPackage } from '../types';
 
 export const desertCampStay: StayPackage = {
@@ -6,8 +7,7 @@ export const desertCampStay: StayPackage = {
   summary: 'Luxury tents under desert stars with folk dinner.',
   description:
     'An overnight camp beyond town — comfortable tents, communal dinner, and a sky full of quiet.',
-  image:
-    'https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1600&q=80',
+  image: images.stayDesertCamp,
   gallery: [],
   inclusions: ['Dinner & breakfast', 'Cultural evening', 'Transfers from Pushkar'],
   duration: '1 night',

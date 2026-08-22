@@ -1,3 +1,6 @@
+import type { ImageSrc } from './images';
+
+export type { ImageSrc };
 export type BookingType = 'tour' | 'stay' | 'pooja' | 'service' | 'general';
 
 export interface SiteContact {
@@ -37,7 +40,8 @@ export interface WorkItem {
   title: string;
   category: string;
   description: string;
-  image: string;
+  /** From `images.key` in content/images.ts */
+  image: ImageSrc;
   date: string;
 }
 
@@ -53,8 +57,10 @@ export interface PackageBase {
   title: string;
   summary: string;
   description: string;
-  image: string;
-  gallery: string[];
+  /** From `images.key` in content/images.ts */
+  image: ImageSrc;
+  /** From `images.key` entries */
+  gallery: ImageSrc[];
   inclusions: string[];
   duration?: string;
   priceLabel: string;
@@ -80,7 +86,8 @@ export interface ServiceItem {
   title: string;
   summary: string;
   description: string;
-  image: string;
+  /** From `images.key` in content/images.ts */
+  image: ImageSrc;
   priceLabel: string;
   inclusions: string[];
 }
@@ -88,7 +95,8 @@ export interface ServiceItem {
 export interface HomeContent {
   heroTitle: string;
   heroSubtitle: string;
-  heroImage: string;
+  /** From `images.key` in content/images.ts */
+  heroImage: ImageSrc;
   ctaPrimary: { label: string; to: string };
   ctaSecondary: { label: string; to: string };
   featuredTourSlugs: string[];

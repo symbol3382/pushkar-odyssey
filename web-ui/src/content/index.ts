@@ -8,4 +8,6 @@ export { services } from './services';
 export { tours, getTourBySlug } from './tours';
 export { stays, getStayBySlug } from './stays';
 export { poojas, getPoojaBySlug } from './poojas';
+export { images } from './images';
+export type { ImageKey, ImageSrc } from './images';
 export type * from './types';

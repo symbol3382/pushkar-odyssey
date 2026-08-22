@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
+import { images } from '../content/images';
 import { useLocalizedHistory } from '../hooks/useLocalizedContent';
 
 export function HistoryPage() {
@@ -13,7 +14,7 @@ export function HistoryPage() {
         eyebrow={t('pages.historyEyebrow')}
         title={intro.title}
         subtitle={intro.subtitle}
-        image="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1800&q=80"
+        image={images.historyHero}
       />
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
         <ol className="relative space-y-0 border-l border-bhagwa/30 pl-8">
