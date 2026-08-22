@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { site } from '../content/site';
+import { useTranslation } from 'react-i18next';
+import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { markWelcomeSeen } from '../lib/welcome';
 
 interface WelcomeLoaderProps {
@@ -8,6 +9,8 @@ interface WelcomeLoaderProps {
 }
 
 export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
+  const { t } = useTranslation('common');
+  const site = useLocalizedSite();
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -17,10 +20,10 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
     let frame = 0;
 
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
+      const elapsed = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - elapsed, 3);
       setProgress(Math.round(eased * 100));
-      if (t < 1) {
+      if (elapsed < 1) {
         frame = requestAnimationFrame(tick);
       } else {
         markWelcomeSeen();
@@ -47,7 +50,7 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           role="status"
           aria-live="polite"
-          aria-label="Loading Pushkar Tour"
+          aria-label={t('welcome.aria')}
         >
           <div className="mandala-bg absolute inset-0 opacity-50" aria-hidden />
           <div
@@ -72,7 +75,7 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
             >
               प
             </motion.span>
-            <p className="font-display text-4xl text-cream sm:text-5xl">Namaste</p>
+            <p className="font-display text-4xl text-cream sm:text-5xl">{t('welcome.namaste')}</p>
             <p className="mt-2 font-display text-2xl text-gold-soft sm:text-3xl">{site.brandName}</p>
             <p className="mt-3 max-w-sm text-sm text-sand/75">{site.tagline}</p>
 
@@ -82,7 +85,7 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
                 style={{ width: progressWidth }}
               />
             </div>
-            <p className="mt-3 text-xs tracking-[0.25em] text-sand/50 uppercase">Opening the gates</p>
+            <p className="mt-3 text-xs tracking-[0.25em] text-sand/50 uppercase">{t('welcome.opening')}</p>
           </motion.div>
         </motion.div>
       )}

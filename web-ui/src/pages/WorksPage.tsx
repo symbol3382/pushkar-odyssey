@@ -1,15 +1,19 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
-import { works } from '../content/works';
+import { useLocalizedWorks } from '../hooks/useLocalizedContent';
 
 export function WorksPage() {
+  const { t } = useTranslation('common');
+  const works = useLocalizedWorks();
+
   return (
     <>
       <PageHero
-        eyebrow="Portfolio"
-        title="Our works"
-        subtitle="A living gallery of tours, rituals, stays, and services we have hosted for guests."
+        eyebrow={t('works.pageEyebrow')}
+        title={t('works.pageTitle')}
+        subtitle={t('works.pageSubtitle')}
         image={works[0]?.image}
       />
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -48,7 +52,7 @@ export function WorksPage() {
             to="/contact"
             className="inline-flex rounded-sm bg-bhagwa px-6 py-3 text-sm font-medium text-cream hover:bg-bhagwa-light"
           >
-            Plan your visit
+            {t('actions.planVisit')}
           </Link>
         </p>
       </div>

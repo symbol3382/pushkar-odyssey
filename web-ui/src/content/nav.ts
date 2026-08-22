@@ -1,25 +1,23 @@
-import type { NavConfig } from './types';
-
-export const nav: NavConfig = {
+export const nav = {
   primary: [
-    { label: 'Home', to: '/' },
-    { label: 'Our Works', to: '/works' },
-    { label: 'History', to: '/history' },
-    { label: 'Contact Us', to: '/contact' },
+    { labelKey: 'nav.home', to: '/' },
+    { labelKey: 'nav.works', to: '/works' },
+    { labelKey: 'nav.history', to: '/history' },
+    { labelKey: 'nav.contact', to: '/contact' },
   ],
   explore: [
-    { label: 'Tours', to: '/tours' },
-    { label: 'Stays', to: '/stays' },
-    { label: 'Poojas & Aarti', to: '/poojas' },
-    { label: 'Services', to: '/services' },
+    { labelKey: 'nav.tours', to: '/tours' },
+    { labelKey: 'nav.stays', to: '/stays' },
+    { labelKey: 'nav.poojas', to: '/poojas' },
+    { labelKey: 'nav.services', to: '/services' },
   ],
   footer: [
-    { label: 'Tours', to: '/tours' },
-    { label: 'Stays', to: '/stays' },
-    { label: 'Poojas', to: '/poojas' },
-    { label: 'Services', to: '/services' },
-    { label: 'Our Works', to: '/works' },
-    { label: 'History', to: '/history' },
-    { label: 'Contact', to: '/contact' },
+    { labelKey: 'nav.tours', to: '/tours' },
+    { labelKey: 'nav.stays', to: '/stays' },
+    { labelKey: 'nav.footerPoojas', to: '/poojas' },
+    { labelKey: 'nav.services', to: '/services' },
+    { labelKey: 'nav.works', to: '/works' },
+    { labelKey: 'nav.history', to: '/history' },
+    { labelKey: 'nav.footerContact', to: '/contact' },
   ],
-};
+} as const;

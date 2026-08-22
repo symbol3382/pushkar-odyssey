@@ -1,18 +1,21 @@
 import { motion } from 'framer-motion';
-import { works } from '../content/works';
+import { useTranslation } from 'react-i18next';
+import { useLocalizedWorks } from '../hooks/useLocalizedContent';
 
 export function WorksBanner() {
+  const { t } = useTranslation('common');
+  const works = useLocalizedWorks();
   const loop = [
     ...works.map((item) => ({ ...item, key: `${item.id}-a` })),
     ...works.map((item) => ({ ...item, key: `${item.id}-b` })),
   ];
 
   return (
-    <section className="relative border-y border-bhagwa/10 bg-sand/40 py-8" aria-label="Our recent works">
+    <section className="relative border-y border-bhagwa/10 bg-sand/40 py-8" aria-label={t('works.eyebrow')}>
       <div className="mx-auto mb-5 flex max-w-6xl items-end justify-between px-4 sm:px-6 lg:px-8">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">Our works</p>
-          <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">Moments we have hosted</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">{t('works.eyebrow')}</p>
+          <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">{t('works.bannerTitle')}</h2>
         </div>
       </div>
       <div className="relative overflow-hidden">

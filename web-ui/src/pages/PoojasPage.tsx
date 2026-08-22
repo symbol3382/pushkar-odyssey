@@ -1,14 +1,18 @@
+import { useTranslation } from 'react-i18next';
 import { PackageCard } from '../components/PackageCard';
 import { PageHero } from '../components/PageHero';
-import { poojas } from '../content/poojas';
+import { useLocalizedPoojas } from '../hooks/useLocalizedContent';
 
 export function PoojasPage() {
+  const { t } = useTranslation('common');
+  const poojas = useLocalizedPoojas();
+
   return (
     <>
       <PageHero
-        eyebrow="Rituals"
-        title="Poojas & aarti"
-        subtitle="Priest-coordinated rituals on the ghats and at Brahma Temple — serene, clear, WhatsApp-booked."
+        eyebrow={t('pages.poojasEyebrow')}
+        title={t('pages.poojasTitle')}
+        subtitle={t('pages.poojasSubtitle')}
         image={poojas[0]?.image}
       />
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">

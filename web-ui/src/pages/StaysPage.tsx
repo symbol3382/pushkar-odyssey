@@ -1,14 +1,18 @@
+import { useTranslation } from 'react-i18next';
 import { PackageCard } from '../components/PackageCard';
 import { PageHero } from '../components/PageHero';
-import { stays } from '../content/stays';
+import { useLocalizedStays } from '../hooks/useLocalizedContent';
 
 export function StaysPage() {
+  const { t } = useTranslation('common');
+  const stays = useLocalizedStays();
+
   return (
     <>
       <PageHero
-        eyebrow="Rest"
-        title="Stays with courtyard calm"
-        subtitle="Havelis and desert camps chosen for atmosphere, hospitality, and proximity to the sacred."
+        eyebrow={t('pages.staysEyebrow')}
+        title={t('pages.staysTitle')}
+        subtitle={t('pages.staysSubtitle')}
         image={stays[0]?.image}
       />
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">

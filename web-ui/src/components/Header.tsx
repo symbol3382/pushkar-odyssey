@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { nav } from '../content/nav';
-import { site } from '../content/site';
+import { useLocalizedSite } from '../hooks/useLocalizedContent';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function Header() {
+  const { t } = useTranslation('common');
+  const site = useLocalizedSite();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -42,26 +46,26 @@ export function Header() {
           : 'bg-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="group flex items-center gap-2"
+          className="group flex min-w-0 items-center gap-2"
           onClick={() => {
             setOpen(false);
           }}
         >
-          <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa to-maroon font-display text-sm text-cream shadow-md shadow-bhagwa/30">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa to-maroon font-display text-sm text-cream shadow-md shadow-bhagwa/30">
             प
           </span>
-          <span className="font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
+          <span className="truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
             {site.brandName}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
           {nav.primary.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
-              {item.label}
+              {t(item.labelKey)}
             </NavLink>
           ))}
           <div
@@ -78,7 +82,7 @@ export function Header() {
               className="flex items-center gap-1 text-sm tracking-wide text-ink-soft transition hover:text-bhagwa"
               aria-expanded={exploreOpen}
             >
-              Explore
+              {t('nav.explore')}
               <ChevronDown />
             </button>
             <AnimatePresence>
@@ -97,7 +101,7 @@ export function Header() {
                         to={item.to}
                         className="block px-4 py-2.5 text-sm text-ink-soft transition hover:bg-sand hover:text-bhagwa"
                       >
-                        {item.label}
+                        {t(item.labelKey)}
                       </Link>
                     ))}
                   </div>
@@ -105,25 +109,29 @@ export function Header() {
               )}
             </AnimatePresence>
           </div>
+          <LanguageSwitcher />
           <Link
             to="/contact"
             className="rounded-sm bg-maroon px-4 py-2 text-sm font-medium text-cream transition hover:bg-maroon-deep"
           >
-            Book now
+            {t('nav.bookNow')}
           </Link>
         </nav>
 
-        <button
-          type="button"
-          className="inline-flex size-10 items-center justify-center rounded-sm border border-bhagwa/20 text-ink lg:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => {
-            setOpen((v) => !v);
-          }}
-        >
-          {open ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSwitcher compact />
+          <button
+            type="button"
+            className="inline-flex size-10 items-center justify-center rounded-sm border border-bhagwa/20 text-ink"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => {
+              setOpen((v) => !v);
+            }}
+          >
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -147,7 +155,7 @@ export function Header() {
                     `rounded-sm px-3 py-3 text-base ${isActive ? 'bg-sand text-bhagwa' : 'text-ink-soft'}`
                   }
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </NavLink>
               ))}
             </nav>

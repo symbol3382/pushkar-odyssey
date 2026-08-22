@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { BookingType } from '../content/types';
 import { buildBookingUrl, buildCallUrl } from '../lib/whatsapp';
 
@@ -10,7 +11,8 @@ interface BookCTAProps {
 }
 
 export function BookCTA({ type, title, slug, className = '', compact = false }: BookCTAProps) {
-  const wa = buildBookingUrl({ type, title, slug });
+  const { t, i18n } = useTranslation('common');
+  const wa = buildBookingUrl({ type, title, slug }, i18n.t.bind(i18n));
   const call = buildCallUrl();
 
   return (
@@ -22,14 +24,14 @@ export function BookCTA({ type, title, slug, className = '', compact = false }: 
         className={`inline-flex items-center justify-center gap-2 rounded-sm bg-bhagwa font-medium text-cream shadow-md shadow-bhagwa/25 transition hover:bg-bhagwa-light active:scale-[0.98] ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
       >
         <WhatsAppIcon className={compact ? 'size-4' : 'size-5'} />
-        Book on WhatsApp
+        {t('actions.bookWhatsApp')}
       </a>
       <a
         href={call}
         className={`inline-flex items-center justify-center gap-2 rounded-sm border border-maroon/30 bg-cream/80 font-medium text-maroon transition hover:border-maroon hover:bg-sand ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
       >
         <PhoneIcon className={compact ? 'size-4' : 'size-5'} />
-        Call
+        {t('actions.call')}
       </a>
     </div>
   );

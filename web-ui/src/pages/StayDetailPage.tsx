@@ -1,18 +1,20 @@
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { StickyBookBar } from '../components/StickyBookBar';
-import { getStayBySlug } from '../content/stays';
+import { useLocalizedStay } from '../hooks/useLocalizedContent';
 
 export function StayDetailPage() {
   const { slug } = useParams();
-  const stay = slug ? getStayBySlug(slug) : undefined;
+  const { t } = useTranslation('common');
+  const stay = useLocalizedStay(slug);
 
   if (!stay) {
     return (
       <div className="mx-auto max-w-lg px-4 py-32 text-center">
-        <h1 className="font-display text-3xl text-ink">Stay not found</h1>
+        <h1 className="font-display text-3xl text-ink">{t('pages.notFoundStay')}</h1>
         <Link to="/stays" className="mt-4 inline-block text-bhagwa hover:underline">
-          All stays
+          {t('actions.allStays')}
         </Link>
       </div>
     );
@@ -33,7 +35,7 @@ export function StayDetailPage() {
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
         <div>
           <p className="text-lg leading-relaxed text-ink-soft">{stay.description}</p>
-          <h2 className="mt-10 font-display text-2xl text-ink">Amenities</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.amenities')}</h2>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {stay.amenities.map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft">
@@ -44,7 +46,7 @@ export function StayDetailPage() {
               </li>
             ))}
           </ul>
-          <h2 className="mt-10 font-display text-2xl text-ink">Inclusions</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.inclusions')}</h2>
           <ul className="mt-3 space-y-2">
             {stay.inclusions.map((item) => (
               <li key={item} className="text-sm text-ink-soft">
@@ -55,10 +57,10 @@ export function StayDetailPage() {
         </div>
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6">
-            <p className="font-display text-xl text-ink">Reserve this stay</p>
+            <p className="font-display text-xl text-ink">{t('booking.bookStay')}</p>
             <BookCTA type="stay" title={stay.title} slug={stay.slug} className="mt-5" compact />
             <Link to="/stays" className="mt-4 inline-block text-sm text-maroon hover:underline">
-              ← All stays
+              ← {t('actions.allStays')}
             </Link>
           </div>
         </aside>

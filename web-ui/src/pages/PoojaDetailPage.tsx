@@ -1,18 +1,20 @@
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { StickyBookBar } from '../components/StickyBookBar';
-import { getPoojaBySlug } from '../content/poojas';
+import { useLocalizedPooja } from '../hooks/useLocalizedContent';
 
 export function PoojaDetailPage() {
   const { slug } = useParams();
-  const pooja = slug ? getPoojaBySlug(slug) : undefined;
+  const { t } = useTranslation('common');
+  const pooja = useLocalizedPooja(slug);
 
   if (!pooja) {
     return (
       <div className="mx-auto max-w-lg px-4 py-32 text-center">
-        <h1 className="font-display text-3xl text-ink">Pooja not found</h1>
+        <h1 className="font-display text-3xl text-ink">{t('pages.notFoundPooja')}</h1>
         <Link to="/poojas" className="mt-4 inline-block text-bhagwa hover:underline">
-          All poojas
+          {t('actions.allPoojas')}
         </Link>
       </div>
     );
@@ -33,9 +35,9 @@ export function PoojaDetailPage() {
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
         <div>
           <p className="text-lg leading-relaxed text-ink-soft">{pooja.description}</p>
-          <h2 className="mt-10 font-display text-2xl text-ink">Suitable for</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.suitableFor')}</h2>
           <p className="mt-2 text-sm text-ink-soft">{pooja.suitableFor.join(' · ')}</p>
-          <h2 className="mt-10 font-display text-2xl text-ink">Inclusions</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.inclusions')}</h2>
           <ul className="mt-3 space-y-2">
             {pooja.inclusions.map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft">
@@ -49,11 +51,11 @@ export function PoojaDetailPage() {
         </div>
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6">
-            <p className="font-display text-xl text-ink">Book this ritual</p>
-            <p className="mt-2 text-sm text-ink-soft">We confirm priest slot and sankalp details on WhatsApp.</p>
+            <p className="font-display text-xl text-ink">{t('booking.bookPooja')}</p>
+            <p className="mt-2 text-sm text-ink-soft">{t('booking.poojaHint')}</p>
             <BookCTA type="pooja" title={pooja.title} slug={pooja.slug} className="mt-5" compact />
             <Link to="/poojas" className="mt-4 inline-block text-sm text-maroon hover:underline">
-              ← All poojas
+              ← {t('actions.allPoojas')}
             </Link>
           </div>
         </aside>

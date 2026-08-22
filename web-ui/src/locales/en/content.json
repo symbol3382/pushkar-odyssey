@@ -1,0 +1,207 @@
+{
+  "site": {
+    "brandName": "Pushkar Tour",
+    "tagline": "Sacred journeys · Warm stays · Timeless rituals",
+    "shortDescription": "Curated Pushkar experiences — temple aarti, guided tours, serene stays, and local services — booked simply over WhatsApp.",
+    "address": "Near Brahma Temple, Pushkar, Rajasthan 305022",
+    "bookingTemplate": "Namaste! I would like to book:\n\n*{{type}}*: {{title}}\nRef: {{slug}}\n{{details}}\n\nPlease share availability and next steps. Thank you.",
+    "footerWhatsApp": "Namaste! I found {{brand}} online and would like to plan a visit.",
+    "contactWhatsApp": "Namaste! I am {{name}}.\nInterest: {{interest}}\n{{extra}}\n\nSent from the {{brand}} website."
+  },
+  "home": {
+    "heroTitle": "Pushkar Tour",
+    "heroSubtitle": "Walk the ghats at dawn, feel the aarti glow, rest in quiet courtyards — tradition, hosted with modern ease.",
+    "ctaPrimary": "Explore tours",
+    "ctaSecondary": "Book a pooja"
+  },
+  "contact": {
+    "title": "Contact us",
+    "subtitle": "Tell us your dates and what you seek — we reply on WhatsApp with availability and a clear plan.",
+    "formIntro": "Fill a few details and we open WhatsApp with your message prefilled. Prefer a call? Use the number below."
+  },
+  "history": {
+    "introTitle": "Rooted in Pushkar",
+    "introSubtitle": "A living pilgrimage town — lakeside aarti, the Brahma temple, and desert light that has welcomed seekers for centuries.",
+    "h1": {
+      "year": "Ancient",
+      "title": "The sacred lake",
+      "body": "Legend holds that Pushkar Lake rose from a lotus petal of Lord Brahma. Pilgrims have bathed here for millennia seeking purification and blessings."
+    },
+    "h2": {
+      "year": "Temple era",
+      "title": "Brahma’s rare shrine",
+      "body": "Pushkar is home to one of the few temples dedicated to Brahma. Its white spire and silver face remain a quiet center of devotion amid the bustling bazaar."
+    },
+    "h3": {
+      "year": "Living tradition",
+      "title": "Ghat aarti & festivals",
+      "body": "Evening aarti on the ghats, Kartik Fair, and seasonal rituals keep the town’s spiritual rhythm alive — lamps, bells, and desert dusk."
+    },
+    "h4": {
+      "year": "Today",
+      "title": "Pushkar Tour",
+      "body": "We host travelers who want authenticity without friction: priests you can trust, stays with soul, and journeys paced for wonder — booked simply on WhatsApp."
+    }
+  },
+  "works": {
+    "w1": {
+      "title": "Family Brahma Aarti",
+      "category": "Pooja",
+      "description": "Private evening aarti for a visiting family of eight."
+    },
+    "w2": {
+      "title": "Three-day Sacred Circuit",
+      "category": "Tour",
+      "description": "Guided temple trail with camel sunset and local feast."
+    },
+    "w3": {
+      "title": "Haveli Wedding Stay",
+      "category": "Stay",
+      "description": "Courtyard suite hosting for guests during a Pushkar wedding."
+    },
+    "w4": {
+      "title": "Rudrabhishek at Dawn",
+      "category": "Pooja",
+      "description": "Early morning Shiva ritual with priest coordination."
+    },
+    "w5": {
+      "title": "Airport Transfer & Guide",
+      "category": "Service",
+      "description": "Door-to-door pickup with temple protocol briefing."
+    },
+    "w6": {
+      "title": "Kartik Fair Hosting",
+      "category": "Tour",
+      "description": "Multi-day fair immersion with lodging and rituals."
+    }
+  },
+  "tours": {
+    "pushkar-sacred-circuit": {
+      "title": "Pushkar Sacred Circuit",
+      "summary": "Temples, ghats, and sunset camel trail in two unhurried days.",
+      "description": "A paced introduction to Pushkar’s spiritual heart — Brahma Temple, lake ghats, Savitri viewpoint, and a desert evening under soft saffron light.",
+      "duration": "2 days / 1 night",
+      "priceLabel": "From ₹6,500 / person",
+      "inclusions": ["Local guide", "Temple entry coordination", "Camel sunset experience", "Bottled water & welcome tea"],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "Temples & ghats",
+          "details": "Morning Brahma darshan, lake circuit, bazaar walk, evening ghat aarti."
+        },
+        {
+          "day": "Day 2",
+          "title": "Hills & desert dusk",
+          "details": "Savitri temple sunrise option, rest, camel trail, farewell dinner."
+        }
+      ]
+    },
+    "desert-sunset-safari": {
+      "title": "Desert Sunset Safari",
+      "summary": "Dunes, folk music, and a golden-hour feast beyond the town.",
+      "description": "Leave the bustle for open sand — camel or jeep options, Rajasthani snacks, and folk tunes as the sky turns bhagwa.",
+      "duration": "Half day (evening)",
+      "priceLabel": "From ₹2,200 / person",
+      "inclusions": ["Transport", "Camel or jeep", "Snacks & chai", "Folk performance"],
+      "itinerary": [
+        {
+          "day": "Evening",
+          "title": "Into the dunes",
+          "details": "Pickup from hotel, dune ride, sunset photography, dinner return."
+        }
+      ]
+    },
+    "kartik-fair-immersion": {
+      "title": "Kartik Fair Immersion",
+      "summary": "Fairgrounds, cattle parade energy, and nightly aarti during Kartik.",
+      "description": "Seasonal hosting around the Pushkar Fair — lodging coordination, fair circuit, and ritual windows timed around crowds.",
+      "duration": "3–5 days (seasonal)",
+      "priceLabel": "Custom quote",
+      "inclusions": ["Fair guide", "Reserved viewing tips", "Evening aarti slot help"],
+      "itinerary": [
+        {
+          "day": "Daily",
+          "title": "Fair + sacred rhythm",
+          "details": "Morning fair walk, rest, evening lake aarti, optional folk night."
+        }
+      ]
+    }
+  },
+  "stays": {
+    "lakeview-haveli": {
+      "title": "Lakeview Haveli",
+      "summary": "Courtyard calm with soft lake glimpses and warm Rajasthani hospitality.",
+      "description": "A boutique haveli-style stay near the ghats — carved wood, morning chai, and rooms that feel like a quiet pause between rituals.",
+      "duration": "Per night",
+      "priceLabel": "From ₹3,800 / night",
+      "location": "Near Pushkar Lake, walking distance to Brahma Temple",
+      "inclusions": ["Breakfast", "Wi-Fi", "Airport desk help", "Temple timing tips"],
+      "amenities": ["AC rooms", "Rooftop sit-out", "Vegetarian kitchen", "Hot water"]
+    },
+    "desert-camp-stay": {
+      "title": "Desert Camp Stay",
+      "summary": "Luxury tents under desert stars with folk dinner.",
+      "description": "An overnight camp beyond town — comfortable tents, communal dinner, and a sky full of quiet.",
+      "duration": "1 night",
+      "priceLabel": "From ₹5,500 / person",
+      "location": "Pushkar outskirts / dunes",
+      "inclusions": ["Dinner & breakfast", "Cultural evening", "Transfers from Pushkar"],
+      "amenities": ["Ensuite tents", "Bonfire (seasonal)", "Parking"]
+    }
+  },
+  "poojas": {
+    "brahma-aarti": {
+      "title": "Brahma Temple Aarti",
+      "summary": "Participate in evening aarti with priest coordination and seating guidance.",
+      "description": "We arrange your presence at the Brahma Temple aarti — timing, offerings guidance, and respectful protocol so the experience stays serene.",
+      "duration": "~45–60 minutes",
+      "priceLabel": "From ₹1,500",
+      "timing": "Evening (confirm slot on WhatsApp)",
+      "inclusions": ["Priest coordination", "Flower/offerings kit", "Protocol briefing"],
+      "suitableFor": ["Families", "Couples", "Pilgrims"]
+    },
+    "rudrabhishek": {
+      "title": "Rudrabhishek",
+      "summary": "Dawn Shiva abhishek with sankalp in your family’s name.",
+      "description": "A focused morning ritual with an experienced priest — sankalp details collected over WhatsApp before the day.",
+      "duration": "~90 minutes",
+      "priceLabel": "From ₹3,200",
+      "timing": "Early morning",
+      "inclusions": ["Priest & materials", "Sankalp assistance", "Prasad"],
+      "suitableFor": ["Families", "Special intentions"]
+    },
+    "ghat-deepdaan": {
+      "title": "Ghat Deepdaan",
+      "summary": "Offer lamps on the sacred ghats at dusk.",
+      "description": "A gentle lamp offering by the lake — quiet, photogenic, and meaningful for first-time visitors.",
+      "duration": "~30 minutes",
+      "priceLabel": "From ₹800",
+      "timing": "Sunset / early evening",
+      "inclusions": ["Diyas & oil", "Host assistance", "Safe ghat guidance"],
+      "suitableFor": ["Everyone", "Couples", "Children with guardians"]
+    }
+  },
+  "services": {
+    "airport-transfer": {
+      "title": "Airport & station transfer",
+      "summary": "Comfortable pickup from Jaipur / Ajmer with temple etiquette briefing.",
+      "description": "Private vehicle with a local host who helps with arrival logistics, hotel check-in, and a gentle orientation to Pushkar customs.",
+      "priceLabel": "From ₹2,500",
+      "inclusions": ["AC vehicle", "Meet & greet", "Bottled water", "Local orientation"]
+    },
+    "local-guide": {
+      "title": "Local temple guide",
+      "summary": "Half-day walking guide for ghats, bazaars, and key shrines.",
+      "description": "A knowledgeable companion for respectful temple visits, photo moments, and hidden courtyards — paced for families or solo travelers.",
+      "priceLabel": "From ₹1,800",
+      "inclusions": ["4-hour walk", "Temple protocol tips", "Photo assistance", "Tea stop"]
+    },
+    "photography": {
+      "title": "Ritual photography",
+      "summary": "Discreet coverage of aarti and family blessings.",
+      "description": "Soft, respectful photography during rituals and lake moments — edited selects delivered digitally within a few days.",
+      "priceLabel": "From ₹4,000",
+      "inclusions": ["2-hour coverage", "20 edited photos", "Private gallery link"]
+    }
+  }
+}

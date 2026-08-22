@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { PageHero } from '../components/PageHero';
-import { services } from '../content/services';
+import { useLocalizedServices } from '../hooks/useLocalizedContent';
 
 export function ServicesPage() {
+  const { t } = useTranslation('common');
+  const services = useLocalizedServices();
+
   return (
     <>
       <PageHero
-        eyebrow="Extras"
-        title="Related services"
-        subtitle="Transfers, guides, and photography — the quiet logistics that make a pilgrimage smooth."
+        eyebrow={t('pages.servicesEyebrow')}
+        title={t('pages.servicesTitle')}
+        subtitle={t('pages.servicesSubtitle')}
         image={services[0]?.image}
       />
       <div className="mx-auto max-w-6xl space-y-10 px-4 py-14 sm:px-6 lg:px-8">
@@ -41,9 +45,9 @@ export function ServicesPage() {
           </motion.article>
         ))}
         <p className="text-center text-sm text-ink-soft">
-          Need a package mix?{' '}
+          {t('actions.needPackageMix')}{' '}
           <Link to="/contact" className="text-bhagwa hover:underline">
-            Contact us
+            {t('actions.messageUs')}
           </Link>
         </p>
       </div>

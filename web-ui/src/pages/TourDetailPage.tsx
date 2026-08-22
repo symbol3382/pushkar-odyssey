@@ -1,14 +1,23 @@
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { StickyBookBar } from '../components/StickyBookBar';
-import { getTourBySlug } from '../content/tours';
+import { useLocalizedTour } from '../hooks/useLocalizedContent';
 
 export function TourDetailPage() {
   const { slug } = useParams();
-  const tour = slug ? getTourBySlug(slug) : undefined;
+  const { t } = useTranslation('common');
+  const tour = useLocalizedTour(slug);
 
   if (!tour) {
-    return <NotFound kind="tour" />;
+    return (
+      <div className="mx-auto max-w-lg px-4 py-32 text-center">
+        <h1 className="font-display text-3xl text-ink">{t('pages.notFoundTour')}</h1>
+        <Link to="/" className="mt-4 inline-block text-bhagwa hover:underline">
+          {t('actions.backHome')}
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -27,7 +36,7 @@ export function TourDetailPage() {
         <div>
           <p className="text-lg leading-relaxed text-ink-soft">{tour.description}</p>
 
-          <h2 className="mt-10 font-display text-2xl text-ink">Itinerary</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.itinerary')}</h2>
           <ol className="mt-4 space-y-4">
             {tour.itinerary.map((step) => (
               <li key={step.day} className="border-l-2 border-bhagwa/40 pl-4">
@@ -38,7 +47,7 @@ export function TourDetailPage() {
             ))}
           </ol>
 
-          <h2 className="mt-10 font-display text-2xl text-ink">Inclusions</h2>
+          <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.inclusions')}</h2>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {tour.inclusions.map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft">
@@ -52,7 +61,7 @@ export function TourDetailPage() {
 
           {tour.gallery.length > 0 && (
             <>
-              <h2 className="mt-10 font-display text-2xl text-ink">Gallery</h2>
+              <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.gallery')}</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {tour.gallery.map((src) => (
                   <img key={src} src={src} alt="" className="aspect-video w-full rounded-sm object-cover" loading="lazy" />
@@ -64,27 +73,16 @@ export function TourDetailPage() {
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6">
-            <p className="font-display text-xl text-ink">Book this tour</p>
-            <p className="mt-2 text-sm text-ink-soft">WhatsApp us with this package prefilled — no online payment.</p>
+            <p className="font-display text-xl text-ink">{t('booking.bookTour')}</p>
+            <p className="mt-2 text-sm text-ink-soft">{t('booking.tourHint')}</p>
             <BookCTA type="tour" title={tour.title} slug={tour.slug} className="mt-5" compact />
             <Link to="/tours" className="mt-4 inline-block text-sm text-maroon hover:underline">
-              ← All tours
+              ← {t('actions.allTours')}
             </Link>
           </div>
         </aside>
       </div>
       <StickyBookBar type="tour" title={tour.title} slug={tour.slug} />
     </article>
-  );
-}
-
-function NotFound({ kind }: { kind: string }) {
-  return (
-    <div className="mx-auto max-w-lg px-4 py-32 text-center">
-      <h1 className="font-display text-3xl text-ink">We could not find that {kind}</h1>
-      <Link to="/" className="mt-4 inline-block text-bhagwa hover:underline">
-        Back home
-      </Link>
-    </div>
   );
 }

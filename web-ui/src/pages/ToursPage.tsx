@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PackageCard } from '../components/PackageCard';
 import { PageHero } from '../components/PageHero';
-import { tours } from '../content/tours';
+import { useLocalizedTours } from '../hooks/useLocalizedContent';
 
 export function ToursPage() {
+  const { t } = useTranslation('common');
+  const tours = useLocalizedTours();
+
   return (
     <>
       <PageHero
-        eyebrow="Journeys"
-        title="Tours in & around Pushkar"
-        subtitle="Temple circuits, desert evenings, and seasonal fair immersions — paced for wonder."
+        eyebrow={t('pages.toursEyebrow')}
+        title={t('pages.toursTitle')}
+        subtitle={t('pages.toursSubtitle')}
         image={tours[0]?.image}
       />
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -28,9 +32,9 @@ export function ToursPage() {
           ))}
         </div>
         <p className="mt-10 text-center text-sm text-ink-soft">
-          Looking for something custom?{' '}
+          {t('actions.lookingCustom')}{' '}
           <Link to="/contact" className="font-medium text-bhagwa hover:underline">
-            Message us
+            {t('actions.messageUs')}
           </Link>
         </p>
       </div>

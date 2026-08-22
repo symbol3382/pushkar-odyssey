@@ -1,10 +1,17 @@
+import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Footer } from './Footer';
 import { Header } from './Header';
 
 export function Layout() {
   const location = useLocation();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.resolvedLanguage ?? i18n.language;
+  }, [i18n.language, i18n.resolvedLanguage]);
 
   return (
     <div className="flex min-h-dvh flex-col">

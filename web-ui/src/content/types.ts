@@ -22,7 +22,7 @@ export interface SiteConfig {
 }
 
 export interface NavLink {
-  label: string;
+  labelKey: string;
   to: string;
 }
 
