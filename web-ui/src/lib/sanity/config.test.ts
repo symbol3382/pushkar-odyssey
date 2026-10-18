@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { SanityConfigError, sanityClientOptions } from './config';
+import { SanityConfigError, isSanityConfigured, sanityClientOptions } from './config';
 
 describe('sanity client options', () => {
+  it('treats a missing or example project id as not configured', () => {
+    expect(isSanityConfigured({})).toBe(false);
+    expect(isSanityConfigured({ projectId: 'your_project_id' })).toBe(false);
+    expect(isSanityConfigured({ projectId: 'demo-project' })).toBe(true);
+  });
+
   it('rejects a missing project id without inventing one', () => {
     expect(() => sanityClientOptions({})).toThrow(SanityConfigError);
   });

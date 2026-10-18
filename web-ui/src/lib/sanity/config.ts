@@ -36,8 +36,10 @@ export function readSanityEnv(env: ImportMetaEnv = import.meta.env): SanityEnv {
   };
 }
 
+const PLACEHOLDER_PROJECT_ID = 'your_project_id';
+
 export function isSanityConfigured(env: SanityEnv = readSanityEnv()): boolean {
-  return Boolean(env.projectId);
+  return Boolean(env.projectId && env.projectId !== PLACEHOLDER_PROJECT_ID);
 }
 
 export function sanityClientOptions(env: SanityEnv): SanityClientOptions {

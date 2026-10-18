@@ -14,7 +14,7 @@ export function useContentQuery<TRaw, TView>(
   cacheKey: string | null,
   load: (() => Promise<TRaw>) | null,
   select: (raw: TRaw) => TView,
-  fallback: TView,
+  empty: TView,
 ): ContentQuery<TView> {
   const configured = isSanityConfigured();
   const [attempt, setAttempt] = useState(0);
@@ -50,10 +50,10 @@ export function useContentQuery<TRaw, TView>(
   }, [cacheKey]);
 
   if (!configured) {
-    return { status: 'ready', data: fallback, error: null, retry, source: 'local' };
+    return { status: 'ready', data: empty, error: null, retry, source: 'local' };
   }
   if (!cacheKey) {
-    return { status: 'ready', data: fallback, error: null, retry, source: 'sanity' };
+    return { status: 'ready', data: empty, error: null, retry, source: 'sanity' };
   }
 
   const resolved = hasCache(cacheKey)

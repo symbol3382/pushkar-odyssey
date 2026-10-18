@@ -39,7 +39,7 @@ Set these values in `web-ui/.env.local`:
 
 `VITE_` values are embedded in the public JavaScript bundle. They are safe only when they are not secrets. Never put a Sanity write token, robot token, or management token in a `VITE_` variable.
 
-If `VITE_SANITY_PROJECT_ID` is missing, the site shows the existing bundled demo content so the prototype still runs. Placeholder phone and email values in that demo are not production contact details. After the project ID is set, the site reads published Sanity content only. A failed request shows an error, not the demo catalog.
+The site reads published Sanity content only. If `VITE_SANITY_PROJECT_ID` is missing, listings, detail pages, works, history, and contact details stay empty. A failed request shows an error. It does not fill the page with sample tours, stays, or phone numbers.
 
 Other commands, from `web-ui`:
 
@@ -137,7 +137,7 @@ Until that upgrade exists, do not configure a rebuild webhook. Content updates d
 
 ## F. Troubleshooting
 
-- **Missing project ID.** The site shows demo content. Copy `web-ui/.env.example` to `web-ui/.env.local` and set `VITE_SANITY_PROJECT_ID`. Restart `npm run dev`.
+- **Missing project ID.** Listings and contact details stay empty. Copy `web-ui/.env.example` to `web-ui/.env.local`, set `VITE_SANITY_PROJECT_ID`, and restart `npm run dev`.
 - **Wrong dataset.** Listings are empty or unexpected. `VITE_SANITY_DATASET` must match `SANITY_STUDIO_DATASET`.
 - **Nothing published.** An empty catalog is shown on purpose. Publish the document in Studio. A draft is not enough.
 - **Invalid or old slug.** The detail page shows a not-found message. Check the published slug.
