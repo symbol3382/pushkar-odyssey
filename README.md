@@ -1,16 +1,16 @@
 # Pushkar Oddessey
 
-A React, Vite, and TypeScript portfolio for pilgrimage, travel, stays, and local experiences. Editors manage published content in Sanity Studio. The public site is a static single-page app intended for Cloudflare Pages.
+A React, Vite, and TypeScript portfolio for pilgrimage, travel, stays, and local experiences. Editors manage published content in Sanity Studio. The public site is a static single-page app deployed as Cloudflare Workers static assets.
 
 The visual design and existing pages stay in `web-ui`. Sanity Studio is a separate app in `studio`, so the public site can be built and deployed without Studio.
 
 ## A. Prerequisites
 
-- Node.js 22 or newer. This machine may use a newer current release. Cloudflare Pages should use Node 22, which `web-ui/.node-version` requests.
+- Node.js 22 or newer. This machine may use a newer current release. Cloudflare should use Node 22, which `web-ui/.node-version` requests.
 - npm, which is the package manager already used by this repository. Do not replace `package-lock.json`.
 - Git.
 - A GitHub repository for the project.
-- A Cloudflare account for Pages hosting.
+- A Cloudflare account for hosting.
 - A Sanity account. The client should own the Sanity organization, the Cloudflare account, the domain, and the GitHub repository. Give the developer member access rather than sharing owner passwords.
 
 There is no Sanity project, dataset, hosted Studio, or Cloudflare site in this repository yet. Those are created with the steps below.
@@ -104,24 +104,24 @@ Use the least access that still lets the client work. An editor can create and p
 - To unpublish, use Unpublish in the document menu. To avoid publishing a half-finished entry, keep it as a draft until the title, slug, and image are ready.
 - Image alt text is required once an image is uploaded.
 
-## D. Cloudflare Pages deployment
+## D. Cloudflare deployment
 
-This repository does not contain a completed Cloudflare project. Connect it yourself:
+The public site is the Worker `pushkar-oddessey`, configured in `web-ui/wrangler.jsonc`. It serves the Vite build from `dist` and, for any path that is not a real file, returns `index.html` so React Router can render the route.
 
-1. Push the repository to GitHub.
-2. In Cloudflare, create a Pages project and import that repository.
-3. Set the root directory to `web-ui`.
-4. Build command: `npm run build`.
-5. Build output directory: `dist`.
-6. Production branch: the branch you want to serve, usually `main`.
-7. Add the same `VITE_` variables for production and for preview deployments. Preview deployments get their own URLs. Add those origins to Sanity CORS if the preview site should load content.
-8. Deploy, then open the Pages URL and check a direct link such as `/tours/some-slug`. `web-ui/public/_redirects` sends unknown paths to `index.html`, so the React app can render the route.
-9. To use a custom domain, add it in the Pages project and follow Cloudflare's DNS instructions. Cloudflare provisions HTTPS. If the domain uses Cloudflare DNS, the proxied records should stay orange-cloud. If DNS is hosted elsewhere, create the CNAME or alias Pages shows. Do not disable HTTPS.
-10. After the domain works, set `VITE_SITE_URL` to that origin and redeploy so canonical URLs and the sitemap use it.
+Connect the Git repository in Cloudflare with these settings:
 
-Pages builds from GitHub. A merge to the production branch builds production. Other branches and pull requests can build preview deployments when that setting is enabled.
+1. Root directory: `web-ui`.
+2. Build command: `npm run build`.
+3. Deploy command: `npx wrangler deploy`.
+4. Production branch: the branch you want to serve, usually `main`.
+5. Add the same `VITE_` variables for production and for preview deployments. Preview deployments get their own URLs. Add those origins to Sanity CORS if the preview site should load content.
+6. Deploy, then open a direct link such as `/tours/some-slug`. That request is not a file in `dist`. `assets.not_found_handling` is `single-page-application`, so Cloudflare serves `index.html` and the app renders the route.
+7. To use a custom domain, add it on the Worker and follow Cloudflare's DNS instructions. Cloudflare provisions HTTPS. If the domain uses Cloudflare DNS, the proxied records should stay orange-cloud. If DNS is hosted elsewhere, create the CNAME or alias Cloudflare shows. Do not disable HTTPS.
+8. After the domain works, set `VITE_SITE_URL` to that origin and redeploy so canonical URLs and the sitemap use it.
 
-The site is static. It does not need a Worker or a custom server to serve files.
+Do not add `web-ui/public/_redirects` with `/* /index.html 200`. Workers strips `.html` and `/index` from that target, the catch-all matches again, and the deploy fails with error 100324.
+
+A merge to the production branch builds production. There is no custom Worker script. Static files are the whole site.
 
 ## E. Content publishing workflow
 
@@ -131,7 +131,7 @@ Draft edits do not appear on the site and do not require a rebuild.
 
 This is a client-rendered React app. The build does not create a separate HTML file for every CMS entry. Search engines that execute JavaScript can read the pages, but the first HTML response is the shared app shell. Titles and descriptions are updated in the browser after the content loads.
 
-A later upgrade, if search listings need HTML for every entry, is to add a Vite prerender step that fetches published slugs at build time and writes one HTML file per route. At that point, a Sanity webhook can call a Cloudflare Pages deploy hook when a document is published. Filter the webhook to published documents, not drafts, and store the deploy hook URL only in Sanity's webhook settings. Do not add a webhook endpoint to this repository that accepts arbitrary deploy commands.
+A later upgrade, if search listings need HTML for every entry, is to add a Vite prerender step that fetches published slugs at build time and writes one HTML file per route. At that point, a Sanity webhook can call a Cloudflare deploy hook when a document is published. Filter the webhook to published documents, not drafts, and store the deploy hook URL only in Sanity's webhook settings. Do not add a webhook endpoint to this repository that accepts arbitrary deploy commands.
 
 Until that upgrade exists, do not configure a rebuild webhook. Content updates do not need one.
 
@@ -143,15 +143,16 @@ Until that upgrade exists, do not configure a rebuild webhook. Content updates d
 - **Invalid or old slug.** The detail page shows a not-found message. Check the published slug.
 - **Images missing.** Publish the image with alt text, and confirm the dataset is public. The browser requests `cdn.sanity.io`.
 - **API error.** The page shows a retry message. Check the project ID, dataset, CORS origin, and that the dataset allows public reads of published content.
-- **Cloudflare build failed.** Confirm the root directory is `web-ui`, the command is `npm run build`, the output is `dist`, and Node 22 is selected. Build logs are the source of truth.
-- **Direct links 404.** Confirm `dist/_redirects` exists after the build and the Pages project is serving that output.
-- **Wrong environment variable.** Preview and production are configured separately in Pages. A value present only on your laptop is not present in Cloudflare.
+- **Cloudflare build failed.** Confirm the root directory is `web-ui`, the build command is `npm run build`, the deploy command is `npx wrangler deploy`, and Node 22 is selected. Build logs are the source of truth.
+- **Deploy fails on `_redirects` error 100324.** Remove `public/_redirects`. The SPA fallback is `not_found_handling` in `web-ui/wrangler.jsonc`.
+- **Direct links 404.** Confirm `web-ui/wrangler.jsonc` sets `assets.not_found_handling` to `single-page-application` and `assets.directory` to `./dist`.
+- **Wrong environment variable.** Preview and production are configured separately in Cloudflare. A value present only on your laptop is not present in Cloudflare.
 - **Studio login.** The user needs a Sanity account invited to this project. `studio/.env` needs the project ID. `npm run dev` in `studio` fails with a clear message when that ID is missing.
 - **Webhook.** None is configured. You do not need one for the current site. If you add the prerender upgrade later, a failed webhook only means the latest HTML was not rebuilt. The live query path still reads published content.
 
 ## G. Costs and free-tier limits
 
-Cloudflare Pages and Sanity both have free plans that can cover a small portfolio, subject to their current eligibility, bandwidth, document, and API quotas. Those quotas can change, and a busy site can exceed them.
+Cloudflare Workers static assets and Sanity both have free plans that can cover a small portfolio, subject to their current eligibility, bandwidth, document, and API quotas. Those quotas can change, and a busy site can exceed them.
 
 Costs that this project does not include, and that may not be free:
 
@@ -175,4 +176,4 @@ The app sets a page title, description, Open Graph and Twitter tags, and JSON-LD
 
 ## API version
 
-`VITE_SANITY_API_VERSION` defaults to `2026-02-01`. Sanity's client uses that date to select query behavior. From API date `2025-02-19` onward, the client defaults to the published perspective. This app also sets `perspective: "published"` explicitly. To move forward, change the date in `.env.local`, in the Pages environment, and in this README, then verify listings still match the published documents.
+`VITE_SANITY_API_VERSION` defaults to `2026-02-01`. Sanity's client uses that date to select query behavior. From API date `2025-02-19` onward, the client defaults to the published perspective. This app also sets `perspective: "published"` explicitly. To move forward, change the date in `.env.local`, in the Cloudflare environment, and in this README, then verify listings still match the published documents.
