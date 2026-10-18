@@ -19,7 +19,7 @@ export const images = {
   kartikFair: '/images/kartik-fair.svg',
   desertDunes: '/images/desert-dunes.svg',
   haveliRoom: '/images/haveli-room.svg',
-  airportTransfer: '/images/airport-transfer.svg',
+  airportTransfer: '/images/airport-transfer.png',
   templeGuide: '/images/temple-guide.svg',
   ritualPhoto: '/images/ritual-photo.svg',
   historyHero: '/images/history-hero.svg',
@@ -45,7 +45,7 @@ export const images = {
   poojaGhatDeepdaan: '/images/lake-aarti.svg',
 
   // Services
-  serviceAirportTransfer: '/images/airport-transfer.svg',
+  serviceAirportTransfer: '/images/airport-transfer.png',
   serviceLocalGuide: '/images/temple-guide.svg',
   servicePhotography: '/images/ritual-photo.svg',
 
