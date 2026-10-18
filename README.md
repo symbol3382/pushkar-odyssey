@@ -57,7 +57,7 @@ npm run preview
 
 1. Create a Sanity account and a new project at [sanity.io/manage](https://www.sanity.io/manage). Choose the Free plan if it is available. A public dataset is required so the website can read published documents without a token.
 2. Create a dataset named `production` if the project does not already have one. In the project API settings, allow public read access for published documents. Do not turn off access control, and do not add a token to the frontend to compensate for a private dataset.
-3. Add the local and production website origins to the project's CORS origins, with credentials disabled. Start with `http://localhost:3001`. Add the Cloudflare production URL and any preview URL after the first deploy.
+3. Add the local and production website origins to the project's CORS origins, with credentials disabled. Start with `http://localhost:3001`. Add the Cloudflare production URL and any preview URL after the first deploy. The Studio origin is separate: add it with credentials allowed, because editors sign in through Studio.
 4. In `studio`, install dependencies and link the project:
 
 ```bash
@@ -76,13 +76,17 @@ npm run dev
 
 Studio prints a local URL. Sign in with the Sanity account that belongs to the project.
 
-6. Deploy hosted Studio when the client should edit content without the source code:
+6. Host Studio on Cloudflare so editors can use it without the source code. In the Cloudflare project whose root directory is `studio`:
 
-```bash
-npm run deploy
-```
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Environment variables: `SANITY_STUDIO_PROJECT_ID` and `SANITY_STUDIO_DATASET`, the same values as `studio/.env`. Do not add a Sanity token.
 
-Sanity hosts Studio at a `*.sanity.studio` address. The client signs in there with their Sanity user. The freelancer should be invited as an editor or developer, not by sharing the client's login.
+`npm run build` writes the static Studio to `dist`. `studio/wrangler.jsonc` publishes that folder as the Worker `pushkar-oddessey-studio`. After the first deploy, add that Studio URL to Sanity CORS with credentials allowed.
+
+Do not set the Cloudflare build command to `npm run deploy`. That script runs `sanity deploy`, which logs into Sanity's own hosting and fails in Cloudflare with `You must login first - run "sanity login"`.
+
+`npm run deploy` is only for a machine where `sanity login` has already been run. It publishes a `*.sanity.studio` address instead of the Cloudflare Worker. The client signs in with their Sanity user. The freelancer should be invited as an editor or developer, not by sharing the client's login.
 
 7. Create content from the Studio desk: Site, Offerings, Places, and Stories. Publish each document when it is complete. Drafts stay private. Site settings, the home page, and history are single documents, so Studio hides duplicate and delete for those three.
 
@@ -147,7 +151,8 @@ Until that upgrade exists, do not configure a rebuild webhook. Content updates d
 - **Deploy fails on `_redirects` error 100324.** Remove `public/_redirects`. The SPA fallback is `not_found_handling` in `web-ui/wrangler.jsonc`.
 - **Direct links 404.** Confirm `web-ui/wrangler.jsonc` sets `assets.not_found_handling` to `single-page-application` and `assets.directory` to `./dist`.
 - **Wrong environment variable.** Preview and production are configured separately in Cloudflare. A value present only on your laptop is not present in Cloudflare.
-- **Studio login.** The user needs a Sanity account invited to this project. `studio/.env` needs the project ID. `npm run dev` in `studio` fails with a clear message when that ID is missing.
+- **Studio login.** The user needs a Sanity account invited to this project. `studio/.env` needs the project ID. `npm run dev` in `studio` fails with a clear message when that ID is missing. The hosted Studio origin must be in Sanity CORS with credentials allowed.
+- **Cloudflare Studio build says you must login.** The build command is `npm run deploy`. Change it to `npm run build`, set the deploy command to `npx wrangler deploy`, and set `SANITY_STUDIO_PROJECT_ID` in that project's environment.
 - **Webhook.** None is configured. You do not need one for the current site. If you add the prerender upgrade later, a failed webhook only means the latest HTML was not rebuilt. The live query path still reads published content.
 
 ## G. Costs and free-tier limits
