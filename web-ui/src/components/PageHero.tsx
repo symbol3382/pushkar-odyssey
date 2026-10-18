@@ -5,14 +5,15 @@ interface PageHeroProps {
   title: string;
   subtitle?: string;
   image?: string;
+  imageAlt?: string;
 }
 
-export function PageHero({ eyebrow, title, subtitle, image }: PageHeroProps) {
+export function PageHero({ eyebrow, title, subtitle, image, imageAlt = '' }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden pt-24 sm:pt-28">
       {image ? (
         <div className="absolute inset-0">
-          <img src={image} alt="" className="size-full object-cover" />
+          <img src={image} alt={imageAlt} className="size-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/55 to-cream" />
         </div>
       ) : (
@@ -26,12 +27,16 @@ export function PageHero({ eyebrow, title, subtitle, image }: PageHeroProps) {
           className="max-w-2xl"
         >
           {eyebrow && (
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-soft">{eyebrow}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-soft">
+              {eyebrow}
+            </p>
           )}
           <h1 className="mt-3 font-display text-4xl text-cream text-balance sm:text-5xl lg:text-6xl">
             {title}
           </h1>
-          {subtitle && <p className="mt-4 text-base leading-relaxed text-sand/90 sm:text-lg">{subtitle}</p>}
+          {subtitle && (
+            <p className="mt-4 text-base leading-relaxed text-sand/90 sm:text-lg">{subtitle}</p>
+          )}
         </motion.div>
       </div>
     </section>

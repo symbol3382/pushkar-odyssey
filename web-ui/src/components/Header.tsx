@@ -8,7 +8,8 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function Header() {
   const { t } = useTranslation('common');
-  const site = useLocalizedSite();
+  const siteQuery = useLocalizedSite();
+  const site = siteQuery.data;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -54,11 +55,15 @@ export function Header() {
             setOpen(false);
           }}
         >
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa to-maroon font-display text-sm text-cream shadow-md shadow-bhagwa/30">
-            प
-          </span>
+          {site?.logo ? (
+            <img src={site.logo.src} alt="" className="size-9 shrink-0 rounded-full object-cover" />
+          ) : (
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa to-maroon font-display text-sm text-cream shadow-md shadow-bhagwa/30">
+              प
+            </span>
+          )}
           <span className="truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
-            {site.brandName}
+            {site?.brandName}
           </span>
         </Link>
 
@@ -180,7 +185,14 @@ function ChevronDown() {
 
 function MenuIcon() {
   return (
-    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+    <svg
+      className="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      aria-hidden
+    >
       <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
     </svg>
   );
@@ -188,7 +200,14 @@ function MenuIcon() {
 
 function CloseIcon() {
   return (
-    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+    <svg
+      className="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      aria-hidden
+    >
       <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
     </svg>
   );

@@ -9,8 +9,10 @@ interface WelcomeLoaderProps {
 }
 
 export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
-  const { t } = useTranslation('common');
-  const site = useLocalizedSite();
+  const { t } = useTranslation(['common', 'content']);
+  const siteQuery = useLocalizedSite();
+  const brandName = siteQuery.data?.brandName ?? t('site.brandName', { ns: 'content' });
+  const tagline = siteQuery.data?.tagline;
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -76,8 +78,8 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
               प
             </motion.span>
             <p className="font-display text-4xl text-cream sm:text-5xl">{t('welcome.namaste')}</p>
-            <p className="mt-2 font-display text-2xl text-gold-soft sm:text-3xl">{site.brandName}</p>
-            <p className="mt-3 max-w-sm text-sm text-sand/75">{site.tagline}</p>
+            <p className="mt-2 font-display text-2xl text-gold-soft sm:text-3xl">{brandName}</p>
+            {tagline && <p className="mt-3 max-w-sm text-sm text-sand/75">{tagline}</p>}
 
             <div className="mt-10 h-1 w-48 overflow-hidden rounded-full bg-cream/15 sm:w-64">
               <motion.div
@@ -85,7 +87,9 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
                 style={{ width: progressWidth }}
               />
             </div>
-            <p className="mt-3 text-xs tracking-[0.25em] text-sand/50 uppercase">{t('welcome.opening')}</p>
+            <p className="mt-3 text-xs tracking-[0.25em] text-sand/50 uppercase">
+              {t('welcome.opening')}
+            </p>
           </motion.div>
         </motion.div>
       )}

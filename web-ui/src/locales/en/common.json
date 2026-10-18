@@ -9,6 +9,7 @@
     "stays": "Stays",
     "poojas": "Poojas & Aarti",
     "services": "Services",
+    "destinations": "Destinations",
     "bookNow": "Book now",
     "footerPoojas": "Poojas",
     "footerContact": "Contact"
@@ -23,6 +24,10 @@
     "allTours": "All tours",
     "allStays": "All stays",
     "allPoojas": "All poojas",
+    "allServices": "All services",
+    "allDestinations": "All destinations",
+    "viewDetails": "View details",
+    "tryAgain": "Try again",
     "backHome": "Back home",
     "lookingCustom": "Looking for something custom?",
     "needPackageMix": "Need a package mix?"
@@ -41,7 +46,11 @@
     "typeStay": "stay",
     "typePooja": "pooja",
     "typeService": "service",
-    "typeGeneral": "general"
+    "typeGeneral": "general",
+    "typeDestination": "destination",
+    "bookService": "Enquire about this service",
+    "serviceHint": "WhatsApp opens with this service named. Sending the message does not confirm a booking.",
+    "notConfirmed": "This opens WhatsApp with your message. It does not confirm a booking."
   },
   "home": {
     "featuredJourneys": "Featured journeys",
@@ -55,7 +64,8 @@
     "viewStaysCount": "View {{count}} stays",
     "ctaTitle": "Ready to plan your Pushkar?",
     "ctaBody": "No payment gateways — just a WhatsApp conversation with everything prefilled.",
-    "customPlan": "Custom Pushkar plan"
+    "customPlan": "Custom Pushkar plan",
+    "testimonialsEyebrow": "Guests"
   },
   "works": {
     "eyebrow": "Our works",
@@ -104,7 +114,48 @@
     "suitableFor": "Suitable for",
     "notFoundTour": "We could not find that tour",
     "notFoundStay": "Stay not found",
-    "notFoundPooja": "Pooja not found"
+    "notFoundPooja": "Pooja not found",
+    "notFoundService": "We could not find that service",
+    "notFoundDestination": "We could not find that destination",
+    "notFoundPage": "We could not find that page",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "That address is not on this site.",
+    "destinationsEyebrow": "Places",
+    "destinationsTitle": "Destinations",
+    "destinationsSubtitle": "Temples, towns, and places connected to the journeys and rituals on this site.",
+    "emptyTours": "No tours are published yet.",
+    "emptyStays": "No stays are published yet.",
+    "emptyPoojas": "No poojas are published yet.",
+    "emptyServices": "No services are published yet.",
+    "emptyDestinations": "No destinations are published yet.",
+    "emptyWorks": "No works are published yet.",
+    "emptyHistory": "The history page has not been published yet.",
+    "emptyHome": "The home page has not been published yet.",
+    "loadError": "We could not load this content. Check the connection and try again.",
+    "loading": "Loading content",
+    "exclusions": "Not included",
+    "preparation": "Preparation",
+    "languages": "Languages",
+    "transport": "Transport",
+    "accommodation": "Accommodation",
+    "season": "Best season",
+    "groupSize": "Group size",
+    "groupRange": "{{min}}–{{max}} guests",
+    "groupMin": "From {{min}} guests",
+    "groupMax": "Up to {{max}} guests",
+    "visiting": "Visiting",
+    "related": "Related",
+    "requirements": "Requirements",
+    "enquiryNote": "How to enquire",
+    "startingFrom": "From",
+    "durationNights": "{{days}} days / {{nights}} nights",
+    "dayNumber": "Day {{day}}",
+    "faqTitle": "Questions",
+    "testimonialsTitle": "Guest notes",
+    "breadcrumb": "Breadcrumb",
+    "enquiryUnavailable": "WhatsApp is not available yet. Use email if an address is listed.",
+    "rooms": "Rooms",
+    "stayAvailability": "This listing describes the stay. It does not show live room availability."
   },
   "welcome": {
     "namaste": "Namaste",
@@ -114,7 +165,7 @@
   "footer": {
     "explore": "Explore",
     "reachUs": "Reach us",
-    "copyright": "© {{year}} {{brand}}. Placeholder content — update via src/content & src/locales."
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "Language",

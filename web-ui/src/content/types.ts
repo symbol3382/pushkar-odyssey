@@ -1,7 +1,7 @@
 import type { ImageSrc } from './images';
 
 export type { ImageSrc };
-export type BookingType = 'tour' | 'stay' | 'pooja' | 'service' | 'general';
+export type BookingType = 'tour' | 'stay' | 'pooja' | 'service' | 'general' | 'destination';
 
 export interface SiteContact {
   whatsapp: string;

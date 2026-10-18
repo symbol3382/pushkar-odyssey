@@ -11,7 +11,8 @@
     "services": "సేవలు",
     "bookNow": "ఇప్పుడే బుక్ చేయండి",
     "footerPoojas": "పూజ",
-    "footerContact": "సంప్రదింపు"
+    "footerContact": "సంప్రదింపు",
+    "destinations": "గమ్యాలు"
   },
   "actions": {
     "bookWhatsApp": "వాట్సాప్‌లో బుక్ చేయండి",
@@ -25,7 +26,11 @@
     "allPoojas": "అన్ని పూజలు",
     "backHome": "హోమ్‌కు తిరిగి",
     "lookingCustom": "ఏదైనా ప్రత్యేకం కావాలా?",
-    "needPackageMix": "మిశ్రమ ప్యాకేజీ కావాలా?"
+    "needPackageMix": "మిశ్రమ ప్యాకేజీ కావాలా?",
+    "allServices": "అన్ని సేవలు",
+    "allDestinations": "అన్ని గమ్యాలు",
+    "viewDetails": "వివరాలు చూడండి",
+    "tryAgain": "మళ్లీ ప్రయత్నించండి"
   },
   "booking": {
     "bookTour": "ఈ పర్యటన బుక్ చేయండి",
@@ -41,7 +46,11 @@
     "typeStay": "బస",
     "typePooja": "పూజ",
     "typeService": "సేవ",
-    "typeGeneral": "సాధారణ"
+    "typeGeneral": "సాధారణ",
+    "typeDestination": "గమ్యం",
+    "bookService": "ఈ సేవ గురించి అడగండి",
+    "serviceHint": "వాట్సాప్‌లో ఈ సేవ పేరు చేరుతుంది. సందేశం పంపితే బుకింగ్ ధృవీకరించబడదు.",
+    "notConfirmed": "ఇది వాట్సాప్‌లో మీ సందేశాన్ని తెరుస్తుంది. దీనివల్ల బుకింగ్ ధృవీకరించబడదు."
   },
   "home": {
     "featuredJourneys": "ప్రత్యేక పర్యటనలు",
@@ -55,7 +64,8 @@
     "viewStaysCount": "{{count}} బసలు చూడండి",
     "ctaTitle": "పుష్కర్ ప్లాన్ సిద్ధమా?",
     "ctaBody": "పేమెంట్ గేట్‌వే లేదు — అన్నీ ముందుగా నింపిన వాట్సాప్ సందేశంలో.",
-    "customPlan": "కస్టమ్ పుష్కర్ ప్లాన్"
+    "customPlan": "కస్టమ్ పుష్కర్ ప్లాన్",
+    "testimonialsEyebrow": "అతిథులు"
   },
   "works": {
     "eyebrow": "మా పనులు",
@@ -104,7 +114,28 @@
     "suitableFor": "అనుకూలం",
     "notFoundTour": "పర్యటన కనుగొనబడలేదు",
     "notFoundStay": "బస కనుగొనబడలేదు",
-    "notFoundPooja": "పూజ కనుగొనబడలేదు"
+    "notFoundPooja": "పూజ కనుగొనబడలేదు",
+    "notFoundTitle": "పేజీ కనబడలేదు",
+    "notFoundBody": "ఆ చిరునామా ఈ సైట్‌లో లేదు.",
+    "destinationsTitle": "గమ్యాలు",
+    "destinationsEyebrow": "ప్రదేశాలు",
+    "destinationsSubtitle": "ఆలయాలు, పట్టణాలు మరియు ఈ సైట్‌లోని యాత్రలు, పూజలకు అనుసంధానమైన ప్రదేశాలు.",
+    "emptyTours": "ఇంకా యాత్రలు ప్రచురించబడలేదు.",
+    "emptyStays": "ఇంకా బసలు ప్రచురించబడలేదు.",
+    "emptyPoojas": "ఇంకా పూజలు ప్రచురించబడలేదు.",
+    "emptyServices": "ఇంకా సేవలు ప్రచురించబడలేదు.",
+    "emptyDestinations": "ఇంకా గమ్యాలు ప్రచురించబడలేదు.",
+    "emptyWorks": "ఇంకా పనులు ప్రచురించబడలేదు.",
+    "emptyHistory": "చరిత్ర పేజీ ఇంకా ప్రచురించబడలేదు.",
+    "emptyHome": "మొదటి పేజీ ఇంకా ప్రచురించబడలేదు.",
+    "loadError": "ఈ విషయం లోడ్ కాలేదు. కనెక్షన్ చూసి మళ్లీ ప్రయత్నించండి.",
+    "loading": "విషయం లోడ్ అవుతోంది",
+    "startingFrom": "నుండి",
+    "dayNumber": "రోజు {{day}}",
+    "faqTitle": "ప్రశ్నలు",
+    "testimonialsTitle": "అతిథి వ్యాఖ్యలు",
+    "enquiryUnavailable": "వాట్సాప్ ఇంకా అందుబాటులో లేదు. ఈమెయిల్ ఉంటే దాన్ని వాడండి.",
+    "stayAvailability": "ఇది బస వివరణ. గదుల ప్రత్యక్ష లభ్యతను ఇది చూపించదు."
   },
   "welcome": {
     "namaste": "నమస్తే",
@@ -114,7 +145,7 @@
   "footer": {
     "explore": "అన్వేషించండి",
     "reachUs": "మమ్మల్ని సంప్రదించండి",
-    "copyright": "© {{year}} {{brand}}. కంటెంట్‌ను src/content మరియు src/locales నుండి అప్‌డేట్ చేయండి."
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "భాష",

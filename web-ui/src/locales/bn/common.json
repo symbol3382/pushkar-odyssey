@@ -11,7 +11,8 @@
     "services": "সেবা",
     "bookNow": "এখনই বুক করুন",
     "footerPoojas": "পূজা",
-    "footerContact": "যোগাযোগ"
+    "footerContact": "যোগাযোগ",
+    "destinations": "গন্তব্য"
   },
   "actions": {
     "bookWhatsApp": "হোয়াটসঅ্যাপে বুক করুন",
@@ -25,7 +26,11 @@
     "allPoojas": "সব পূজা",
     "backHome": "হোমে ফিরুন",
     "lookingCustom": "কিছু বিশেষ চাই?",
-    "needPackageMix": "মিশ্র প্যাকেজ চাই?"
+    "needPackageMix": "মিশ্র প্যাকেজ চাই?",
+    "allServices": "সব সেবা",
+    "allDestinations": "সব গন্তব্য",
+    "viewDetails": "বিস্তারিত দেখুন",
+    "tryAgain": "আবার চেষ্টা করুন"
   },
   "booking": {
     "bookTour": "এই ভ্রমণ বুক করুন",
@@ -41,7 +46,11 @@
     "typeStay": "বাসস্থান",
     "typePooja": "পূজা",
     "typeService": "সেবা",
-    "typeGeneral": "সাধারণ"
+    "typeGeneral": "সাধারণ",
+    "typeDestination": "গন্তব্য",
+    "bookService": "এই সেবা সম্পর্কে জানুন",
+    "serviceHint": "হোয়াটসঅ্যাপে এই সেবার নাম যোগ হয়। বার্তা পাঠালে বুকিং নিশ্চিত হয় না।",
+    "notConfirmed": "এটি হোয়াটসঅ্যাপে আপনার বার্তা খোলে। এতে বুকিং নিশ্চিত হয় না।"
   },
   "home": {
     "featuredJourneys": "বিশেষ ভ্রমণ",
@@ -55,7 +64,8 @@
     "viewStaysCount": "{{count}} বাসস্থান দেখুন",
     "ctaTitle": "পুষ্করের পরিকল্পনা প্রস্তুত?",
     "ctaBody": "কোনো পেমেন্ট গেটওয়ে নেই — সবকিছু আগে থেকে ভরা হোয়াটসঅ্যাপ বার্তায়।",
-    "customPlan": "কাস্টম পুষ্কর পরিকল্পনা"
+    "customPlan": "কাস্টম পুষ্কর পরিকল্পনা",
+    "testimonialsEyebrow": "অতিথি"
   },
   "works": {
     "eyebrow": "আমাদের কাজ",
@@ -104,7 +114,28 @@
     "suitableFor": "উপযুক্ত",
     "notFoundTour": "ভ্রমণ পাওয়া যায়নি",
     "notFoundStay": "বাসস্থান পাওয়া যায়নি",
-    "notFoundPooja": "পূজা পাওয়া যায়নি"
+    "notFoundPooja": "পূজা পাওয়া যায়নি",
+    "notFoundTitle": "পৃষ্ঠা পাওয়া যায়নি",
+    "notFoundBody": "এই ঠিকানা এই সাইটে নেই।",
+    "destinationsTitle": "গন্তব্য",
+    "destinationsEyebrow": "স্থান",
+    "destinationsSubtitle": "মন্দির, শহর এবং এই সাইটের যাত্রা ও পূজার সঙ্গে যুক্ত স্থান।",
+    "emptyTours": "এখনও কোনো ভ্রমণ প্রকাশিত হয়নি।",
+    "emptyStays": "এখনও কোনো থাকা প্রকাশিত হয়নি।",
+    "emptyPoojas": "এখনও কোনো পূজা প্রকাশিত হয়নি।",
+    "emptyServices": "এখনও কোনো সেবা প্রকাশিত হয়নি।",
+    "emptyDestinations": "এখনও কোনো গন্তব্য প্রকাশিত হয়নি।",
+    "emptyWorks": "এখনও কোনো কাজ প্রকাশিত হয়নি।",
+    "emptyHistory": "ইতিহাস পৃষ্ঠা এখনও প্রকাশিত হয়নি।",
+    "emptyHome": "প্রথম পৃষ্ঠা এখনও প্রকাশিত হয়নি।",
+    "loadError": "এই বিষয়বস্তু লোড হয়নি। সংযোগ দেখে আবার চেষ্টা করুন।",
+    "loading": "বিষয়বস্তু লোড হচ্ছে",
+    "startingFrom": "থেকে",
+    "dayNumber": "দিন {{day}}",
+    "faqTitle": "প্রশ্ন",
+    "testimonialsTitle": "অতিথির কথা",
+    "enquiryUnavailable": "হোয়াটসঅ্যাপ এখনও উপলভ্য নয়। ইমেল থাকলে সেটি ব্যবহার করুন।",
+    "stayAvailability": "এটি থাকার বিবরণ। এতে ঘরের তাৎক্ষণিক খালি থাকা দেখায় না।"
   },
   "welcome": {
     "namaste": "নমস্কার",
@@ -114,7 +145,7 @@
   "footer": {
     "explore": "অন্বেষণ",
     "reachUs": "আমাদের সাথে যোগাযোগ",
-    "copyright": "© {{year}} {{brand}}। বিষয়বস্তু src/content ও src/locales থেকে আপডেট করুন।"
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "ভাষা",

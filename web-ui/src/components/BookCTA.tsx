@@ -1,5 +1,7 @@
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { BookingType } from '../content/types';
+import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { buildBookingUrl, buildCallUrl } from '../lib/whatsapp';
 
 interface BookCTAProps {
@@ -12,27 +14,48 @@ interface BookCTAProps {
 
 export function BookCTA({ type, title, slug, className = '', compact = false }: BookCTAProps) {
   const { t, i18n } = useTranslation('common');
-  const wa = buildBookingUrl({ type, title, slug }, i18n.t.bind(i18n));
-  const call = buildCallUrl();
+  const site = useLocalizedSite();
+  const location = useLocation();
+  const pageUrl =
+    typeof window === 'undefined'
+      ? location.pathname
+      : `${window.location.origin}${location.pathname}`;
+  const contact = site.data?.contact;
+  const wa = contact
+    ? buildBookingUrl(
+        { type, title, slug },
+        i18n.t.bind(i18n),
+        site.data?.bookingTemplate ?? '',
+        contact.whatsapp,
+        pageUrl,
+      )
+    : null;
+  const call = contact ? buildCallUrl(contact.phone) : null;
+
+  if (!wa && !call) return null;
 
   return (
     <div className={`flex flex-wrap items-center gap-3 ${className}`}>
-      <a
-        href={wa}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center gap-2 rounded-sm bg-bhagwa font-medium text-cream shadow-md shadow-bhagwa/25 transition hover:bg-bhagwa-light active:scale-[0.98] ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
-      >
-        <WhatsAppIcon className={compact ? 'size-4' : 'size-5'} />
-        {t('actions.bookWhatsApp')}
-      </a>
-      <a
-        href={call}
-        className={`inline-flex items-center justify-center gap-2 rounded-sm border border-maroon/30 bg-cream/80 font-medium text-maroon transition hover:border-maroon hover:bg-sand ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
-      >
-        <PhoneIcon className={compact ? 'size-4' : 'size-5'} />
-        {t('actions.call')}
-      </a>
+      {wa && (
+        <a
+          href={wa}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center justify-center gap-2 rounded-sm bg-bhagwa font-medium text-cream shadow-md shadow-bhagwa/25 transition hover:bg-bhagwa-light active:scale-[0.98] ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
+        >
+          <WhatsAppIcon className={compact ? 'size-4' : 'size-5'} />
+          {t('actions.bookWhatsApp')}
+        </a>
+      )}
+      {call && (
+        <a
+          href={call}
+          className={`inline-flex items-center justify-center gap-2 rounded-sm border border-maroon/30 bg-cream/80 font-medium text-maroon transition hover:border-maroon hover:bg-sand ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-base'}`}
+        >
+          <PhoneIcon className={compact ? 'size-4' : 'size-5'} />
+          {t('actions.call')}
+        </a>
+      )}
     </div>
   );
 }
@@ -48,7 +71,14 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 function PhoneIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

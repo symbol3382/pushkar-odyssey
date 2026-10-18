@@ -11,7 +11,8 @@
     "services": "सेवाएँ",
     "bookNow": "अभी बुक करें",
     "footerPoojas": "पूजा",
-    "footerContact": "संपर्क"
+    "footerContact": "संपर्क",
+    "destinations": "गंतव्य"
   },
   "actions": {
     "bookWhatsApp": "व्हाट्सऐप पर बुक करें",
@@ -25,7 +26,11 @@
     "allPoojas": "सभी पूजाएँ",
     "backHome": "होम पर वापस",
     "lookingCustom": "कुछ विशेष चाहिए?",
-    "needPackageMix": "मिश्रित पैकेज चाहिए?"
+    "needPackageMix": "मिश्रित पैकेज चाहिए?",
+    "allServices": "सभी सेवाएँ",
+    "allDestinations": "सभी गंतव्य",
+    "viewDetails": "विवरण देखें",
+    "tryAgain": "फिर कोशिश करें"
   },
   "booking": {
     "bookTour": "यह यात्रा बुक करें",
@@ -41,7 +46,11 @@
     "typeStay": "ठहराव",
     "typePooja": "पूजा",
     "typeService": "सेवा",
-    "typeGeneral": "सामान्य"
+    "typeGeneral": "सामान्य",
+    "typeDestination": "गंतव्य",
+    "bookService": "इस सेवा के बारे में पूछें",
+    "serviceHint": "व्हाट्सऐप में इस सेवा का नाम जुड़ जाता है। संदेश भेजने से बुकिंग पक्की नहीं होती।",
+    "notConfirmed": "यह व्हाट्सऐप में आपका संदेश खोलता है। इससे बुकिंग पक्की नहीं होती।"
   },
   "home": {
     "featuredJourneys": "विशेष यात्राएँ",
@@ -55,7 +64,8 @@
     "viewStaysCount": "{{count}} ठहराव देखें",
     "ctaTitle": "पुष्कर की योजना बनाने को तैयार?",
     "ctaBody": "कोई भुगतान गेटवे नहीं — सब कुछ पहले से भरे व्हाट्सऐप संदेश में।",
-    "customPlan": "कस्टम पुष्कर योजना"
+    "customPlan": "कस्टम पुष्कर योजना",
+    "testimonialsEyebrow": "अतिथि"
   },
   "works": {
     "eyebrow": "हमारे कार्य",
@@ -78,8 +88,8 @@
     "servicesTitle": "संबंधित सेवाएँ",
     "servicesSubtitle": "ट्रांसफर, गाइड और फोटोग्राफी — यात्रा को सहज बनाने वाली व्यवस्था।",
     "historyEyebrow": "कथा",
-  "contactEyebrow": "जुड़ें",
-  "directLines": "सीधे संपर्क",
+    "contactEyebrow": "जुड़ें",
+    "directLines": "सीधे संपर्क",
     "whatsappPhone": "व्हाट्सऐप / फोन",
     "email": "ईमेल",
     "address": "पता",
@@ -104,7 +114,48 @@
     "suitableFor": "उपयुक्त",
     "notFoundTour": "वह यात्रा नहीं मिली",
     "notFoundStay": "ठहराव नहीं मिला",
-    "notFoundPooja": "पूजा नहीं मिली"
+    "notFoundPooja": "पूजा नहीं मिली",
+    "notFoundService": "यह सेवा नहीं मिली",
+    "notFoundDestination": "यह गंतव्य नहीं मिला",
+    "notFoundPage": "यह पृष्ठ नहीं मिला",
+    "notFoundTitle": "पृष्ठ नहीं मिला",
+    "notFoundBody": "यह पता इस साइट पर नहीं है।",
+    "destinationsEyebrow": "स्थान",
+    "destinationsTitle": "गंतव्य",
+    "destinationsSubtitle": "मंदिर, कस्बे और वे स्थान जो यहाँ की यात्राओं और पूजाओं से जुड़े हैं।",
+    "emptyTours": "अभी कोई यात्रा प्रकाशित नहीं है।",
+    "emptyStays": "अभी कोई ठहराव प्रकाशित नहीं है।",
+    "emptyPoojas": "अभी कोई पूजा प्रकाशित नहीं है।",
+    "emptyServices": "अभी कोई सेवा प्रकाशित नहीं है।",
+    "emptyDestinations": "अभी कोई गंतव्य प्रकाशित नहीं है।",
+    "emptyWorks": "अभी कोई कार्य प्रकाशित नहीं है।",
+    "emptyHistory": "इतिहास पृष्ठ अभी प्रकाशित नहीं हुआ है।",
+    "emptyHome": "मुखपृष्ठ अभी प्रकाशित नहीं हुआ है।",
+    "loadError": "यह सामग्री लोड नहीं हो सकी। कनेक्शन जाँचकर फिर कोशिश करें।",
+    "loading": "सामग्री लोड हो रही है",
+    "exclusions": "शामिल नहीं",
+    "preparation": "तैयारी",
+    "languages": "भाषाएँ",
+    "transport": "यात्रा साधन",
+    "accommodation": "ठहराव",
+    "season": "उपयुक्त मौसम",
+    "groupSize": "समूह का आकार",
+    "groupRange": "{{min}}–{{max}} अतिथि",
+    "groupMin": "{{min}} अतिथियों से",
+    "groupMax": "{{max}} अतिथियों तक",
+    "visiting": "दर्शन की जानकारी",
+    "related": "संबंधित",
+    "requirements": "आवश्यकताएँ",
+    "enquiryNote": "पूछताछ कैसे करें",
+    "startingFrom": "से",
+    "durationNights": "{{days}} दिन / {{nights}} रात",
+    "dayNumber": "दिन {{day}}",
+    "faqTitle": "प्रश्न",
+    "testimonialsTitle": "अतिथि टिप्पणियाँ",
+    "breadcrumb": "ब्रेडक्रम्ब",
+    "enquiryUnavailable": "व्हाट्सऐप अभी उपलब्ध नहीं है। यदि ईमेल दिया गया है तो उसका उपयोग करें।",
+    "rooms": "कमरे",
+    "stayAvailability": "यह ठहराव का विवरण है। इसमें कमरों की लाइव उपलब्धता नहीं दिखती।"
   },
   "welcome": {
     "namaste": "नमस्ते",
@@ -114,7 +165,7 @@
   "footer": {
     "explore": "खोजें",
     "reachUs": "हमसे जुड़ें",
-    "copyright": "© {{year}} {{brand}}। सामग्री src/content और src/locales से अपडेट करें।"
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "भाषा",

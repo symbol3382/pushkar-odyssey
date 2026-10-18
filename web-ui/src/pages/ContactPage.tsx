@@ -1,30 +1,39 @@
 import { useState, type ReactNode, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
+import { QueryStatus } from '../components/QueryStatus';
+import { Seo } from '../components/Seo';
 import { images } from '../content/images';
-import { site as siteMeta } from '../content/site';
-import { useLocalizedSite } from '../hooks/useLocalizedContent';
+import { useLocalizedFaqs, useLocalizedSite } from '../hooks/useLocalizedContent';
 import { buildCallUrl, buildWhatsAppUrl } from '../lib/whatsapp';
 
 export function ContactPage() {
   const { t } = useTranslation(['common', 'content']);
-  const site = useLocalizedSite();
+  const siteQuery = useLocalizedSite();
+  const faqs = useLocalizedFaqs();
+  const site = siteQuery.data;
   const [name, setName] = useState('');
-  const [interest, setInterest] = useState('Tour');
+  const [interest, setInterest] = useState('');
   const [dates, setDates] = useState('');
   const [guests, setGuests] = useState('');
   const [message, setMessage] = useState('');
+  const [formError, setFormError] = useState('');
 
   const interestOptions = [
-    { value: 'Tour', label: t('pages.interestTour') },
-    { value: 'Stay', label: t('pages.interestStay') },
-    { value: 'Pooja / Aarti', label: t('pages.interestPooja') },
-    { value: 'Service', label: t('pages.interestService') },
-    { value: 'Custom package', label: t('pages.interestCustom') },
+    { value: 'tour', label: t('pages.interestTour') },
+    { value: 'stay', label: t('pages.interestStay') },
+    { value: 'pooja', label: t('pages.interestPooja') },
+    { value: 'service', label: t('pages.interestService') },
+    { value: 'custom', label: t('pages.interestCustom') },
   ];
+  const selectedInterest = interest || interestOptions[0]?.value || 'tour';
 
-  function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormError('');
+    const label =
+      interestOptions.find((option) => option.value === selectedInterest)?.label ??
+      selectedInterest;
     const extras = [
       dates ? `${t('pages.preferredDates')}: ${dates}` : null,
       guests ? `${t('pages.guests')}: ${guests}` : null,
@@ -36,61 +45,100 @@ export function ContactPage() {
     const text = t('site.contactWhatsApp', {
       ns: 'content',
       name: name || '—',
-      interest,
+      interest: label,
       extra: extras,
-      brand: site.brandName,
+      brand: site?.brandName ?? t('site.brandName', { ns: 'content' }),
     });
-
-    window.open(buildWhatsAppUrl(text), '_blank', 'noopener,noreferrer');
+    const pageUrl = window.location.href;
+    const url = buildWhatsAppUrl(`${text}\n${pageUrl}`, site?.contact.whatsapp ?? '');
+    if (!url) {
+      setFormError(t('pages.enquiryUnavailable'));
+      return;
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
+
+  const call = site ? buildCallUrl(site.contact.phone) : null;
+  const brand = site?.brandName ?? t('site.brandName', { ns: 'content' });
 
   return (
     <>
+      <Seo
+        title={`${t('contact.title', { ns: 'content' })} · ${brand}`}
+        description={t('contact.subtitle', { ns: 'content' })}
+        path="/contact"
+        image={images.contactHero}
+      />
       <PageHero
         eyebrow={t('pages.contactEyebrow')}
         title={t('contact.title', { ns: 'content' })}
         subtitle={t('contact.subtitle', { ns: 'content' })}
         image={images.contactHero}
+        imageAlt=""
       />
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
           <h2 className="font-display text-2xl text-ink">{t('pages.directLines')}</h2>
-          <ul className="mt-6 space-y-4 text-sm">
-            <li>
-              <p className="text-xs uppercase tracking-wider text-bhagwa">{t('pages.whatsappPhone')}</p>
-              <a href={buildCallUrl()} className="mt-1 block text-lg text-ink hover:text-bhagwa">
-                {siteMeta.contact.phone}
-              </a>
-            </li>
-            <li>
-              <p className="text-xs uppercase tracking-wider text-bhagwa">{t('pages.email')}</p>
-              <a href={`mailto:${siteMeta.contact.email}`} className="mt-1 block text-ink hover:text-bhagwa">
-                {siteMeta.contact.email}
-              </a>
-            </li>
-            <li>
-              <p className="text-xs uppercase tracking-wider text-bhagwa">{t('pages.address')}</p>
-              <p className="mt-1 text-ink-soft">{site.address}</p>
-              <a
-                href={siteMeta.contact.mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-block text-bhagwa hover:underline"
-              >
-                {t('actions.openMap')}
-              </a>
-            </li>
-          </ul>
+          <QueryStatus query={siteQuery}>
+            <ul className="mt-6 space-y-4 text-sm">
+              {site?.contact.phone && (
+                <li>
+                  <p className="text-xs tracking-wider text-bhagwa uppercase">
+                    {t('pages.whatsappPhone')}
+                  </p>
+                  {call ? (
+                    <a href={call} className="mt-1 block text-lg text-ink hover:text-bhagwa">
+                      {site.contact.phone}
+                    </a>
+                  ) : (
+                    <p className="mt-1 text-lg text-ink">{site.contact.phone}</p>
+                  )}
+                </li>
+              )}
+              {site?.contact.email && (
+                <li>
+                  <p className="text-xs tracking-wider text-bhagwa uppercase">{t('pages.email')}</p>
+                  <a
+                    href={`mailto:${site.contact.email}`}
+                    className="mt-1 block text-ink hover:text-bhagwa"
+                  >
+                    {site.contact.email}
+                  </a>
+                </li>
+              )}
+              {site?.contact.address && (
+                <li>
+                  <p className="text-xs tracking-wider text-bhagwa uppercase">
+                    {t('pages.address')}
+                  </p>
+                  <p className="mt-1 text-ink-soft">{site.contact.address}</p>
+                  {site.contact.mapUrl && (
+                    <a
+                      href={site.contact.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-bhagwa hover:underline"
+                    >
+                      {t('actions.openMap')}
+                    </a>
+                  )}
+                </li>
+              )}
+            </ul>
+          </QueryStatus>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-sm border border-bhagwa/15 bg-sand/30 p-6 sm:p-8">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-sm border border-bhagwa/15 bg-sand/30 p-6 sm:p-8"
+        >
           <p className="text-sm text-ink-soft">{t('contact.formIntro', { ns: 'content' })}</p>
           <div className="mt-6 space-y-4">
             <Field label={t('pages.yourName')}>
               <input
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
+                onChange={(event) => {
+                  setName(event.target.value);
                 }}
                 className="mt-1.5 w-full rounded-sm border border-bhagwa/25 bg-cream px-3 py-2.5 text-sm text-ink focus-visible:outline-bhagwa"
                 placeholder={t('pages.namePlaceholder')}
@@ -99,15 +147,15 @@ export function ContactPage() {
             </Field>
             <Field label={t('pages.interest')}>
               <select
-                value={interest}
-                onChange={(e) => {
-                  setInterest(e.target.value);
+                value={selectedInterest}
+                onChange={(event) => {
+                  setInterest(event.target.value);
                 }}
                 className="mt-1.5 w-full rounded-sm border border-bhagwa/25 bg-cream px-3 py-2.5 text-sm text-ink focus-visible:outline-bhagwa"
               >
-                {interestOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
+                {interestOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
                   </option>
                 ))}
               </select>
@@ -116,8 +164,8 @@ export function ContactPage() {
               <Field label={t('pages.preferredDates')}>
                 <input
                   value={dates}
-                  onChange={(e) => {
-                    setDates(e.target.value);
+                  onChange={(event) => {
+                    setDates(event.target.value);
                   }}
                   className="mt-1.5 w-full rounded-sm border border-bhagwa/25 bg-cream px-3 py-2.5 text-sm text-ink focus-visible:outline-bhagwa"
                   placeholder={t('pages.datesPlaceholder')}
@@ -126,8 +174,8 @@ export function ContactPage() {
               <Field label={t('pages.guests')}>
                 <input
                   value={guests}
-                  onChange={(e) => {
-                    setGuests(e.target.value);
+                  onChange={(event) => {
+                    setGuests(event.target.value);
                   }}
                   className="mt-1.5 w-full rounded-sm border border-bhagwa/25 bg-cream px-3 py-2.5 text-sm text-ink focus-visible:outline-bhagwa"
                   placeholder={t('pages.guestsPlaceholder')}
@@ -137,29 +185,53 @@ export function ContactPage() {
             <Field label={t('pages.message')}>
               <textarea
                 value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
+                onChange={(event) => {
+                  setMessage(event.target.value);
                 }}
                 className="mt-1.5 min-h-28 w-full resize-y rounded-sm border border-bhagwa/25 bg-cream px-3 py-2.5 text-sm text-ink focus-visible:outline-bhagwa"
                 placeholder={t('pages.messagePlaceholder')}
               />
             </Field>
           </div>
+          {formError && (
+            <p className="mt-4 text-sm text-maroon" role="alert">
+              {formError}
+            </p>
+          )}
           <button
             type="submit"
             className="mt-6 w-full rounded-sm bg-bhagwa py-3 text-sm font-medium text-cream transition hover:bg-bhagwa-light"
           >
             {t('actions.continueWhatsApp')}
           </button>
+          <p className="mt-3 text-xs text-ink-soft">{t('booking.notConfirmed')}</p>
         </form>
       </div>
+      <QueryStatus query={faqs}>
+        {faqs.data && faqs.data.length > 0 && (
+          <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+            <h2 className="font-display text-3xl text-ink">{t('pages.faqTitle')}</h2>
+            <div className="mt-6 space-y-3">
+              {faqs.data.map((item) => (
+                <details
+                  key={item.id}
+                  className="rounded-sm border border-bhagwa/15 bg-sand/30 p-4"
+                >
+                  <summary className="cursor-pointer font-medium text-ink">{item.question}</summary>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+      </QueryStatus>
     </>
   );
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <label className="block text-xs font-semibold uppercase tracking-wider text-maroon">
+    <label className="block text-xs font-semibold tracking-wider text-maroon uppercase">
       {label}
       {children}
     </label>

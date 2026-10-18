@@ -11,7 +11,8 @@
     "services": "सेवा",
     "bookNow": "आता बुक करा",
     "footerPoojas": "पूजा",
-    "footerContact": "संपर्क"
+    "footerContact": "संपर्क",
+    "destinations": "गंतव्ये"
   },
   "actions": {
     "bookWhatsApp": "व्हाट्सअॅपवर बुक करा",
@@ -25,7 +26,11 @@
     "allPoojas": "सर्व पूजा",
     "backHome": "होमवर परत",
     "lookingCustom": "काही खास हवे आहे?",
-    "needPackageMix": "मिश्र पॅकेज हवे?"
+    "needPackageMix": "मिश्र पॅकेज हवे?",
+    "allServices": "सर्व सेवा",
+    "allDestinations": "सर्व गंतव्ये",
+    "viewDetails": "तपशील पहा",
+    "tryAgain": "पुन्हा प्रयत्न करा"
   },
   "booking": {
     "bookTour": "हा प्रवास बुक करा",
@@ -41,7 +46,11 @@
     "typeStay": "मुक्काम",
     "typePooja": "पूजा",
     "typeService": "सेवा",
-    "typeGeneral": "सामान्य"
+    "typeGeneral": "सामान्य",
+    "typeDestination": "गंतव्य",
+    "bookService": "या सेवेबद्दल विचारा",
+    "serviceHint": "व्हॉट्सअॅपमध्ये या सेवेचे नाव येते. संदेश पाठवल्याने बुकिंग निश्चित होत नाही.",
+    "notConfirmed": "हे व्हॉट्सअॅपमध्ये तुमचा संदेश उघडते. यामुळे बुकिंग निश्चित होत नाही."
   },
   "home": {
     "featuredJourneys": "विशेष प्रवास",
@@ -55,7 +64,8 @@
     "viewStaysCount": "{{count}} मुक्काम पहा",
     "ctaTitle": "पुष्करची योजना तयार?",
     "ctaBody": "पेमेंट गेटवे नाही — सर्व काही आधीच भरलेल्या व्हाट्सअॅप संदेशात.",
-    "customPlan": "कस्टम पुष्कर योजना"
+    "customPlan": "कस्टम पुष्कर योजना",
+    "testimonialsEyebrow": "पाहुणे"
   },
   "works": {
     "eyebrow": "आमची कामे",
@@ -104,7 +114,28 @@
     "suitableFor": "योग्य",
     "notFoundTour": "प्रवास सापडला नाही",
     "notFoundStay": "मुक्काम सापडला नाही",
-    "notFoundPooja": "पूजा सापडली नाही"
+    "notFoundPooja": "पूजा सापडली नाही",
+    "notFoundTitle": "पृष्ठ सापडले नाही",
+    "notFoundBody": "हा पत्ता या साइटवर नाही.",
+    "destinationsTitle": "गंतव्ये",
+    "destinationsEyebrow": "स्थळे",
+    "destinationsSubtitle": "मंदिरे, गावे आणि या साइटवरील यात्रा व पूजांशी जोडलेली ठिकाणे.",
+    "emptyTours": "अद्याप कोणतीही यात्रा प्रकाशित नाही.",
+    "emptyStays": "अद्याप कोणताही मुक्काम प्रकाशित नाही.",
+    "emptyPoojas": "अद्याप कोणतीही पूजा प्रकाशित नाही.",
+    "emptyServices": "अद्याप कोणतीही सेवा प्रकाशित नाही.",
+    "emptyDestinations": "अद्याप कोणतेही गंतव्य प्रकाशित नाही.",
+    "emptyWorks": "अद्याप कोणतेही कार्य प्रकाशित नाही.",
+    "emptyHistory": "इतिहास पृष्ठ अद्याप प्रकाशित नाही.",
+    "emptyHome": "मुखपृष्ठ अद्याप प्रकाशित नाही.",
+    "loadError": "ही माहिती लोड झाली नाही. जोडणी तपासून पुन्हा प्रयत्न करा.",
+    "loading": "माहिती लोड होत आहे",
+    "startingFrom": "पासून",
+    "dayNumber": "दिवस {{day}}",
+    "faqTitle": "प्रश्न",
+    "testimonialsTitle": "पाहुण्यांच्या नोंदी",
+    "enquiryUnavailable": "व्हॉट्सअॅप अद्याप उपलब्ध नाही. ईमेल दिल्यास त्याचा वापर करा.",
+    "stayAvailability": "हे मुक्कामाचे वर्णन आहे. यात खोल्यांची थेट उपलब्धता दिसत नाही."
   },
   "welcome": {
     "namaste": "नमस्कार",
@@ -114,7 +145,7 @@
   "footer": {
     "explore": "शोधा",
     "reachUs": "आमच्याशी संपर्क",
-    "copyright": "© {{year}} {{brand}}. मजकूर src/content आणि src/locales मधून अपडेट करा."
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "भाषा",

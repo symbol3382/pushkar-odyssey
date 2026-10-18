@@ -11,7 +11,8 @@
     "services": "સેવાઓ",
     "bookNow": "હમણાં બુક કરો",
     "footerPoojas": "પૂજા",
-    "footerContact": "સંપર્ક"
+    "footerContact": "સંપર્ક",
+    "destinations": "ગંતવ્યો"
   },
   "actions": {
     "bookWhatsApp": "વોટ્સએપ પર બુક કરો",
@@ -25,7 +26,11 @@
     "allPoojas": "બધી પૂજા",
     "backHome": "હોમ પર પાછા",
     "lookingCustom": "કંઈક વિશેષ જોઈએ?",
-    "needPackageMix": "મિશ્ર પેકેજ જોઈએ?"
+    "needPackageMix": "મિશ્ર પેકેજ જોઈએ?",
+    "allServices": "બધી સેવાઓ",
+    "allDestinations": "બધા ગંતવ્યો",
+    "viewDetails": "વિગતો જુઓ",
+    "tryAgain": "ફરી પ્રયત્ન કરો"
   },
   "booking": {
     "bookTour": "આ પ્રવાસ બુક કરો",
@@ -41,7 +46,11 @@
     "typeStay": "રહેઠાણ",
     "typePooja": "પૂજા",
     "typeService": "સેવા",
-    "typeGeneral": "સામાન્ય"
+    "typeGeneral": "સામાન્ય",
+    "typeDestination": "ગંતવ્ય",
+    "bookService": "આ સેવા વિશે પૂછો",
+    "serviceHint": "વોટ્સએપમાં આ સેવાનું નામ ઉમેરાય છે. સંદેશ મોકલવાથી બુકિંગ પાક્કું થતું નથી.",
+    "notConfirmed": "આ વોટ્સએપમાં તમારો સંદેશ ખોલે છે. આનાથી બુકિંગ પાક્કું થતું નથી."
   },
   "home": {
     "featuredJourneys": "વિશેષ પ્રવાસ",
@@ -55,7 +64,8 @@
     "viewStaysCount": "{{count}} રહેઠાણ જુઓ",
     "ctaTitle": "પુષ્કરની યોજના તૈયાર?",
     "ctaBody": "કોઈ પેમેન્ટ ગેટવે નહીં — બધું પહેલેથી ભરેલા વોટ્સએપ સંદેશમાં.",
-    "customPlan": "કસ્ટમ પુષ્કર યોજના"
+    "customPlan": "કસ્ટમ પુષ્કર યોજના",
+    "testimonialsEyebrow": "મહેમાનો"
   },
   "works": {
     "eyebrow": "અમારા કાર્યો",
@@ -104,7 +114,28 @@
     "suitableFor": "યોગ્ય",
     "notFoundTour": "પ્રવાસ મળ્યો નહીં",
     "notFoundStay": "રહેઠાણ મળ્યું નહીં",
-    "notFoundPooja": "પૂજા મળી નહીં"
+    "notFoundPooja": "પૂજા મળી નહીં",
+    "notFoundTitle": "પાનું મળ્યું નથી",
+    "notFoundBody": "આ સરનામું આ સાઇટ પર નથી.",
+    "destinationsTitle": "ગંતવ્યો",
+    "destinationsEyebrow": "સ્થળો",
+    "destinationsSubtitle": "મંદિરો, નગરો અને આ સાઇટની યાત્રા તથા પૂજા સાથે જોડાયેલા સ્થળો.",
+    "emptyTours": "હજી કોઈ યાત્રા પ્રકાશિત નથી.",
+    "emptyStays": "હજી કોઈ રોકાણ પ્રકાશિત નથી.",
+    "emptyPoojas": "હજી કોઈ પૂજા પ્રકાશિત નથી.",
+    "emptyServices": "હજી કોઈ સેવા પ્રકાશિત નથી.",
+    "emptyDestinations": "હજી કોઈ ગંતવ્ય પ્રકાશિત નથી.",
+    "emptyWorks": "હજી કોઈ કાર્ય પ્રકાશિત નથી.",
+    "emptyHistory": "ઇતિહાસ પાનું હજી પ્રકાશિત નથી.",
+    "emptyHome": "મુખ્ય પાનું હજી પ્રકાશિત નથી.",
+    "loadError": "આ સામગ્રી લોડ થઈ નથી. જોડાણ તપાસીને ફરી પ્રયત્ન કરો.",
+    "loading": "સામગ્રી લોડ થઈ રહી છે",
+    "startingFrom": "થી",
+    "dayNumber": "દિવસ {{day}}",
+    "faqTitle": "પ્રશ્નો",
+    "testimonialsTitle": "મહેમાન નોંધો",
+    "enquiryUnavailable": "વોટ્સએપ હજી ઉપલબ્ધ નથી. ઈમેલ આપેલ હોય તો તેનો ઉપયોગ કરો.",
+    "stayAvailability": "આ રોકાણનું વર્ણન છે. તેમાં રૂમની લાઇવ ઉપલબ્ધતા દેખાતી નથી."
   },
   "welcome": {
     "namaste": "નમસ્તે",
@@ -114,7 +145,7 @@
   "footer": {
     "explore": "શોધો",
     "reachUs": "અમને મળો",
-    "copyright": "© {{year}} {{brand}}. સામગ્રી src/content અને src/locales થી અપડેટ કરો."
+    "copyright": "© {{year}} {{brand}}."
   },
   "language": {
     "label": "ભાષા",

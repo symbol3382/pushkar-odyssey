@@ -3,139 +3,173 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { PackageCard } from '../components/PackageCard';
+import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
+import { Seo } from '../components/Seo';
 import { WorksBanner } from '../components/WorksBanner';
 import {
   useLocalizedHome,
   useLocalizedPoojas,
   useLocalizedSite,
   useLocalizedStays,
+  useLocalizedTestimonials,
   useLocalizedTours,
 } from '../hooks/useLocalizedContent';
+import { organizationJsonLd } from '../lib/structuredData';
+import type { CardView } from '../content/views';
 
 export function HomePage() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'content']);
   const home = useLocalizedHome();
   const site = useLocalizedSite();
   const tours = useLocalizedTours();
   const poojas = useLocalizedPoojas();
   const stays = useLocalizedStays();
-
-  const featuredTours = home.featuredTourSlugs
-    .map((slug) => tours.find((item) => item.slug === slug))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item));
-  const featuredPoojas = home.featuredPoojaSlugs
-    .map((slug) => poojas.find((item) => item.slug === slug))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item));
-  const featuredStays = home.featuredStaySlugs
-    .map((slug) => stays.find((item) => item.slug === slug))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+  const testimonials = useLocalizedTestimonials();
+  const hero = home.data;
+  const brand = site.data?.brandName ?? t('site.brandName', { ns: 'content' });
 
   return (
     <>
-      <section className="relative min-h-dvh overflow-hidden grain-overlay">
-        <img src={home.heroImage} alt="" className="absolute inset-0 size-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
-
-        <div className="relative mx-auto flex min-h-dvh max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-xl"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">{site.tagline}</p>
-            <h1 className="mt-4 font-display text-5xl leading-[1.05] text-cream sm:text-6xl lg:text-7xl">
-              {home.heroTitle}
-            </h1>
-            <p className="mt-5 max-w-md text-base leading-relaxed text-sand/90 sm:text-lg">{home.heroSubtitle}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to={home.ctaPrimary.to}
-                className="rounded-sm bg-bhagwa px-6 py-3 text-sm font-medium text-cream shadow-lg shadow-bhagwa/30 transition hover:bg-bhagwa-light"
+      <Seo
+        title={site.data?.seoTitle ?? brand}
+        description={site.data?.seoDescription ?? t('site.shortDescription', { ns: 'content' })}
+        path="/"
+        image={hero?.heroImage ?? site.data?.seoImage}
+        jsonLd={site.data ? organizationJsonLd(site.data) : null}
+      />
+      <QueryStatus query={home}>
+        {hero?.heroTitle ? (
+          <section className="relative min-h-dvh overflow-hidden grain-overlay">
+            {hero.heroImage && (
+              <img
+                src={hero.heroImage}
+                alt={hero.heroImageAlt}
+                srcSet={hero.heroImageSrcSet}
+                sizes="100vw"
+                className="absolute inset-0 size-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
+            <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
+            <div className="relative mx-auto flex min-h-dvh max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="max-w-xl"
               >
-                {home.ctaPrimary.label}
-              </Link>
-              <Link
-                to={home.ctaSecondary.to}
-                className="rounded-sm border border-cream/40 bg-cream/10 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-cream/20"
-              >
-                {home.ctaSecondary.label}
-              </Link>
+                {site.data?.tagline && (
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
+                    {site.data.tagline}
+                  </p>
+                )}
+                <h1 className="mt-4 font-display text-5xl leading-[1.05] text-cream sm:text-6xl lg:text-7xl">
+                  {hero.heroTitle}
+                </h1>
+                {hero.heroSubtitle && (
+                  <p className="mt-5 max-w-md text-base leading-relaxed text-sand/90 sm:text-lg">
+                    {hero.heroSubtitle}
+                  </p>
+                )}
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {hero.ctaPrimary.label && (
+                    <Link
+                      to={hero.ctaPrimary.to}
+                      className="rounded-sm bg-bhagwa px-6 py-3 text-sm font-medium text-cream shadow-lg shadow-bhagwa/30 transition hover:bg-bhagwa-light"
+                    >
+                      {hero.ctaPrimary.label}
+                    </Link>
+                  )}
+                  {hero.ctaSecondary.label && (
+                    <Link
+                      to={hero.ctaSecondary.to}
+                      className="rounded-sm border border-cream/40 bg-cream/10 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-cream/20"
+                    >
+                      {hero.ctaSecondary.label}
+                    </Link>
+                  )}
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </section>
+        ) : (
+          <EmptyCatalog message={t('pages.emptyHome')} />
+        )}
+      </QueryStatus>
 
       <WorksBanner />
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow={t('home.featuredJourneys')}
-          title={t('home.toursWithSoul')}
-          link={{ to: '/tours', label: t('home.allToursCount', { count: tours.length }) }}
-        />
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredTours.map((tour, i) => (
-            <PackageCard
-              key={tour.slug}
-              to={`/tours/${tour.slug}`}
-              title={tour.title}
-              summary={tour.summary}
-              image={tour.image}
-              priceLabel={tour.priceLabel}
-              meta={tour.duration}
-              index={i}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-sand/50 py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
+      {home.status === 'ready' && (
+        <>
+          <FeaturedSection
+            eyebrow={t('home.featuredJourneys')}
+            title={t('home.toursWithSoul')}
+            link={{
+              to: '/tours',
+              label: tours.data
+                ? t('home.allToursCount', { count: tours.data.length })
+                : t('actions.allTours'),
+            }}
+            items={hero?.featuredTours ?? []}
+            empty={t('pages.emptyTours')}
+          />
+          <FeaturedSection
             eyebrow={t('home.rituals')}
             title={t('home.poojasAarti')}
-            link={{ to: '/poojas', label: t('home.browseCount', { count: poojas.length }) }}
+            link={{
+              to: '/poojas',
+              label: poojas.data
+                ? t('home.browseCount', { count: poojas.data.length })
+                : t('actions.allPoojas'),
+            }}
+            items={hero?.featuredPoojas ?? []}
+            empty={t('pages.emptyPoojas')}
+            tone="sand"
           />
-          <div className="mt-10 grid gap-8 sm:grid-cols-2">
-            {featuredPoojas.map((pooja, i) => (
-              <PackageCard
-                key={pooja.slug}
-                to={`/poojas/${pooja.slug}`}
-                title={pooja.title}
-                summary={pooja.summary}
-                image={pooja.image}
-                priceLabel={pooja.priceLabel}
-                meta={pooja.timing}
-                index={i}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+          <FeaturedSection
+            eyebrow={t('home.rest')}
+            title={t('home.staysNear')}
+            link={{
+              to: '/stays',
+              label: stays.data
+                ? t('home.viewStaysCount', { count: stays.data.length })
+                : t('actions.allStays'),
+            }}
+            items={hero?.featuredStays ?? []}
+            empty={t('pages.emptyStays')}
+          />
+        </>
+      )}
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow={t('home.rest')}
-          title={t('home.staysNear')}
-          link={{ to: '/stays', label: t('home.viewStaysCount', { count: stays.length }) }}
-        />
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
-          {featuredStays.map((stay, i) => (
-            <PackageCard
-              key={stay.slug}
-              to={`/stays/${stay.slug}`}
-              title={stay.title}
-              summary={stay.summary}
-              image={stay.image}
-              priceLabel={stay.priceLabel}
-              meta={stay.location}
-              index={i}
-            />
-          ))}
-        </div>
-      </section>
+      <QueryStatus query={testimonials}>
+        {testimonials.data && testimonials.data.length > 0 && (
+          <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
+              {t('home.testimonialsEyebrow')}
+            </p>
+            <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">
+              {t('pages.testimonialsTitle')}
+            </h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {testimonials.data.map((item) => (
+                <blockquote
+                  key={item.id}
+                  className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6"
+                >
+                  <p className="text-ink-soft">“{item.quote}”</p>
+                  {(item.name || item.detail) && (
+                    <footer className="mt-4 text-sm text-maroon">
+                      {item.name}
+                      {item.name && item.detail ? ' · ' : ''}
+                      {item.detail}
+                    </footer>
+                  )}
+                </blockquote>
+              ))}
+            </div>
+          </section>
+        )}
+      </QueryStatus>
 
       <section className="relative mx-auto max-w-6xl overflow-hidden px-4 pb-8 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-maroon to-bhagwa-deep px-8 py-12 sm:px-12">
@@ -149,6 +183,52 @@ export function HomePage() {
       </section>
     </>
   );
+}
+
+function FeaturedSection({
+  eyebrow,
+  title,
+  link,
+  items,
+  empty,
+  tone,
+}: {
+  eyebrow: string;
+  title: string;
+  link: { to: string; label: string };
+  items: CardView[];
+  empty: string;
+  tone?: 'sand';
+}) {
+  const body = (
+    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <SectionHeading eyebrow={eyebrow} title={title} link={link} />
+      {items.length === 0 ? (
+        <EmptyCatalog message={empty} />
+      ) : (
+        <div
+          className={`mt-10 grid gap-8 sm:grid-cols-2 ${items.length > 2 ? 'lg:grid-cols-3' : ''}`}
+        >
+          {items.map((item, i) => (
+            <PackageCard
+              key={item.slug}
+              to={item.to}
+              title={item.title}
+              summary={item.summary}
+              image={item.image}
+              imageAlt={item.imageAlt}
+              imageSrcSet={item.imageSrcSet}
+              priceLabel={item.priceLabel}
+              meta={item.meta}
+              index={i}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+  if (tone === 'sand') return <section className="bg-sand/50">{body}</section>;
+  return <section>{body}</section>;
 }
 
 function SectionHeading({
@@ -166,7 +246,10 @@ function SectionHeading({
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">{eyebrow}</p>
         <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">{title}</h2>
       </div>
-      <Link to={link.to} className="text-sm font-medium text-maroon underline-offset-4 hover:underline">
+      <Link
+        to={link.to}
+        className="text-sm font-medium text-maroon underline-offset-4 hover:underline"
+      >
         {link.label}
       </Link>
     </div>

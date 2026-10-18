@@ -1,13 +1,18 @@
 import { useCallback, useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { WelcomeLoader } from './components/WelcomeLoader';
 import { shouldShowWelcome } from './lib/welcome';
 import { ContactPage } from './pages/ContactPage';
+import { DestinationDetailPage } from './pages/DestinationDetailPage';
+import { DestinationsPage } from './pages/DestinationsPage';
+import { GeneralPage } from './pages/GeneralPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { PoojaDetailPage } from './pages/PoojaDetailPage';
 import { PoojasPage } from './pages/PoojasPage';
+import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { StayDetailPage } from './pages/StayDetailPage';
 import { StaysPage } from './pages/StaysPage';
@@ -42,7 +47,11 @@ export default function App() {
               <Route path="poojas" element={<PoojasPage />} />
               <Route path="poojas/:slug" element={<PoojaDetailPage />} />
               <Route path="services" element={<ServicesPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="services/:slug" element={<ServiceDetailPage />} />
+              <Route path="destinations" element={<DestinationsPage />} />
+              <Route path="destinations/:slug" element={<DestinationDetailPage />} />
+              <Route path="pages/:slug" element={<GeneralPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
