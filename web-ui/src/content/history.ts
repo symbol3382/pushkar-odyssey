@@ -28,7 +28,7 @@ export const history: HistoryBlock[] = [
   {
     id: 'h4',
     year: 'Today',
-    title: 'Pushkar Tour',
+    title: 'Pushkar Oddessey',
     body: 'We host travelers who want authenticity without friction: priests you can trust, stays with soul, and journeys paced for wonder — booked simply on WhatsApp.',
   },
 ];

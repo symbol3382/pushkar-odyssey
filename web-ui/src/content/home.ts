@@ -2,7 +2,7 @@ import { images } from './images';
 import type { HomeContent } from './types';
 
 export const home: HomeContent = {
-  heroTitle: 'Pushkar Tour',
+  heroTitle: 'Pushkar Oddessey',
   heroSubtitle:
     'Walk the ghats at dawn, feel the aarti glow, rest in quiet courtyards — tradition, hosted with modern ease.',
   heroImage: images.homeHero,

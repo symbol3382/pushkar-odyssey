@@ -1,6 +1,6 @@
 {
   "site": {
-    "brandName": "पुष्कर टूर",
+    "brandName": "Pushkar Oddessey",
     "tagline": "पवित्र प्रवास · ऊबदार मुक्काम · शाश्वत विधी",
     "shortDescription": "पुष्करचे निवडक अनुभव — मंदिर आरती, गाइडेड टूर, शांत मुक्काम आणि स्थानिक सेवा — व्हाट्सअॅपवर बुक.",
     "address": "ब्रह्मा मंदिरजवळ, पुष्कर, राजस्थान 305022",
@@ -9,7 +9,7 @@
     "contactWhatsApp": "नमस्कार! मी {{name}} आहे.\nआवड: {{interest}}\n{{extra}}\n\n{{brand}} संकेतस्थळावरून पाठवले."
   },
   "home": {
-    "heroTitle": "पुष्कर टूर",
+    "heroTitle": "Pushkar Oddessey",
     "heroSubtitle": "पहाटे घाटावर चाला, आरतीचा प्रकाश अनुभव, शांत अंगणात विश्रांती.",
     "ctaPrimary": "प्रवास पहा",
     "ctaSecondary": "पूजा बुक करा"

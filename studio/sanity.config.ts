@@ -19,7 +19,7 @@ if (!projectId) {
 
 export default defineConfig({
   name: "pushkar-tour",
-  title: "Pushkar Tour",
+  title: "Pushkar Oddessey",
   projectId,
   dataset,
   plugins: [structureTool({ structure }), visionTool()],

@@ -2,7 +2,7 @@ import type { SiteConfig } from './types';
 
 /** Edit brand + contact here — UI reads this only. */
 export const site: SiteConfig = {
-  brandName: 'Pushkar Tour',
+  brandName: 'Pushkar Oddessey',
   tagline: 'Sacred journeys · Warm stays · Timeless rituals',
   shortDescription:
     'Curated Pushkar experiences — temple aarti, guided tours, serene stays, and local services — booked simply over WhatsApp.',
