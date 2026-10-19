@@ -2,7 +2,7 @@
   // Static Sanity Studio. Direct links such as /structure need the SPA fallback.
   // Do not add public/_redirects with `/* /index.html 200` (Workers error 100324).
   // This name must stay different from the public site worker in web-ui/wrangler.jsonc.
-  "name": "pushkar-oddessey-studio",
+  "name": "pushkar-odyssey-studio",
   "compatibility_date": "2026-10-18",
   "observability": {
     "enabled": true,

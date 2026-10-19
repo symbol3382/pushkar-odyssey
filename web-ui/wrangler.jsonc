@@ -3,7 +3,7 @@
   // Do not add public/_redirects with `/* /index.html 200`. Workers
   // strips `.html` and `/index`, so that rule loops and deploy fails
   // with error 100324.
-  "name": "pushkar-oddessey",
+  "name": "pushkar-odyssey",
   "compatibility_date": "2026-10-18",
   "observability": {
     "enabled": true,

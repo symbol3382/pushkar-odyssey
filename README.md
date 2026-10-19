@@ -82,7 +82,7 @@ Studio prints a local URL. Sign in with the Sanity account that belongs to the p
 - Deploy command: `npx wrangler deploy`
 - Environment variables: `SANITY_STUDIO_PROJECT_ID` and `SANITY_STUDIO_DATASET`, the same values as `studio/.env`. Do not add a Sanity token.
 
-`npm run build` and `npm run deploy` both write the static Studio to `dist`. Neither one logs into Sanity. `studio/wrangler.jsonc` publishes that folder as the Worker `pushkar-oddessey-studio`. After the first deploy, add that Studio URL to Sanity CORS with credentials allowed.
+`npm run build` and `npm run deploy` both write the static Studio to `dist`. Neither one logs into Sanity. `studio/wrangler.jsonc` publishes that folder as the Worker `pushkar-odyssey-studio`. After the first deploy, add that Studio URL to Sanity CORS with credentials allowed.
 
 Leave the Cloudflare build command as `npm run deploy` if it is already set. Set the deploy command to `npx wrangler deploy`.
 
@@ -110,7 +110,7 @@ Use the least access that still lets the client work. An editor can create and p
 
 ## D. Cloudflare deployment
 
-The public site is the Worker `pushkar-oddessey`, configured in `web-ui/wrangler.jsonc`. It serves the Vite build from `dist` and, for any path that is not a real file, returns `index.html` so React Router can render the route.
+The public site is the Worker `pushkar-odyssey`, configured in `web-ui/wrangler.jsonc`. It serves the Vite build from `dist` and, for any path that is not a real file, returns `index.html` so React Router can render the route.
 
 Connect the Git repository in Cloudflare with these settings:
 
