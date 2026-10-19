@@ -1,6 +1,6 @@
 {
   "site": {
-    "brandName": "Pushkar Oddessey",
+    "brandName": "Pushkar Odyssey",
     "tagline": "পবিত্র ভ্রমণ · উষ্ণ বাসস্থান · চিরন্তন অনুষ্ঠান",
     "shortDescription": "পুষ্করের নির্বাচিত অভিজ্ঞতা — মন্দির আরতি, গাইডেড ট্যুর, শান্ত বাসস্থান ও স্থানীয় সেবা — হোয়াটসঅ্যাপে বুক।",
     "address": "ব্রহ্মা মন্দিরের কাছে, পুষ্কর, রাজস্থান 305022",
@@ -9,7 +9,7 @@
     "contactWhatsApp": "নমস্কার! আমি {{name}}।\nআগ্রহ: {{interest}}\n{{extra}}\n\n{{brand}} ওয়েবসাইট থেকে পাঠানো।"
   },
   "home": {
-    "heroTitle": "Pushkar Oddessey",
+    "heroTitle": "Pushkar Odyssey",
     "heroSubtitle": "ভোরে ঘাটে হাঁটুন, আরতির আলো অনুভব করুন, শান্ত উঠোনে বিশ্রাম নিন।",
     "ctaPrimary": "ভ্রমণ দেখুন",
     "ctaSecondary": "পূজা বুক করুন"

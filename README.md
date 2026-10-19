@@ -1,4 +1,4 @@
-# Pushkar Oddessey
+# Pushkar Odyssey
 
 A React, Vite, and TypeScript portfolio for pilgrimage, travel, stays, and local experiences. Editors manage published content in Sanity Studio. The public site is a static single-page app deployed as Cloudflare Workers static assets.
 

@@ -1,6 +1,6 @@
 {
   "site": {
-    "brandName": "Pushkar Oddessey",
+    "brandName": "Pushkar Odyssey",
     "tagline": "Sacred journeys · Warm stays · Timeless rituals",
     "shortDescription": "Curated Pushkar experiences — temple aarti, guided tours, serene stays, and local services — booked simply over WhatsApp.",
     "address": "Near Brahma Temple, Pushkar, Rajasthan 305022",
@@ -9,7 +9,7 @@
     "contactWhatsApp": "Namaste! I am {{name}}.\nInterest: {{interest}}\n{{extra}}\n\nSent from the {{brand}} website."
   },
   "home": {
-    "heroTitle": "Pushkar Oddessey",
+    "heroTitle": "Pushkar Odyssey",
     "heroSubtitle": "Walk the ghats at dawn, feel the aarti glow, rest in quiet courtyards — tradition, hosted with modern ease.",
     "ctaPrimary": "Explore tours",
     "ctaSecondary": "Book a pooja"
@@ -39,7 +39,7 @@
     },
     "h4": {
       "year": "Today",
-      "title": "Pushkar Oddessey",
+      "title": "Pushkar Odyssey",
       "body": "We host travelers who want authenticity without friction: priests you can trust, stays with soul, and journeys paced for wonder — booked simply on WhatsApp."
     }
   },

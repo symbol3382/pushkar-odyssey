@@ -1,6 +1,6 @@
 {
   "site": {
-    "brandName": "Pushkar Oddessey",
+    "brandName": "Pushkar Odyssey",
     "tagline": "પવિત્ર યાત્રાઓ · હૂંફાળા રહેઠાણ · શાશ્વત વિધિ",
     "shortDescription": "પુષ્કરના પસંદગીના અનુભવો — મંદિર આરતી, ગાઇડેડ ટૂર, શાંત રહેઠાણ અને સ્થાનિક સેવાઓ — વોટ્સએપ પર બુક.",
     "address": "બ્રહ્મા મંદિર પાસે, પુષ્કર, રાજસ્થાન 305022",
@@ -9,7 +9,7 @@
     "contactWhatsApp": "નમસ્તે! હું {{name}} છું.\nરુચિ: {{interest}}\n{{extra}}\n\n{{brand}} વેબસાઇટથી મોકલાયું."
   },
   "home": {
-    "heroTitle": "Pushkar Oddessey",
+    "heroTitle": "Pushkar Odyssey",
     "heroSubtitle": "પરોઢે ઘાટ પર ચાલો, આરતીનો પ્રકાશ અનુભવો, શાંત આંગણામાં વિશ્રામ કરો.",
     "ctaPrimary": "પ્રવાસ જુઓ",
     "ctaSecondary": "પૂજા બુક કરો"
