@@ -163,3 +163,8 @@ export const pageBySlugQuery = `*[_type == "page" && slug.current == $slug][0]{
   image ${image},
   seo ${seo}
 }`;
+
+export const categoryPageQuery = `*[_type == "categoryPage" && category == $category][0]{
+  category,
+  image ${image}
+}`;

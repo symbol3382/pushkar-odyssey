@@ -5,6 +5,7 @@ import { localeBlockContent, localeString, localeText } from "./objects/locale";
 import { price } from "./objects/price";
 import { seo } from "./objects/seo";
 import { bestSeller } from "./documents/bestSeller";
+import { categoryPage } from "./documents/categoryPage";
 import { culturalProgram } from "./documents/culturalProgram";
 import { darshan } from "./documents/darshan";
 import { event } from "./documents/event";
@@ -29,6 +30,7 @@ export const schemaTypes = [
   siteSettings,
   homePage,
   historyPage,
+  categoryPage,
   darshan,
   culturalProgram,
   tourPackage,
@@ -39,3 +41,4 @@ export const schemaTypes = [
   faq,
   page,
 ];
+

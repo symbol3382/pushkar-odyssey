@@ -115,6 +115,12 @@ export interface SiteView {
   source: 'local' | 'sanity';
 }
 
+export interface CategoryPageView {
+  image: string;
+  imageAlt: string;
+  imageSrcSet?: string;
+}
+
 export interface HomeHeroImage {
   src: string;
   srcSet?: string;

@@ -89,6 +89,11 @@ export interface RawSiteSettings {
   seo?: RawSeo | null;
 }
 
+export interface RawCategoryPage {
+  category?: string | null;
+  image?: SanityImage | null;
+}
+
 export interface RawHome {
   heroImages?: SanityImage[] | null;
 }

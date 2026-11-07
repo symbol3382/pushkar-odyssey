@@ -5,7 +5,11 @@ import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { PackageCard } from '../components/PackageCard';
 import { PageHero } from '../components/PageHero';
 import { Seo } from '../components/Seo';
-import { useLocalizedCatalog, useLocalizedSite } from '../hooks/useLocalizedContent';
+import {
+  useLocalizedCatalog,
+  useLocalizedCategoryPage,
+  useLocalizedSite,
+} from '../hooks/useLocalizedContent';
 
 export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
   const { t } = useTranslation('common');
@@ -14,21 +18,34 @@ export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
   const listing = useLocalizedCatalog(catalogId);
   const items = listing.data ?? [];
   const brand = site.data?.brandName ?? t('site.brandName', { ns: 'content' });
+  const title = t(catalog.copy.title);
+  const subtitle = t(catalog.copy.subtitle);
+  const categoryPage = useLocalizedCategoryPage(catalogId, title);
+  const heroImage =
+    categoryPage.data?.image && categoryPage.data.image.length > 0
+      ? categoryPage.data.image
+      : items[0]?.image;
+  const heroImageAlt =
+    categoryPage.data?.imageAlt && categoryPage.data.imageAlt.length > 0
+      ? categoryPage.data.imageAlt
+      : items[0]?.imageAlt && items[0].imageAlt.length > 0
+        ? items[0].imageAlt
+        : title;
 
   return (
     <>
       <Seo
-        title={`${t(catalog.copy.title)} · ${brand}`}
-        description={t(catalog.copy.subtitle)}
+        title={`${title} · ${brand}`}
+        description={subtitle}
         path={catalog.path}
-        image={items[0]?.image}
+        image={heroImage}
       />
       <PageHero
         eyebrow={t(catalog.copy.eyebrow)}
-        title={t(catalog.copy.title)}
-        subtitle={t(catalog.copy.subtitle)}
-        image={items[0]?.image}
-        imageAlt={items[0]?.imageAlt}
+        title={title}
+        subtitle={subtitle}
+        image={heroImage}
+        imageAlt={heroImageAlt}
       />
       <QueryStatus query={listing}>
         <div className="mx-auto max-w-page px-4 py-14 sm:px-6 lg:px-8">

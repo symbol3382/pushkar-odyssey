@@ -5,6 +5,7 @@ import { images } from '../content/images';
 import type {
   CardView,
   CatalogDetailView,
+  CategoryPageView,
   FaqView,
   HistoryView,
   HomeView,
@@ -16,6 +17,7 @@ import type {
 import {
   getCatalog,
   getCatalogBySlug,
+  getCategoryPage,
   getFaqs,
   getHistory,
   getHome,
@@ -28,6 +30,7 @@ import type { MapContext } from '../lib/sanity/map';
 import {
   mapCatalogCards,
   mapCatalogDetail,
+  mapCategoryPage,
   mapFaq,
   mapHistory,
   mapHome,
@@ -93,6 +96,18 @@ export function useLocalizedCatalog(id: CatalogId): ContentQuery<CardView[]> {
     [catalog, context],
   );
   return useContentQuery(catalog.documentType, load, select, []);
+}
+
+export function useLocalizedCategoryPage(
+  id: CatalogId,
+  imageAlt: string,
+): ContentQuery<CategoryPageView | null> {
+  const load = useCallback(() => getCategoryPage(id), [id]);
+  const select = useCallback(
+    (raw: Awaited<ReturnType<typeof getCategoryPage>>) => mapCategoryPage(raw, imageAlt),
+    [imageAlt],
+  );
+  return useContentQuery(`categoryPage:${id}`, load, select, null);
 }
 
 export function useLocalizedCatalogItem(

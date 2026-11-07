@@ -2,6 +2,7 @@ import { sanityFetch } from './client';
 import {
   catalogBySlugQuery,
   catalogListQuery,
+  categoryPageQuery,
   faqsQuery,
   historyQuery,
   homeQuery,
@@ -12,6 +13,7 @@ import {
 } from './groq';
 import type {
   RawCatalog,
+  RawCategoryPage,
   RawFaq,
   RawHistory,
   RawHomePayload,
@@ -55,4 +57,8 @@ export function getCatalogBySlug(documentType: string, slug: string): Promise<Ra
 
 export function getPageBySlug(slug: string): Promise<RawPage | null> {
   return sanityFetch(`page:${slug}`, pageBySlugQuery, { slug });
+}
+
+export function getCategoryPage(category: string): Promise<RawCategoryPage | null> {
+  return sanityFetch(`categoryPage:${category}`, categoryPageQuery, { category });
 }

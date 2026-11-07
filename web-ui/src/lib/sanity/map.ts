@@ -3,6 +3,7 @@ import { catalogs, type Catalog } from '../../content/catalogs';
 import type {
   CardView,
   CatalogDetailView,
+  CategoryPageView,
   FaqView,
   HistoryView,
   HomeView,
@@ -19,6 +20,7 @@ import type {
   LocaleString,
   RawCard,
   RawCatalog,
+  RawCategoryPage,
   RawFaq,
   RawHistory,
   RawHomePayload,
@@ -184,6 +186,19 @@ export function mapCatalogDetail(
       ];
     }),
     ...seoFields(raw.seo, context.language),
+  };
+}
+
+export function mapCategoryPage(
+  raw: RawCategoryPage | null,
+  imageAlt: string,
+): CategoryPageView | null {
+  const image = imageFromSanity(raw?.image);
+  if (!image?.src) return null;
+  return {
+    image: image.src,
+    imageAlt: imageAlt || image.alt || '',
+    imageSrcSet: image.srcSet,
   };
 }
 
