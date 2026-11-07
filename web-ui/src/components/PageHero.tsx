@@ -25,7 +25,7 @@ export function PageHero({ eyebrow, title, subtitle, image, imageAlt = '' }: Pag
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="hero-copy max-w-4xl"
+          className="text-shadow-hero max-w-4xl"
         >
           {eyebrow && (
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-soft">

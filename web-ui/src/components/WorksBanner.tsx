@@ -39,7 +39,7 @@ export function WorksBanner() {
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-sand/90 to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-sand/90 to-transparent" />
         <motion.div
-          className="flex w-max gap-5 animate-marquee hover:[animation-play-state:paused]"
+          className="flex w-max animate-marquee gap-5 motion-reduce:animate-none hover:[animation-play-state:paused]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -57,7 +57,7 @@ export function WorksBanner() {
                 loading="lazy"
               />
               <HeroScrim tone="card" />
-              <div className="hero-copy absolute inset-x-0 bottom-0 p-4">
+              <div className="text-shadow-hero absolute inset-x-0 bottom-0 p-4">
                 <p className="text-[10px] uppercase tracking-[0.18em] text-gold-soft">
                   {item.category}
                 </p>

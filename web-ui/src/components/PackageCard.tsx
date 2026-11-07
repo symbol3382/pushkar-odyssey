@@ -48,7 +48,7 @@ export function PackageCard({
               {meta}
             </span>
           )}
-          <p className="hero-copy absolute bottom-3 left-3 right-3 font-display text-2xl text-cream">
+          <p className="text-shadow-hero absolute bottom-3 left-3 right-3 font-display text-2xl text-cream">
             {title}
           </p>
         </div>

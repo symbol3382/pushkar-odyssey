@@ -55,7 +55,7 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
           aria-live="polite"
           aria-label={t('welcome.aria')}
         >
-          <div className="mandala-bg absolute inset-0 opacity-50" aria-hidden />
+          <div className="bg-mandala absolute inset-0 opacity-50" aria-hidden />
           <div
             className="pointer-events-none absolute -left-20 top-1/4 size-72 rounded-full bg-bhagwa/30 blur-3xl"
             aria-hidden

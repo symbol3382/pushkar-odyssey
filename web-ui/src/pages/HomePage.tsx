@@ -8,7 +8,6 @@ import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
 import { WorksBanner } from '../components/WorksBanner';
 import { homeLinks, homeRails } from '../content/catalogs';
-import { images } from '../content/images';
 import type { CardView } from '../content/views';
 import {
   useLocalizedCatalog,
@@ -49,7 +48,7 @@ export function HomePage() {
   const tagline = t('site.tagline', { ns: 'content' });
   const heroTitle = t('home.heroTitle', { ns: 'content' });
   const heroSubtitle = t('home.heroSubtitle', { ns: 'content' });
-  const heroImage = hero?.heroImage ?? images.homeHero;
+  const heroImage = hero?.heroImage ? hero.heroImage : undefined;
   const heroImageAlt = hero?.heroImageAlt ?? heroTitle;
 
   return (
@@ -58,25 +57,27 @@ export function HomePage() {
         title={site.data?.seoTitle ?? brand}
         description={site.data?.seoDescription ?? t('site.shortDescription', { ns: 'content' })}
         path="/"
-        image={heroImage !== images.homeHero ? heroImage : site.data?.seoImage}
+        image={heroImage ?? site.data?.seoImage}
         jsonLd={site.data ? organizationJsonLd(site.data) : null}
       />
 
-      <section className="relative min-h-dvh overflow-hidden">
-        <img
-          src={heroImage}
-          alt={heroImageAlt}
-          srcSet={hero?.heroImageSrcSet}
-          sizes="100vw"
-          className="absolute inset-0 size-full object-cover"
-        />
+      <section className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-maroon via-bhagwa-deep to-ink">
+        {heroImage ? (
+          <img
+            src={heroImage}
+            alt={heroImageAlt}
+            srcSet={hero?.heroImageSrcSet}
+            sizes="100vw"
+            className="absolute inset-0 size-full object-cover"
+          />
+        ) : null}
         <HeroScrim tone="bottom" />
         <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="hero-copy max-w-4xl"
+            className="text-shadow-hero max-w-4xl"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
               {tagline}
@@ -180,7 +181,7 @@ export function HomePage() {
 
       <section className="relative mx-auto max-w-page overflow-hidden px-4 pb-8 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-maroon to-bhagwa-deep px-8 py-12 sm:px-12">
-          <div className="mandala-bg absolute inset-0 opacity-30" aria-hidden />
+          <div className="bg-mandala absolute inset-0 opacity-30" aria-hidden />
           <div className="relative">
             <h2 className="font-display text-3xl text-cream sm:text-4xl">{t('home.ctaTitle')}</h2>
             <p className="mt-3 max-w-3xl text-sand/85">{t('home.ctaBody')}</p>

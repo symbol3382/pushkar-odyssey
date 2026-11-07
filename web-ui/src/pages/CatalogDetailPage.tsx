@@ -68,7 +68,7 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
           />
         )}
         <HeroScrim tone="bottom" />
-        <div className="hero-copy absolute inset-x-0 bottom-0 mx-auto max-w-page px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="text-shadow-hero absolute inset-x-0 bottom-0 mx-auto max-w-page px-4 pb-10 sm:px-6 lg:px-8">
           {item.meta && (
             <p className="text-xs uppercase tracking-[0.2em] text-gold-soft">{item.meta}</p>
           )}

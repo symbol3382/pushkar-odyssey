@@ -61,7 +61,7 @@ export function WorksPage() {
                         {item.category}
                       </span>
                     )}
-                    <div className="hero-copy absolute inset-x-0 bottom-0 p-4">
+                    <div className="text-shadow-hero absolute inset-x-0 bottom-0 p-4">
                       {item.date && <p className="text-xs text-cream/75">{item.date}</p>}
                       <h2 className="font-display text-2xl text-cream">{item.title}</h2>
                     </div>
