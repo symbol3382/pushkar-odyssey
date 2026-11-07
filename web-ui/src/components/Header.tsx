@@ -58,8 +58,12 @@ export function Header() {
             setOpen(false);
           }}
         >
-          <img src={images.logo} alt="" className="size-11 shrink-0 object-contain" />
-          <span className="truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
+          <img
+            src={images.logo}
+            alt={site?.brandName ?? 'Pushkar Odyssey'}
+            className="size-11 shrink-0 object-contain"
+          />
+          <span className="hidden truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa lg:inline lg:text-2xl">
             {site?.brandName}
           </span>
         </Link>
