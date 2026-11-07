@@ -13,8 +13,10 @@
   --color-gold: #c9a227;
   --color-gold-soft: #e4c86a;
 
-  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Google Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Google Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --max-width-page: 90rem;
 
   --animate-float-soft: float-soft 6s ease-in-out infinite;
   --animate-shimmer: shimmer 2.2s ease-in-out infinite;
