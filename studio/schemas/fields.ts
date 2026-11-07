@@ -50,8 +50,7 @@ export const featuredField = defineField({
   name: "featured",
   title: "Featured",
   type: "boolean",
-  description:
-    "Show this item in featured sections when the home page does not pin a selection.",
+  description: "Show this item in the matching home page section.",
   initialValue: false,
 });
 

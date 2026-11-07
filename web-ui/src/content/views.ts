@@ -126,10 +126,13 @@ export interface SiteView {
   source: 'local' | 'sanity';
 }
 
+export interface HomeHeroImage {
+  src: string;
+  srcSet?: string;
+}
+
 export interface HomeView {
-  heroImage: string;
-  heroImageAlt?: string;
-  heroImageSrcSet?: string;
+  heroImages: HomeHeroImage[];
   featuredDarshan: CardView[];
   featuredDesert: CardView[];
   featuredTours: CardView[];

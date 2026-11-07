@@ -296,18 +296,16 @@ function rail(
 ): CardView[] {
   const catalog = catalogs.find((item) => item.id === id);
   if (catalog?.home !== 'rail') return [];
-  const pinned = raw?.home?.[catalog.featuredKey];
-  const flagged = raw?.[catalog.featuredKey];
-  const chosen = (pinned ?? []).some((item) => item.slug) ? pinned : flagged;
-  return cards(chosen, context, catalog);
+  return cards(raw?.[catalog.featuredKey], context, catalog);
 }
 
 export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeView {
-  const home = raw?.home;
-  const image = imageFromSanity(home?.heroImage);
+  const heroImages = (raw?.home?.heroImages ?? []).flatMap((image) => {
+    const media = imageFromSanity(image);
+    return media ? [{ src: media.src, srcSet: media.srcSet }] : [];
+  });
   return {
-    heroImage: image?.src ?? '',
-    heroImageSrcSet: image?.srcSet,
+    heroImages,
     featuredDarshan: rail('darshan', raw, context),
     featuredDesert: rail('desert', raw, context),
     featuredTours: rail('tour', raw, context),

@@ -107,11 +107,7 @@ export interface RawSiteSettings {
 }
 
 export interface RawHome {
-  heroImage?: SanityImage | null;
-  featuredDarshan?: RawCard[] | null;
-  featuredDesert?: RawCard[] | null;
-  featuredTours?: RawCard[] | null;
-  featuredStays?: RawCard[] | null;
+  heroImages?: SanityImage[] | null;
 }
 
 export interface RawHomePayload {

@@ -1,31 +1,25 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { imageField, publishingNote } from "../fields";
-
-function references(name: string, title: string, to: string) {
-  return defineField({
-    name,
-    title,
-    type: "array",
-    description:
-      "Optional. If you leave this empty, the home page uses items marked as featured.",
-    of: [defineArrayMember({ type: "reference", to: [{ type: to }] })],
-  });
-}
+import { publishingNote } from "../fields";
 
 export const homePage = defineType({
   name: "homePage",
   title: "Home page",
   type: "document",
-  description: `${publishingNote} Hero titles and button labels live in the website. Use this document for the banner image and featured listings only.`,
+  description: `${publishingNote} Hero titles and button labels live in the website. Use this document for hero banner images only. Mark catalog items as Featured to show them on the home page rails.`,
   fields: [
-    imageField("heroImage", "Hero image", true),
-    references("featuredDarshan", "Featured darshan", "darshan"),
-    references("featuredDesert", "Featured desert experiences", "desertExperience"),
-    references("featuredTours", "Featured tours", "tourPackage"),
-    references("featuredStays", "Featured stays", "stay"),
+    defineField({
+      name: "heroImages",
+      title: "Hero images",
+      type: "array",
+      description:
+        "One or more banner images. The website rotates through them automatically.",
+      of: [defineArrayMember({ type: "galleryImage" })],
+      options: { layout: "grid" },
+      validation: (rule) => rule.min(1).error("Add at least one hero image"),
+    }),
   ],
   preview: {
-    select: { media: "heroImage" },
+    select: { media: "heroImages.0" },
     prepare({ media }) {
       return { title: "Home page", media };
     },

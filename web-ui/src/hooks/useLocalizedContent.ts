@@ -39,7 +39,7 @@ import {
 import { useContentQuery, type ContentQuery } from './useContentQuery';
 
 const emptyHome: HomeView = {
-  heroImage: '',
+  heroImages: [],
   featuredDarshan: [],
   featuredDesert: [],
   featuredTours: [],

@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
 import { HeroScrim } from '../components/HeroScrim';
@@ -8,7 +9,7 @@ import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
 import { WorksBanner } from '../components/WorksBanner';
 import { homeLinks, homeRails } from '../content/catalogs';
-import type { CardView } from '../content/views';
+import type { CardView, HomeHeroImage } from '../content/views';
 import {
   useLocalizedCatalog,
   useLocalizedHome,
@@ -21,6 +22,8 @@ const HERO_CTA = {
   primary: { to: '/tours' },
   secondary: { to: '/vedic-poojas' },
 } as const;
+
+const HERO_ROTATE_MS = 1000;
 
 export function HomePage() {
   const { t } = useTranslation(['common', 'content']);
@@ -48,8 +51,8 @@ export function HomePage() {
   const tagline = t('site.tagline', { ns: 'content' });
   const heroTitle = t('home.heroTitle', { ns: 'content' });
   const heroSubtitle = t('home.heroSubtitle', { ns: 'content' });
-  const heroImage = hero?.heroImage && hero.heroImage.length > 0 ? hero.heroImage : undefined;
-  const heroImageAlt = hero?.heroImageAlt ?? heroTitle;
+  const heroImages = hero?.heroImages ?? [];
+  const seoImage = heroImages[0]?.src;
 
   return (
     <>
@@ -57,20 +60,12 @@ export function HomePage() {
         title={site.data?.seoTitle ?? brand}
         description={site.data?.seoDescription ?? t('site.shortDescription', { ns: 'content' })}
         path="/"
-        image={heroImage ?? site.data?.seoImage}
+        image={seoImage || site.data?.seoImage}
         jsonLd={site.data ? organizationJsonLd(site.data) : null}
       />
 
       <section className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-maroon via-bhagwa-deep to-ink">
-        {heroImage ? (
-          <img
-            src={heroImage}
-            alt={heroImageAlt}
-            srcSet={hero?.heroImageSrcSet}
-            sizes="100vw"
-            className="absolute inset-0 size-full object-cover"
-          />
-        ) : null}
+        <HomeHeroSlideshow images={heroImages} alt={heroTitle} />
         <HeroScrim tone="bottom" />
         <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
           <motion.div
@@ -190,6 +185,44 @@ export function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function HomeHeroSlideshow({ images, alt }: { images: HomeHeroImage[]; alt: string }) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const count = images.length;
+  const active = count > 0 ? images[index % count] : undefined;
+
+  useEffect(() => {
+    if (reduceMotion || count < 2) return;
+    const timer = window.setInterval(() => {
+      setIndex((current) => current + 1);
+    }, HERO_ROTATE_MS);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [count, reduceMotion]);
+
+  if (!active) return null;
+
+  return (
+    <div className="absolute inset-0" aria-hidden={count > 1}>
+      <AnimatePresence mode="sync" initial={false}>
+        <motion.img
+          key={`${active.src}-${String(index)}`}
+          src={active.src}
+          alt={count > 1 ? '' : alt}
+          srcSet={active.srcSet}
+          sizes="100vw"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0 }}
+          transition={{ duration: 1.1, ease: 'easeInOut' }}
+          className="absolute inset-0 size-full object-cover"
+        />
+      </AnimatePresence>
+    </div>
   );
 }
 

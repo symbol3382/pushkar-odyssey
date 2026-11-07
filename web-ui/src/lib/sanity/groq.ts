@@ -134,11 +134,11 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
 
 export const homeQuery = `{
   "home": *[_id == "homePage"][0]{
-    heroImage ${image},
-    featuredDarshan[]->${card},
-    featuredDesert[]->${card},
-    featuredTours[]->${card},
-    featuredStays[]->${card}
+    "heroImages": select(
+      count(heroImages) > 0 => heroImages[] ${image},
+      defined(heroImage) => [heroImage ${image}],
+      []
+    )
   },
   "featuredDarshan": *[_type == "darshan" && featured == true] | order(sortOrder asc, title.en asc) ${card},
   "featuredDesert": *[_type == "desertExperience" && featured == true] | order(sortOrder asc, title.en asc) ${card},
