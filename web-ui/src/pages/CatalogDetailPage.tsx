@@ -67,7 +67,7 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-cream via-ink/40 to-ink/50" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-page px-4 pb-10 sm:px-6 lg:px-8">
           {item.meta && (
             <p className="text-xs uppercase tracking-[0.2em] text-gold-soft">{item.meta}</p>
           )}
@@ -82,7 +82,7 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
           { label: item.title },
         ]}
       />
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
+      <div className="mx-auto grid max-w-page gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
         <div>
           <RichText body={item.body} fallback={item.description} />
           {catalog.id === 'stay' && (

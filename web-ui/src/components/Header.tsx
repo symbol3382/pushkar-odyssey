@@ -48,7 +48,7 @@ export function Header() {
           : 'bg-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           to="/"
           className="group flex min-w-0 items-center gap-2"

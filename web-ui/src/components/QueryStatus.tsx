@@ -14,7 +14,7 @@ export function QueryStatus({
 
   if (query.status === 'loading') {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6" role="status" aria-live="polite">
+      <div className="mx-auto max-w-page px-4 py-24 sm:px-6" role="status" aria-live="polite">
         <p className="text-sm text-ink-soft">{t('pages.loading')}</p>
         <div className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {['one', 'two', 'three'].map((item) => (

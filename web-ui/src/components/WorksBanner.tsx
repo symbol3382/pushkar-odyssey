@@ -24,7 +24,7 @@ export function WorksBanner() {
       className="relative border-y border-bhagwa/10 bg-sand/40 py-8"
       aria-label={t('works.eyebrow')}
     >
-      <div className="mx-auto mb-5 flex max-w-6xl items-end justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mb-5 flex max-w-page items-end justify-between px-4 sm:px-6 lg:px-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
             {t('works.eyebrow')}

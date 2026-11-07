@@ -27,7 +27,7 @@ export function Footer() {
   return (
     <footer className="relative mt-24 border-t border-bhagwa/15 bg-maroon-deep text-sand">
       <div className="mandala-bg absolute inset-0 opacity-40" aria-hidden />
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
+      <div className="relative mx-auto grid max-w-page gap-10 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
         <div>
           <div className="flex items-center gap-3">
             <img src={images.logo} alt="" className="size-12 shrink-0 object-contain" />

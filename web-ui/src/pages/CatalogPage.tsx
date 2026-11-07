@@ -33,7 +33,7 @@ export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
         imageAlt={items[0]?.imageAlt}
       />
       <QueryStatus query={listing}>
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-page px-4 py-14 sm:px-6 lg:px-8">
           {items.length === 0 ? (
             <EmptyCatalog message={t(catalog.copy.empty)} />
           ) : (

@@ -63,12 +63,11 @@ export function HomePage() {
             )}
             <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
             <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
-            <div className="relative mx-auto flex min-h-dvh max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+            <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
               <motion.div
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="max-w-xl"
               >
                 {site.data?.tagline && (
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
@@ -79,7 +78,7 @@ export function HomePage() {
                   {hero.heroTitle}
                 </h1>
                 {hero.heroSubtitle && (
-                  <p className="mt-5 max-w-md text-base leading-relaxed text-sand/90 sm:text-lg">
+                  <p className="mt-5 max-w-3xl text-base leading-relaxed text-sand/90 sm:text-lg">
                     {hero.heroSubtitle}
                   </p>
                 )}
@@ -130,7 +129,7 @@ export function HomePage() {
               tone={index % 2 === 1 ? 'sand' : undefined}
             />
           ))}
-          <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <section className="mx-auto max-w-page px-4 py-16 sm:px-6 lg:px-8">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
               {t('home.moreEyebrow')}
             </p>
@@ -156,7 +155,7 @@ export function HomePage() {
 
       <QueryStatus query={testimonials}>
         {testimonials.data && testimonials.data.length > 0 && (
-          <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+          <section className="mx-auto max-w-page px-4 py-8 sm:px-6 lg:px-8">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
               {t('home.testimonialsEyebrow')}
             </p>
@@ -184,12 +183,12 @@ export function HomePage() {
         )}
       </QueryStatus>
 
-      <section className="relative mx-auto max-w-6xl overflow-hidden px-4 pb-8 sm:px-6 lg:px-8">
+      <section className="relative mx-auto max-w-page overflow-hidden px-4 pb-8 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-maroon to-bhagwa-deep px-8 py-12 sm:px-12">
           <div className="mandala-bg absolute inset-0 opacity-30" aria-hidden />
-          <div className="relative max-w-lg">
+          <div className="relative">
             <h2 className="font-display text-3xl text-cream sm:text-4xl">{t('home.ctaTitle')}</h2>
-            <p className="mt-3 text-sand/85">{t('home.ctaBody')}</p>
+            <p className="mt-3 max-w-3xl text-sand/85">{t('home.ctaBody')}</p>
             <BookCTA type="general" title={t('home.customPlan')} className="mt-6" />
           </div>
         </div>
@@ -214,7 +213,7 @@ function FeaturedSection({
   tone?: 'sand';
 }) {
   const body = (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-page px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading eyebrow={eyebrow} title={title} link={link} />
       {items.length === 0 ? (
         <EmptyCatalog message={empty} />

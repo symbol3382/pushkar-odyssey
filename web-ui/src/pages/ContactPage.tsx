@@ -74,7 +74,7 @@ export function ContactPage() {
         image={images.contactHero}
         imageAlt=""
       />
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid max-w-page gap-12 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
           <h2 className="font-display text-2xl text-ink">{t('pages.directLines')}</h2>
           <QueryStatus query={siteQuery}>
