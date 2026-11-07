@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { BookCTA } from '../components/BookCTA';
+import { HeroScrim } from '../components/HeroScrim';
 import { PackageCard } from '../components/PackageCard';
 import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
@@ -61,7 +62,7 @@ export function HomePage() {
         jsonLd={site.data ? organizationJsonLd(site.data) : null}
       />
 
-      <section className="relative min-h-dvh overflow-hidden grain-overlay">
+      <section className="relative min-h-dvh overflow-hidden">
         <img
           src={heroImage}
           alt={heroImageAlt}
@@ -69,13 +70,13 @@ export function HomePage() {
           sizes="100vw"
           className="absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
+        <HeroScrim tone="bottom" />
         <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-copy max-w-4xl"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
               {tagline}
@@ -83,7 +84,7 @@ export function HomePage() {
             <h1 className="mt-4 font-display text-5xl leading-[1.05] text-cream sm:text-6xl lg:text-7xl">
               {heroTitle}
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-sand/90 sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-cream/90 sm:text-lg">
               {heroSubtitle}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -95,7 +96,7 @@ export function HomePage() {
               </Link>
               <Link
                 to={HERO_CTA.secondary.to}
-                className="rounded-sm border border-cream/40 bg-cream/10 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-cream/20"
+                className="rounded-sm border border-cream/50 bg-ink/25 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-ink/40"
               >
                 {t('home.ctaSecondary', { ns: 'content' })}
               </Link>

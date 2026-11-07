@@ -35,7 +35,7 @@ export function Header() {
   }, [open]);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `inline-flex items-center gap-1.5 text-sm tracking-wide transition ${
+    `inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide transition ${
       isActive ? 'text-bhagwa' : 'text-ink-soft hover:text-bhagwa'
     }`;
 
@@ -44,8 +44,8 @@ export function Header() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 border-b border-bhagwa/10 bg-cream/95 backdrop-blur-md transition-shadow duration-300 ${
-        scrolled || open ? 'shadow-sm' : ''
+      className={`fixed inset-x-0 top-0 z-50 border-b border-bhagwa/10 bg-cream/75 backdrop-blur-md transition-shadow duration-300 ${
+        scrolled || open ? 'bg-cream/85 shadow-sm' : ''
       }`}
     >
       <div className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
@@ -61,7 +61,7 @@ export function Header() {
             alt={site?.brandName ?? 'Pushkar Odyssey'}
             className="size-11 shrink-0 object-contain"
           />
-          <span className="hidden truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa lg:inline lg:text-2xl">
+          <span className="hidden truncate font-brand text-[1.65rem] font-bold leading-none tracking-[0.04em] text-maroon transition group-hover:text-bhagwa lg:inline lg:text-[1.85rem]">
             {site?.brandName}
           </span>
         </Link>
@@ -84,7 +84,7 @@ export function Header() {
           >
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 text-sm tracking-wide text-ink-soft transition hover:text-bhagwa"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-ink-soft transition hover:text-bhagwa"
               aria-expanded={exploreOpen}
             >
               <ExploreIcon className="size-4 shrink-0" aria-hidden />
@@ -105,7 +105,7 @@ export function Header() {
                       <Link
                         key={item.to}
                         to={item.to}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-ink-soft transition hover:bg-sand hover:text-bhagwa"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-ink-soft transition hover:bg-sand hover:text-bhagwa"
                       >
                         <NavItemIcon path={item.to} className="size-4 shrink-0" />
                         {t(item.labelKey)}
@@ -119,7 +119,7 @@ export function Header() {
           <LanguageSwitcher />
           <Link
             to="/contact"
-            className="inline-flex items-center gap-1.5 rounded-sm bg-maroon px-4 py-2 text-sm font-medium text-cream transition hover:bg-maroon-deep"
+            className="inline-flex items-center gap-1.5 rounded-sm bg-maroon px-4 py-2 text-sm font-semibold text-cream transition hover:bg-maroon-deep"
           >
             <BookNowIcon className="size-4 shrink-0" aria-hidden />
             {t('nav.bookNow')}
@@ -164,10 +164,10 @@ export function Header() {
                     setOpen(false);
                   }}
                   className={({ isActive }) =>
-                    `inline-flex items-center gap-2.5 rounded-sm px-3 py-3 text-base ${
-                      isActive ? 'bg-sand text-bhagwa' : 'text-ink-soft'
-                    }`
-                  }
+                      `inline-flex items-center gap-2.5 rounded-sm px-3 py-3 text-base font-semibold ${
+                        isActive ? 'bg-sand text-bhagwa' : 'text-ink-soft'
+                      }`
+                    }
                 >
                   <NavItemIcon path={item.to} className="size-4 shrink-0" />
                   {t(item.labelKey)}

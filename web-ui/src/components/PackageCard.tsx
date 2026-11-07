@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { HeroScrim } from './HeroScrim';
 
 interface PackageCardProps {
   to: string;
@@ -41,13 +42,13 @@ export function PackageCard({
             className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          <HeroScrim tone="card" />
           {meta && (
             <span className="absolute left-3 top-3 rounded-sm bg-cream/90 px-2 py-1 text-xs font-medium text-maroon">
               {meta}
             </span>
           )}
-          <p className="absolute bottom-3 left-3 right-3 font-display text-2xl text-cream">
+          <p className="hero-copy absolute bottom-3 left-3 right-3 font-display text-2xl text-cream">
             {title}
           </p>
         </div>

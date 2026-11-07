@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { HeroScrim } from '../components/HeroScrim';
 import { PageHero } from '../components/PageHero';
 import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
@@ -54,14 +55,14 @@ export function WorksPage() {
                         loading="lazy"
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
+                    <HeroScrim tone="card" />
                     {item.category && (
                       <span className="absolute top-3 left-3 rounded-sm bg-cream/90 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-maroon uppercase">
                         {item.category}
                       </span>
                     )}
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      {item.date && <p className="text-xs text-sand/70">{item.date}</p>}
+                    <div className="hero-copy absolute inset-x-0 bottom-0 p-4">
+                      {item.date && <p className="text-xs text-cream/75">{item.date}</p>}
                       <h2 className="font-display text-2xl text-cream">{item.title}</h2>
                     </div>
                   </div>

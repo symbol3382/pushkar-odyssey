@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { QueryStatus } from './QueryStatus';
 import { useLocalizedWorks } from '../hooks/useLocalizedContent';
+import { HeroScrim } from './HeroScrim';
+import { QueryStatus } from './QueryStatus';
 
 export function WorksBanner() {
   const { t } = useTranslation('common');
@@ -55,8 +56,8 @@ export function WorksBanner() {
                 className="aspect-[16/10] w-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-4">
+              <HeroScrim tone="card" />
+              <div className="hero-copy absolute inset-x-0 bottom-0 p-4">
                 <p className="text-[10px] uppercase tracking-[0.18em] text-gold-soft">
                   {item.category}
                 </p>
