@@ -35,8 +35,13 @@ export interface CatalogDetailView extends CardView {
   exclusions: string[];
   notes: NoteView[];
   highlights: string[];
+  programFlow: string[];
   itinerary: ItineraryStop[];
   enquiryNote?: string;
+  startTime?: string;
+  seasonal: boolean;
+  format?: string;
+  when?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: string;
@@ -118,7 +123,8 @@ export interface HomeHeroImage {
 export interface HomeView {
   heroImages: HomeHeroImage[];
   featuredDarshan: CardView[];
-  featuredDesert: CardView[];
+  featuredCultural: CardView[];
   featuredTours: CardView[];
-  featuredStays: CardView[];
+  featuredEvents: CardView[];
+  featuredBestsellers: CardView[];
 }

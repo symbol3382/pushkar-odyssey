@@ -29,20 +29,15 @@ loadEnvFile('.env');
 loadEnvFile('.env.local');
 loadEnvFile('.env.production');
 
-const categoryPaths = {
-  'pushkar-darshan': '/darshan',
-  'vedic-pooja': '/vedic-poojas',
-  'desert-camping': '/desert',
-  'tour-packages': '/tours',
-  stays: '/stays',
-  festivals: '/festivals',
-  products: '/products',
-  'events-hospitality': '/events',
-  'boho-clothing': '/boho',
-  property: '/property',
+const typePaths = {
+  darshan: '/darshan',
+  culturalProgram: '/cultural-program',
+  tourPackage: '/tours',
+  event: '/events',
+  bestSeller: '/best-sellers',
 };
 
-const staticRoutes = ['/', '/works', '/history', '/contact', ...Object.values(categoryPaths)];
+const staticRoutes = ['/', '/works', '/history', '/contact', ...Object.values(typePaths)];
 const siteUrl = process.env.VITE_SITE_URL?.trim().replace(/\/$/, '');
 
 if (!siteUrl) {
@@ -73,18 +68,18 @@ if (projectId) {
       perspective: 'published',
     });
     const slugs = await client.fetch(`{
-      "services": *[_type == "service" && defined(slug.current) && defined(category->slug.current)]{
-        "slug": slug.current,
-        "categorySlug": category->slug.current
-      },
+      "darshan": *[_type == "darshan" && defined(slug.current)].slug.current,
+      "culturalProgram": *[_type == "culturalProgram" && defined(slug.current)].slug.current,
+      "tourPackage": *[_type == "tourPackage" && defined(slug.current)].slug.current,
+      "event": *[_type == "event" && defined(slug.current)].slug.current,
+      "bestSeller": *[_type == "bestSeller" && defined(slug.current)].slug.current,
       "pages": *[_type == "page" && defined(slug.current)].slug.current
     }`);
-    if (Array.isArray(slugs.services)) {
-      for (const item of slugs.services) {
-        if (!item || typeof item.slug !== 'string' || typeof item.categorySlug !== 'string') continue;
-        const base = categoryPaths[item.categorySlug];
-        if (!base || !item.slug.trim()) continue;
-        routes.add(`${base}/${item.slug.trim()}`);
+    for (const [type, base] of Object.entries(typePaths)) {
+      const values = slugs[type];
+      if (!Array.isArray(values)) continue;
+      for (const slug of values) {
+        if (typeof slug === 'string' && slug.trim()) routes.add(`${base}/${slug.trim()}`);
       }
     }
     if (Array.isArray(slugs.pages)) {

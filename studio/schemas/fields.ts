@@ -50,7 +50,7 @@ export const featuredField = defineField({
   name: "featured",
   title: "Featured",
   type: "boolean",
-  description: "Show this item in the matching home page section.",
+  description: "Highlight this item on the home page category section.",
   initialValue: false,
 });
 
@@ -102,6 +102,64 @@ export function imageField(
 
 export const publishingNote =
   "Save a draft while you work. Choose Publish when the entry is complete. Unpublished drafts are not shown on the website. Do not publish an entry that is missing its title, slug, or image.";
+
+export function choiceField(
+  name: string,
+  title: string,
+  list: { title: string; value: string }[],
+  options?: {
+    description?: string;
+    layout?: "radio" | "dropdown";
+    required?: boolean;
+  },
+) {
+  const required = options?.required !== false;
+  return defineField({
+    name,
+    title,
+    type: "string",
+    description: options?.description,
+    options: { list, layout: options?.layout ?? "dropdown" },
+    validation: required ? (rule) => rule.required() : undefined,
+  });
+}
+
+export function offeringFields(): FieldDefinition[] {
+  return [
+    requiredLocale("title", "Title", "localeString"),
+    slugField,
+    requiredLocale(
+      "summary",
+      "Short description",
+      "localeText",
+      "Shown on cards.",
+    ),
+    requiredLocale(
+      "description",
+      "Full description",
+      "localeText",
+      "Markdown supported. Use headings, lists, and emphasis.",
+    ),
+    imageField("featuredImage", "Featured image", false),
+    defineField({
+      name: "gallery",
+      title: "Gallery",
+      type: "array",
+      of: [defineArrayMember({ type: "galleryImage" })],
+    }),
+    defineField({ name: "price", title: "Starting price", type: "price" }),
+    defineField({
+      name: "enquiryNote",
+      title: "Enquiry instructions",
+      type: "localeText",
+      description:
+        "Optional. Explain how to enquire. Do not say a booking is confirmed.",
+    }),
+    featuredField,
+    sortOrderField,
+    seoField,
+  ];
+}
 
 export function questionNotes(description: string) {
   return defineField({

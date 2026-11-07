@@ -27,7 +27,11 @@ export interface RawCard {
   durationLabel?: LocaleString | null;
   days?: number | null;
   nights?: number | null;
-  categorySlug?: string | null;
+  kind?: string | null;
+  visitFocus?: string | null;
+  stayStyle?: string | null;
+  seasonal?: boolean | null;
+  when?: LocaleString | null;
 }
 
 export interface RawItineraryDay {
@@ -55,8 +59,11 @@ export interface RawCatalog extends RawCard {
   excluded?: LocaleString[] | null;
   notes?: RawNote[] | null;
   highlights?: LocaleString[] | null;
+  programFlow?: LocaleString[] | null;
   itinerary?: RawItineraryDay[] | null;
   enquiryNote?: LocaleString | null;
+  startTime?: string | null;
+  format?: string | null;
   seo?: RawSeo | null;
 }
 
@@ -89,9 +96,10 @@ export interface RawHome {
 export interface RawHomePayload {
   home: RawHome | null;
   featuredDarshan: RawCard[];
-  featuredDesert: RawCard[];
+  featuredCultural: RawCard[];
   featuredTours: RawCard[];
-  featuredStays: RawCard[];
+  featuredEvents: RawCard[];
+  featuredBestsellers: RawCard[];
 }
 
 export interface RawHistoryBlock {

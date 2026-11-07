@@ -1,315 +1,176 @@
 import { writeFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 
-function loc(en, hi = '') {
-  return hi ? { en, hi } : { en };
+function loc(en) {
+  return { en };
 }
 
-function category(id, slug, title, summary, description, sortOrder, featured = false) {
+function doc(type, id, fields) {
+  return { _id: id, _type: type, ...fields };
+}
+
+function slug(current) {
+  return { _type: 'slug', current };
+}
+
+function note(question, answer, key) {
   return {
-    _id: id,
-    _type: 'serviceCategory',
-    title: loc(title),
-    slug: { _type: 'slug', current: slug },
-    summary: loc(summary),
-    description: loc(description),
-    featured,
-    sortOrder,
+    _type: 'note',
+    _key: key,
+    question: loc(question),
+    answer: loc(answer),
   };
 }
 
-function service({
-  id,
-  slug,
-  categoryId,
-  title,
-  summary,
-  description,
-  highlights = [],
-  included = [],
-  notes = [],
-  itinerary = [],
-  days,
-  nights,
-  featured = false,
-  sortOrder = 0,
-}) {
-  const doc = {
-    _id: id,
-    _type: 'service',
-    title: loc(title),
-    slug: { _type: 'slug', current: slug },
-    category: { _type: 'reference', _ref: categoryId, _weak: false },
-    summary: loc(summary),
+function day(dayNumber, heading, description, location) {
+  return {
+    _type: 'itineraryDay',
+    _key: `day-${String(dayNumber)}`,
+    dayNumber,
+    heading: loc(heading),
     description: loc(description),
-    featured,
-    sortOrder,
+    location: location ? loc(location) : undefined,
   };
-  if (highlights.length) doc.highlights = highlights.map((item) => loc(item));
-  if (included.length) doc.included = included.map((item) => loc(item));
-  if (notes.length) {
-    doc.notes = notes.map((note, index) => ({
-      _type: 'note',
-      _key: `note-${String(index + 1)}`,
-      question: loc(note.question),
-      answer: loc(note.answer),
-    }));
-  }
-  if (itinerary.length) {
-    doc.itinerary = itinerary.map((stop, index) => ({
-      _type: 'itineraryDay',
-      _key: `day-${String(stop.dayNumber ?? index + 1)}`,
-      dayNumber: stop.dayNumber ?? index + 1,
-      heading: loc(stop.heading),
-      description: loc(stop.description),
-      location: stop.location ? loc(stop.location) : undefined,
-    }));
-  }
-  if (typeof days === 'number') doc.days = days;
-  if (typeof nights === 'number') doc.nights = nights;
-  return doc;
 }
 
-const categories = [
-  category(
-    'category-pushkar-darshan',
-    'pushkar-darshan',
-    'Pushkar Darshan',
-    'Peaceful, hassle-free visits to Pushkar’s sacred places.',
-    `## Pushkar Darshan
+const documents = [
+  // 1. Darshan
+  doc('darshan', 'darshan-pushkar-experience', {
+    title: loc('Pushkar Darshan Experience'),
+    slug: slug('pushkar-darshan-experience'),
+    summary: loc('A peaceful, hassle-free visit to Pushkar’s sacred places.'),
+    description: loc(`## Experience a peaceful and hassle-free visit
 
-Experience a peaceful and hassle-free visit to Pushkar's sacred places — the lake, Brahma Temple, evening aarti, and local storytelling that opens the mythology of this town.`,
-    10,
-    true,
-  ),
-  category(
-    'category-vedic-pooja',
-    'vedic-pooja',
-    'Vedic Pooja Services & Online Pooja',
-    'Traditional rituals in Pushkar or live online worldwide.',
-    `## Vedic Pooja Services & Online Pooja (Worldwide)
+Pushkar’s sacred heart — lake, Brahma Temple, evening aarti, and local storytelling — hosted so the visit stays calm rather than rushed.
 
-Priest-led rituals for ancestral rites, peace, and family ceremonies — arranged in Pushkar or over a live video call.`,
-    20,
-  ),
-  category(
-    'category-desert-camping',
-    'desert-camping',
-    'Desert Night Camping',
-    'Thar Desert evenings with culture, dinner, and dune rides.',
-    `## Desert Night Camping with cultural program & dinner
-
-An unforgettable evening in the Thar Desert — camel and jeep safari, sunset, folk dance, Rajasthani dinner, and overnight tents.`,
-    30,
-    true,
-  ),
-  category(
-    'category-tour-packages',
-    'tour-packages',
-    'Pushkar Tour Packages',
-    'Multi-day Pushkar itineraries paced for wonder and rest.',
-    `## Pushkar Tour Packages
-
-Guided multi-day visits that combine temples, the lake, market evenings, desert time, and stays that feel like Pushkar.`,
-    40,
-    true,
-  ),
-  category(
-    'category-stays',
-    'stays',
-    'Stays in Pushkar',
-    'Private pools, lakeside rooms, luxury, boutique, desert, family, and budget stays.',
-    `## Stays in Pushkar
-
-Places to stay across Pushkar — from lakeside rooms and private pools to luxury resorts, boutique homes, desert camps, and simple budget hotels.`,
-    50,
-    true,
-  ),
-  category(
-    'category-festivals',
-    'festivals',
-    'International Celebrations & Festivals',
-    'Holi, the Camel Fair, and New Year in iconic Pushkar.',
-    `## International celebrations at Pushkar’s iconic festivals
-
-Join Holi parties, the International Pushkar Camel Fair, and New Year celebrations hosted in and around town.`,
-    60,
-  ),
-  category(
-    'category-products',
-    'products',
-    'Pushkar Products',
-    'Ittar, rose, rudraksha, jamun, hemp, leather, and jewellery.',
-    `## Pushkar Products Services
-
-Local Pushkar goods — natural perfume and incense, seasonal jamun, rose products, spiritual items, hemp and leather crafts, and fashion jewellery.`,
-    70,
-  ),
-  category(
-    'category-events-hospitality',
-    'events-hospitality',
-    'Events & Hospitality',
-    'Weddings, celebrations, taxis, and practical help in Pushkar.',
-    `## Events & Hospitality Services
-
-We make celebrations and events memorable in Pushkar — destination weddings, anniversaries, birthdays, corporate outings, taxi bookings, and money exchange.`,
-    80,
-  ),
-  category(
-    'category-boho-clothing',
-    'boho-clothing',
-    'Boho Clothing & Garments',
-    'Global boho clothing and garments from Pushkar.',
-    `## Pushkar’s global boho clothing & garment products
-
-Kaftans, maxi dresses, kimonos, tops, skirts, tunics, printed garments, scarves, and jumpsuits sourced from Pushkar’s garment makers.`,
-    90,
-  ),
-  category(
-    'category-property',
-    'property',
-    'Buy, Sell & Invest in Pushkar Properties',
-    'Plots, farmhouses, villas, hotels, shops, and investment advice.',
-    `## Buy, sell & invest in Pushkar properties
-
-Residential plots, farmhouses, villas, hotels, commercial shops, and property investment consultation in Pushkar.`,
-    100,
-  ),
-];
-
-const services = [
-  service({
-    id: 'service-darshan-package',
-    slug: 'pushkar-darshan-experience',
-    categoryId: 'category-pushkar-darshan',
-    title: 'Pushkar Darshan Experience',
-    summary: 'A calm, guided visit covering Pushkar’s sacred heart.',
-    description: `## Experience a peaceful and hassle-free visit
-
-Walk Pushkar’s sacred places with local hosts who know the rituals, queues, and stories — so the visit stays peaceful rather than rushed.
-
-### What this visit can include
+### Included stops
 - Pushkar Lake (VIP)
 - Brahma Temple (VIP)
 - Evening Pushkar Lake Aarti
-- Local storyteller explaining Pushkar's mythology and history
-
-Ask on WhatsApp to shape the visit for your family, elders, or first-time pilgrims.`,
+- Local storyteller explaining Pushkar's mythology and history`),
+    kind: 'package',
+    visitFocus: 'mixed',
+    format: 'in-person',
     included: [
-      'Pushkar Lake (VIP)',
-      'Brahma Temple (VIP)',
-      'Evening Pushkar Lake Aarti',
-      'Local storyteller',
+      loc('Pushkar Lake (VIP)'),
+      loc('Brahma Temple (VIP)'),
+      loc('Evening Pushkar Lake Aarti'),
+      loc('Local storyteller'),
     ],
     notes: [
-      {
-        question: "Why don't many families worship Lord Brahma at home?",
-        answer:
-          'Traditional belief holds that Brahma is mainly worshipped in temple form, and Pushkar remains the rare place where his shrine stands at the centre of living practice.',
-      },
-      {
-        question: 'Why is the Lord Brahma temple only in Pushkar?',
-        answer:
-          'Mythology places Brahma’s creation rite and Savitri’s curse here, which is why Pushkar is known for one of the few temples dedicated to Brahma.',
-      },
-      {
-        question: 'What two curses did Goddess Savitri give Lord Brahma?',
-        answer:
-          'Local tellings recall that Savitri cursed Brahma so he would rarely be worshipped, and that the ritual moment itself would remain bound to Pushkar’s lore — ask your storyteller for the full telling by the lake.',
-      },
-      {
-        question: 'Why is Pushkar Lake so sacred?',
-        answer:
-          'Legend says the lake rose from a lotus of Lord Brahma. Pilgrims have bathed here for centuries seeking purification and blessings.',
-      },
+      note(
+        "Why don't many families worship Lord Brahma at home?",
+        'Traditional belief holds that Brahma is mainly worshipped in temple form, and Pushkar remains the rare place where his shrine stands at the centre of living practice.',
+        'n1',
+      ),
+      note(
+        'Why is the Lord Brahma temple only in Pushkar?',
+        'Mythology places Brahma’s creation rite and Savitri’s curse here, which is why Pushkar is known for one of the few temples dedicated to Brahma.',
+        'n2',
+      ),
+      note(
+        'What two curses did Goddess Savitri give Lord Brahma?',
+        'Local tellings recall that Savitri cursed Brahma so he would rarely be worshipped, and that the ritual moment itself would remain bound to Pushkar’s lore — ask your storyteller for the full telling by the lake.',
+        'n3',
+      ),
+      note(
+        'Why is Pushkar Lake so sacred?',
+        'Legend says the lake rose from a lotus of Lord Brahma. Pilgrims have bathed here for centuries seeking purification and blessings.',
+        'n4',
+      ),
     ],
     featured: true,
     sortOrder: 10,
   }),
-  service({
-    id: 'service-darshan-lake-vip',
-    slug: 'pushkar-lake-vip',
-    categoryId: 'category-pushkar-darshan',
-    title: 'Pushkar Lake (VIP)',
-    summary: 'A quieter lakeside visit arranged with local care.',
-    description: `## Pushkar Lake (VIP)
+  doc('darshan', 'darshan-lake-vip', {
+    title: loc('Pushkar Lake (VIP)'),
+    slug: slug('pushkar-lake-vip'),
+    summary: loc('A quieter lakeside visit arranged with local care.'),
+    description: loc(`## Pushkar Lake (VIP)
 
-Visit the sacred ghats with guidance so the lake darshan stays calm — timing, etiquette, and the meaning of the waters explained without hurry.`,
+Visit the sacred ghats with guidance so the lake darshan stays calm — timing, etiquette, and the meaning of the waters explained without hurry.`),
+    kind: 'visit',
+    visitFocus: 'lake-vip',
+    format: 'in-person',
+    featured: true,
     sortOrder: 20,
   }),
-  service({
-    id: 'service-darshan-brahma-vip',
-    slug: 'brahma-temple-vip',
-    categoryId: 'category-pushkar-darshan',
-    title: 'Brahma Temple (VIP)',
-    summary: 'Visit Pushkar’s rare Brahma temple with local guidance.',
-    description: `## Brahma Temple (VIP)
+  doc('darshan', 'darshan-brahma-vip', {
+    title: loc('Brahma Temple (VIP)'),
+    slug: slug('brahma-temple-vip'),
+    summary: loc('Visit Pushkar’s rare Brahma temple with local guidance.'),
+    description: loc(`## Brahma Temple (VIP)
 
-One of the few temples dedicated to Lord Brahma. We help you visit respectfully — when to go, how to enter, and what the shrine means in Pushkar’s story.`,
+One of the few temples dedicated to Lord Brahma. We help you visit respectfully — when to go, how to enter, and what the shrine means in Pushkar’s story.`),
+    kind: 'visit',
+    visitFocus: 'brahma-temple-vip',
+    format: 'in-person',
     sortOrder: 30,
   }),
-  service({
-    id: 'service-darshan-aarti',
-    slug: 'evening-pushkar-lake-aarti',
-    categoryId: 'category-pushkar-darshan',
-    title: 'Evening Pushkar Lake Aarti',
-    summary: 'Lamps, bells, and dusk on the Pushkar ghats.',
-    description: `## Evening Pushkar Lake Aarti
+  doc('darshan', 'darshan-evening-aarti', {
+    title: loc('Evening Pushkar Lake Aarti'),
+    slug: slug('evening-pushkar-lake-aarti'),
+    summary: loc('Lamps, bells, and dusk on the Pushkar ghats.'),
+    description: loc(`## Evening Pushkar Lake Aarti
 
-Join the evening aarti on the ghats — lamps, chants, and desert dusk. We arrange a clear place to sit and explain the rhythm of the ceremony.`,
+Join the evening aarti on the ghats — lamps, chants, and desert dusk. We arrange a clear place to sit and explain the rhythm of the ceremony.`),
+    kind: 'visit',
+    visitFocus: 'evening-aarti',
+    format: 'in-person',
     featured: true,
     sortOrder: 40,
   }),
-  service({
-    id: 'service-darshan-storyteller',
-    slug: 'local-storyteller',
-    categoryId: 'category-pushkar-darshan',
-    title: 'Local Storyteller',
-    summary: 'Mythology and history of Pushkar, told by a local guide.',
-    description: `## Local storyteller
+  doc('darshan', 'darshan-storyteller', {
+    title: loc('Local Storyteller'),
+    slug: slug('local-storyteller'),
+    summary: loc('Mythology and history of Pushkar, told by a local guide.'),
+    description: loc(`## Local storyteller explaining Pushkar's mythology and history
 
-Hear why Pushkar Lake is sacred, why Brahma’s temple stands here, and the stories families still ask about — told simply, by someone who lives this town.`,
+Hear why Pushkar Lake is sacred, why Brahma’s temple stands here, and the stories families still ask about — told simply, by someone who lives this town.`),
+    kind: 'visit',
+    visitFocus: 'storyteller',
+    format: 'in-person',
     sortOrder: 50,
   }),
-
-  // Vedic poojas
   ...[
-    ['pitra-dosh-nivaran', 'Pitra Dosh Nivaran', 'Ancestral remedy ritual arranged with trusted priests.'],
+    ['pitra-dosh-nivaran', 'Pitra Dosh Nivaran', 'Ancestral remedy ritual with trusted priests.'],
     ['shrad-paksh-pooja', 'Shrad Paksh Pooja', 'Shraddha rites during the fortnight of remembrance.'],
     ['pind-daan-pooja', 'Pind Daan Pooja', 'Pind daan for ancestors, arranged in Pushkar.'],
     ['tarpan-pooja', 'Tarpan Pooja', 'Offering water and prayer for peace of ancestors.'],
     ['naarayan-bali-pooja', 'Naarayan Bali Pooja', 'Narayan Bali ritual guided by Pushkar priests.'],
     ['sukh-shanti-pooja', 'Sukh Shanti Pooja', 'A peace and well-being ritual for the household.'],
     ['live-video-call-pooja', 'Live Video Call Pooja', 'Join a Pushkar ritual live from anywhere in the world.'],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-vedic-${slug}`,
-      slug,
-      categoryId: 'category-vedic-pooja',
-      title,
-      summary,
-      description: `## ${title}
+  ].map(([slugValue, title, summary], index) =>
+    doc('darshan', `darshan-vedic-${slugValue}`, {
+      title: loc(title),
+      slug: slug(slugValue),
+      summary: loc(summary),
+      description: loc(`## ${title}
+
+Part of our **Vedic Pooja Services & Online Pooja (Worldwide)**.
 
 ${summary}
 
-Rituals can be arranged **in Pushkar** or as a **live video call pooja** worldwide. WhatsApp to confirm the priest, muhurat, and what your family should prepare.`,
-      featured: index === 0 || slug === 'live-video-call-pooja',
-      sortOrder: (index + 1) * 10,
+Rituals can be arranged in Pushkar or as a live video call. WhatsApp to confirm the priest, muhurat, and what your family should prepare.`),
+      kind: 'vedic',
+      visitFocus: slugValue === 'live-video-call-pooja' ? 'live-video' : 'other',
+      format: slugValue === 'live-video-call-pooja' ? 'online' : 'both',
+      featured: slugValue === 'live-video-call-pooja',
+      sortOrder: 60 + index * 10,
     }),
   ),
 
-  service({
-    id: 'service-desert-night-camping',
-    slug: 'desert-night-camping',
-    categoryId: 'category-desert-camping',
-    title: 'Desert Night Camping with Cultural Program & Dinner',
-    summary: 'Sunset, folk dance, Rajasthani dinner, and tents in the Thar.',
-    description: `## Enjoy an unforgettable evening in the Thar Desert
+  // 2. Cultural program
+  doc('culturalProgram', 'cultural-desert-night-camping', {
+    title: loc('Desert Night Camping with Cultural Program & Dinner'),
+    slug: slug('desert-night-camping'),
+    summary: loc('An unforgettable evening in the Thar Desert with dinner, dance, and tents.'),
+    description: loc(`## Enjoy an unforgettable evening in the Thar Desert
 
-A full desert night — ride out at dusk, pause at sunset, reach camp for welcome drinks, folk dance, dinner, and overnight tents.
+Ride out at dusk, pause at sunset, reach camp for welcome drinks, folk dance, dinner, and overnight tents.
 
 ### Typical flow
 1. Camel safari start at **5:00 PM**
@@ -321,45 +182,55 @@ A full desert night — ride out at dusk, pause at sunset, reach camp for welcom
 7. Rajasthani dinner
 8. Stay in tents
 9. Breakfast in the morning (poha / aloo paratha with pickle)
-10. Back to the city by jeep safari
-
-Exact timing depends on season and group size — confirm on WhatsApp.`,
+10. Back to the city by jeep safari`),
+    kind: 'camping',
+    startTime: '5:00 PM',
+    programFlow: [
+      loc('Camel safari start at 5:00 PM'),
+      loc('Break at Sunset point'),
+      loc('ATV bike ride'),
+      loc('Dropping at camp by jeep'),
+      loc('Welcome drink at camp'),
+      loc('Folk dance (fire dance, Kalbeliya dance)'),
+      loc('Rajasthani dinner'),
+      loc('Stay in tents'),
+      loc('Breakfast in morning (poha / aloo paratha with pickle)'),
+      loc('Back to city by jeep safari'),
+    ],
     included: [
-      'Camel safari start around 5:00 PM',
-      'Sunset point break',
-      'ATV bike ride',
-      'Jeep drop to camp',
-      'Welcome drink',
-      'Folk dance (fire dance, Kalbeliya)',
-      'Rajasthani dinner',
-      'Overnight tent stay',
-      'Morning breakfast',
-      'Return jeep safari',
+      loc('Camel safari'),
+      loc('Sunset point'),
+      loc('ATV bike ride'),
+      loc('Jeep transfers'),
+      loc('Welcome drink'),
+      loc('Folk dance'),
+      loc('Rajasthani dinner'),
+      loc('Tent stay'),
+      loc('Morning breakfast'),
     ],
     featured: true,
     sortOrder: 10,
   }),
   ...[
-    ['single-camel', 'Single Camel Ride', 'A classic camel ride across the dunes.'],
-    ['camel-cart', 'Camel Cart', 'Share a camel cart ride for a gentler desert pace.'],
-    ['jeep-safari', 'Jeep Safari', 'Jeep transfer and dune safari options.'],
-    ['atv-bike-riding', 'ATV Bike Riding', 'ATV riding on the desert tracks.'],
-    ['horse-riding', 'Horse Riding', 'Horse riding experiences in the desert.'],
+    ['single-camel', 'Single Camel', 'ride', 'A classic camel ride across the dunes.'],
+    ['camel-cart', 'Camel Cart', 'ride', 'Share a camel cart ride for a gentler desert pace.'],
+    ['jeep-safari', 'Jeep Safari', 'ride', 'Jeep transfer and dune safari options.'],
+    ['atv-bike-riding', 'ATV Bike Riding', 'ride', 'ATV riding on the desert tracks.'],
+    ['horse-riding', 'Horse Riding', 'ride', 'Horse riding experiences in the desert.'],
     [
       'adventure-activities',
-      'Desert Adventure Activities',
-      'Zipline, paintball, zorbing, climbing, rappelling, archery, and dune bashing.',
+      'Adventure Activities',
+      'adventure',
+      'Zipline, paintball, zorbing, rock climbing, rappelling, archery, and dune bashing.',
     ],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-desert-${slug}`,
-      slug,
-      categoryId: 'category-desert-camping',
-      title,
-      summary,
+  ].map(([slugValue, title, kind, summary], index) =>
+    doc('culturalProgram', `cultural-${slugValue}`, {
+      title: loc(title),
+      slug: slug(slugValue),
+      summary: loc(summary),
       description:
-        slug === 'adventure-activities'
-          ? `## Experience adventure activities
+        kind === 'adventure'
+          ? loc(`## Experience adventure activities
 
 Optional add-ons around the desert evening:
 
@@ -371,238 +242,224 @@ Optional add-ons around the desert evening:
 - Archery
 - Dune bashing
 
-Ask which activities are running on your date.`
-          : `## ${title}
+Ask which activities are running on your date.`)
+          : loc(`## ${title}
 
 ${summary}
 
-Often paired with the desert night camp or booked as a shorter dune experience.`,
-      sortOrder: (index + 2) * 10,
+Often paired with the desert night camp or booked as a shorter dune experience.`),
+      kind,
+      featured: index === 0,
+      sortOrder: 20 + index * 10,
     }),
   ),
 
-  service({
-    id: 'service-tour-2-day',
-    slug: '2-day-pushkar-itinerary',
-    categoryId: 'category-tour-packages',
-    title: '2 Day Pushkar Itinerary',
-    summary: 'Temples, lake aarti, market, folk night, Savitri, and adventure.',
-    description: `## 2 Day Pushkar Itinerary
+  // 3. Tour packages
+  doc('tourPackage', 'tour-2-day-pushkar', {
+    title: loc('2 Day Pushkar Itinerary'),
+    slug: slug('2-day-pushkar-itinerary'),
+    summary: loc('Temples, lake aarti, market, folk night, Savitri, adventure, and Aloo Baba.'),
+    description: loc(`## 2 Day Pushkar Itinerary
 
-A paced two-day visit that covers Pushkar’s sacred core, market evenings, folk culture, and a day of views and adventure.
+A paced two-day visit covering Pushkar’s sacred core, market evenings, folk culture, views, and adventure.
 
 ### Day 1
 Breakfast at a local street spot, visiting **Brahma Temple** and the **Lake**, rest at your stay. In the evening visit the **Pushkar market**, attend **Pushkar Lake aarti**, then folk dance (fire dance, Kalbeliya) with Rajasthani dinner at the stay.
 
 ### Day 2
-Morning visit to **Savitri Temple mountain**. Afternoon adventure activities (zipline, paintball, zorbing, rock climbing, rappelling, archery, dune bashing). Evening at **Aloo Baba** (a hidden gem), dinner at an Italian or Israeli restaurant.
-
-Stays and activity slots are confirmed on WhatsApp — this page does not hold inventory.`,
+Morning visit to **Savitri Temple mountain**. Afternoon adventure activities (zipline, paintball, zorbing, rock climbing, rappelling, archery, dune bashing). Evening at **Aloo Baba** (a hidden gem), dinner at an Italian or Israeli restaurant.`),
+    kind: 'itinerary',
     days: 2,
     nights: 1,
     itinerary: [
-      {
-        dayNumber: 1,
-        heading: 'Lake, temple, market & aarti',
-        description:
-          'Breakfast at local street, Brahma Temple and Lake, rest at stay, Pushkar market, lake aarti, folk dance and Rajasthani dinner.',
-        location: 'Pushkar',
-      },
-      {
-        dayNumber: 2,
-        heading: 'Savitri, adventure & Aloo Baba',
-        description:
-          'Savitri temple mountain in the morning, adventure activities in the afternoon, evening at Aloo Baba, dinner at Italian or Israeli restaurant.',
-        location: 'Pushkar & surroundings',
-      },
+      day(
+        1,
+        'Lake, temple, market & aarti',
+        'Breakfast at local street, Brahma Temple and Lake, rest at stay, Pushkar market, lake aarti, folk dance and Rajasthani dinner.',
+        'Pushkar',
+      ),
+      day(
+        2,
+        'Savitri, adventure & Aloo Baba',
+        'Savitri temple mountain in the morning, adventure activities in the afternoon, evening at Aloo Baba, dinner at Italian or Israeli restaurant.',
+        'Pushkar & surroundings',
+      ),
+    ],
+    included: [
+      loc('Temple and lake visits'),
+      loc('Market evening & lake aarti'),
+      loc('Folk dance evening'),
+      loc('Savitri temple visit'),
+      loc('Adventure activity window'),
     ],
     featured: true,
     sortOrder: 10,
   }),
-
   ...[
-    ['rooms-with-private-pool', 'Rooms with Private Pool', 'Stays with a private pool for quiet afternoons.'],
-    ['stays-near-lake', 'Stays near Lake', 'Rooms close to the Pushkar Lake and ghats.'],
+    ['rooms-with-private-pool', 'Rooms with Private Pool', 'private-pool', 'Stays with a private pool for quiet afternoons.'],
+    ['stays-near-lake', 'Stays near Lake', 'near-lake', 'Rooms close to the Pushkar Lake and ghats.'],
     [
       'luxury-boutique-desert-stays',
       'Luxury, Boutique & Desert Stay Experiences',
+      'luxury-boutique-desert',
       'Curated luxury, boutique, and desert stay categories.',
     ],
-    ['luxury-hotels-resorts', 'Luxury Hotels & Resorts', 'Higher-end hotels and resorts in and around Pushkar.'],
-    ['family-couple-stays', 'Family & Couple Stays', 'Stays suited to families and couples.'],
-    ['budget-hotels', 'Budget Hotels', 'Simple, practical rooms when you want to keep costs light.'],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-stay-${slug}`,
-      slug,
-      categoryId: 'category-stays',
-      title,
-      summary,
-      description: `## ${title}
+    ['luxury-hotels-resorts', 'Luxury Hotels & Resorts', 'luxury-hotel', 'Higher-end hotels and resorts in and around Pushkar.'],
+    ['family-couple-stays', 'Family & Couple Stays', 'family-couple', 'Stays suited to families and couples.'],
+    ['budget-hotels', 'Budget Hotels', 'budget', 'Simple, practical rooms when you want to keep costs light.'],
+  ].map(([slugValue, title, stayStyle, summary], index) =>
+    doc('tourPackage', `tour-stay-${slugValue}`, {
+      title: loc(title),
+      slug: slug(slugValue),
+      summary: loc(summary),
+      description: loc(`## ${title}
+
+Part of **Stays in Pushkar**.
 
 ${summary}
 
-We help you choose a stay that matches your pace — near the lake, with a pool, boutique character, desert calm, or a straightforward budget room. Availability is confirmed on WhatsApp.`,
+We help you choose a stay that matches your pace. Availability is confirmed on WhatsApp — this page does not hold inventory.`),
+      kind: 'stay',
+      stayStyle,
       featured: index < 2,
-      sortOrder: (index + 1) * 10,
+      sortOrder: 20 + index * 10,
     }),
   ),
 
+  // 4. Events (festivals + hospitality)
   ...[
     [
       'holi-festival',
       'Holi Festival',
+      'festival',
       'Holi parties and music events in Pushkar.',
       '## Holi Festival (Holi Parties & Music Events)\n\nColour, music, and celebration in Pushkar. Ask for party venues, safe hosting, and how to join without the chaos.',
     ],
     [
       'pushkar-camel-fair',
       'International Pushkar Camel Fair',
+      'festival',
       'The iconic fair — animals, culture, and desert nights.',
       '## International Pushkar Camel Fair\n\nJoin Pushkar’s famous fair season with local hosting for stays, visits, and evenings around the mela grounds.',
     ],
     [
       'new-year-celebrations',
       'New Year Celebrations',
+      'festival',
       'See the new year in with a Pushkar celebration.',
       '## New Year Celebrations\n\nPlan New Year in Pushkar — dinners, music, and a paced evening that still feels like this town.',
     ],
-  ].map(([slug, title, summary, description], index) =>
-    service({
-      id: `service-festival-${slug}`,
-      slug,
-      categoryId: 'category-festivals',
-      title,
-      summary,
-      description,
-      featured: index === 1,
-      sortOrder: (index + 1) * 10,
-    }),
-  ),
-
-  ...[
-    ['pushkar-ittar-agarbatti', 'Pushkar Ittar & Handmade Agarbatti', 'Natural perfume and handmade incense from Pushkar.'],
-    ['jamun-products', 'Jamun Products (Seasonal)', 'Seasonal jamun products when the harvest allows.'],
-    ['german-silver-jewellery', 'German Silver & Artificial Fashion Jewellery', 'Fashion jewellery pieces from local makers.'],
-    ['rose-water-gulkand', 'Rose Water & Rose Gulkand', 'Rose water and gulkand from Pushkar’s rose tradition.'],
-    ['rudraksha-spiritual-items', 'Rudraksha & Spiritual Items', 'Rudraksha and spiritual items for personal practice.'],
-    ['hemp-products', 'Hemp Products', 'Hemp bags, wallets, and clothing.'],
-    ['leather-products', 'Leather Products', 'Leather bags, wallets, and clothing.'],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-product-${slug}`,
-      slug,
-      categoryId: 'category-products',
-      title,
-      summary,
-      description: `## ${title}
-
-${summary}
-
-Ask before you assume stock — especially for seasonal items like jamun. WhatsApp to check what is available now.`,
-      sortOrder: (index + 1) * 10,
-    }),
-  ),
-
-  ...[
     [
       'destination-wedding-planning',
       'Destination Wedding Planning',
+      'hospitality',
       'Plan a Pushkar destination wedding with local hosts.',
+      '## We make every celebration & event memorable in Pushkar\n\n### Destination Wedding Planning\n\nFrom venue rhythm to local vendors, we help shape a Pushkar celebration that feels hosted rather than improvised.',
     ],
-    ['anniversary-celebrations', 'Anniversary Celebrations', 'Anniversary evenings arranged in Pushkar.'],
-    ['birthday-party-arrangements', 'Birthday Party Arrangements', 'Birthday setups with local venues and hosts.'],
-    ['corporate-events-team-outing', 'Corporate Events & Team Outing', 'Team outings and corporate gatherings in Pushkar.'],
+    [
+      'anniversary-celebrations',
+      'Anniversary Celebrations',
+      'hospitality',
+      'Anniversary evenings arranged in Pushkar.',
+      '## Anniversary celebrations\n\nQuiet dinners, lakeside moments, or a fuller hosted evening — tell us the date and mood.',
+    ],
+    [
+      'birthday-party-arrangements',
+      'Birthday Party Arrangements',
+      'hospitality',
+      'Birthday setups with local venues and hosts.',
+      '## Birthday Party Arrangements\n\nVenues, decorations, and local hosting for birthdays in Pushkar.',
+    ],
+    [
+      'corporate-events-team-outing',
+      'Corporate Events & Team Outing',
+      'hospitality',
+      'Team outings and corporate gatherings in Pushkar.',
+      '## Corporate Events & Team Outing\n\nGroup transfers, activities, dinners, and a schedule that fits your team.',
+    ],
     [
       'taxi-cab-booking',
       'Taxi & Cab Booking',
+      'practical',
       'Airport and railway pickup & drop, plus local transfers.',
+      '## Taxi & Cab Booking (Airport / Railway Pickup & Drop)\n\nReliable transfers in and out of Pushkar. Share flight or train timings on WhatsApp.',
     ],
-    ['money-exchange', 'Money Exchange', 'Practical money exchange help while you are in Pushkar.'],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-event-${slug}`,
-      slug,
-      categoryId: 'category-events-hospitality',
-      title,
-      summary,
-      description:
-        index === 0
-          ? `## We make every celebration & event memorable in Pushkar
-
-### ${title}
-
-${summary}
-
-From venue rhythm to local vendors, we help shape a Pushkar celebration that feels hosted rather than improvised.`
-          : `## ${title}
-
-${summary}
-
-Tell us the date, group size, and what you need — we confirm details on WhatsApp.`,
-      featured: index === 0 || slug === 'taxi-cab-booking',
+    [
+      'money-exchange',
+      'Money Exchange',
+      'practical',
+      'Practical money exchange help while you are in Pushkar.',
+      '## Money Exchange\n\nLocal help for exchanging money while you travel — ask for current trusted options.',
+    ],
+  ].map(([slugValue, title, kind, summary, description], index) =>
+    doc('event', `event-${slugValue}`, {
+      title: loc(title),
+      slug: slug(slugValue),
+      summary: loc(summary),
+      description: loc(description),
+      kind,
+      featured: ['pushkar-camel-fair', 'destination-wedding-planning', 'taxi-cab-booking'].includes(
+        slugValue,
+      ),
       sortOrder: (index + 1) * 10,
     }),
   ),
 
+  // 5. Best sellers (products + boho + property)
   ...[
-    ['boho-clothing', 'Boho Clothing', 'Signature boho clothing from Pushkar makers.'],
-    ['kaftans', 'Kaftans', 'Easy kaftans for travel and everyday wear.'],
-    ['maxi-dresses', 'Maxi Dresses', 'Flowing maxi dresses in Pushkar prints and cuts.'],
-    ['kimonos', 'Kimonos', 'Lightweight kimonos and cover-ups.'],
-    ['tops', 'Tops', 'Boho tops in local fabrics and prints.'],
-    ['skirts', 'Skirts', 'Skirts for desert evenings and travel days.'],
-    ['tunics', 'Tunics', 'Tunics with Pushkar character.'],
-    ['printed-garments', 'Printed Garments', 'Printed garments from local workshops.'],
-    ['scarves-stoles', 'Scarves / Stoles', 'Scarves and stoles for sun, evening, and gifting.'],
-    ['jumpsuits', 'Jumpsuits', 'Boho jumpsuits for easy travel outfits.'],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-boho-${slug}`,
-      slug,
-      categoryId: 'category-boho-clothing',
-      title,
-      summary,
-      description: `## ${title}
-
-${summary}
-
-Part of Pushkar’s global boho clothing & garment range. Ask for current pieces, sizes, and shipping or pickup options.`,
-      sortOrder: (index + 1) * 10,
-    }),
-  ),
-
-  ...[
-    ['property-services', 'Our Property Services', 'End-to-end help to buy, sell, or invest in Pushkar.'],
-    ['residential-plots', 'Residential Plots', 'Residential plots in and around Pushkar.'],
-    ['farmhouses-agricultural-land', 'Farmhouses & Agricultural Land', 'Farmhouses and agricultural land options.'],
-    ['villas-luxury-homes', 'Villas & Luxury Homes', 'Villas and luxury homes for living or investment.'],
-    ['hotels-resorts-guest-houses', 'Hotels, Resorts & Guest Houses', 'Hospitality properties for sale or investment.'],
-    ['commercial-shops-land', 'Commercial Shops & Land', 'Commercial shops and land parcels.'],
+    ['pushkar-ittar-agarbatti', 'Pushkar Ittar & Handmade Agarbatti', 'product', false, 'Natural perfume and handmade incense from Pushkar.'],
+    ['jamun-products', 'Jamun Products (Seasonal)', 'product', true, 'Seasonal jamun products when the harvest allows.'],
+    ['german-silver-jewellery', 'German Silver & Artificial Fashion Jewellery', 'product', false, 'Fashion jewellery pieces from local makers.'],
+    ['rose-water-gulkand', 'Rose Water & Rose Gulkand', 'product', false, 'Rose water and gulkand from Pushkar’s rose tradition.'],
+    ['rudraksha-spiritual-items', 'Rudraksha & Spiritual Items', 'product', false, 'Rudraksha and spiritual items for personal practice.'],
+    ['hemp-products', 'Hemp Products', 'product', false, 'Hemp bags, wallets, and clothing.'],
+    ['leather-products', 'Leather Products', 'product', false, 'Leather bags, wallets, and clothing.'],
+    ['boho-clothing', 'Boho Clothing', 'garment', false, 'Signature boho clothing from Pushkar makers.'],
+    ['kaftans', 'Kaftans', 'garment', false, 'Easy kaftans for travel and everyday wear.'],
+    ['maxi-dresses', 'Maxi Dresses', 'garment', false, 'Flowing maxi dresses in Pushkar prints and cuts.'],
+    ['kimonos', 'Kimonos', 'garment', false, 'Lightweight kimonos and cover-ups.'],
+    ['tops', 'Tops', 'garment', false, 'Boho tops in local fabrics and prints.'],
+    ['skirts', 'Skirts', 'garment', false, 'Skirts for desert evenings and travel days.'],
+    ['tunics', 'Tunics', 'garment', false, 'Tunics with Pushkar character.'],
+    ['printed-garments', 'Printed Garments', 'garment', false, 'Printed garments from local workshops.'],
+    ['scarves-stoles', 'Scarves / Stoles', 'garment', false, 'Scarves and stoles for sun, evening, and gifting.'],
+    ['jumpsuits', 'Jumpsuits', 'garment', false, 'Boho jumpsuits for easy travel outfits.'],
+    ['property-services', 'Our Property Services', 'property', false, 'End-to-end help to buy, sell, or invest in Pushkar.'],
+    ['residential-plots', 'Residential Plots', 'property', false, 'Residential plots in and around Pushkar.'],
+    ['farmhouses-agricultural-land', 'Farmhouses & Agricultural Land', 'property', false, 'Farmhouses and agricultural land options.'],
+    ['villas-luxury-homes', 'Villas & Luxury Homes', 'property', false, 'Villas and luxury homes for living or investment.'],
+    ['hotels-resorts-guest-houses', 'Hotels, Resorts & Guest Houses', 'property', false, 'Hospitality properties for sale or investment.'],
+    ['commercial-shops-land', 'Commercial Shops & Land', 'property', false, 'Commercial shops and land parcels.'],
     [
       'property-investment-consultation',
       'Property Investment Consultation',
+      'property',
+      false,
       'A practical conversation about investing in Pushkar property.',
     ],
-  ].map(([slug, title, summary], index) =>
-    service({
-      id: `service-property-${slug}`,
-      slug,
-      categoryId: 'category-property',
-      title,
-      summary,
-      description: `## ${title}
-
-${summary}
-
-Property conversations are enquiry-led. WhatsApp to share what you are looking for — buying, selling, or investing. Nothing on this page confirms a sale.`,
-      featured: index === 0,
+  ].map(([slugValue, title, kind, seasonal, summary], index) =>
+    doc('bestSeller', `bestseller-${slugValue}`, {
+      title: loc(title),
+      slug: slug(slugValue),
+      summary: loc(summary),
+      description: loc(
+        kind === 'property'
+          ? `## ${title}\n\n${summary}\n\nProperty conversations are enquiry-led. WhatsApp to share what you are looking for — buying, selling, or investing. Nothing on this page confirms a sale.`
+          : kind === 'garment'
+            ? `## ${title}\n\nPart of **Pushkar’s global boho clothing & garment products**.\n\n${summary}\n\nAsk for current pieces, sizes, and shipping or pickup options.`
+            : `## ${title}\n\nPart of **Pushkar Products Services**.\n\n${summary}\n\nAsk before you assume stock — especially for seasonal items.`,
+      ),
+      kind,
+      seasonal,
+      featured:
+        ['pushkar-ittar-agarbatti', 'boho-clothing', 'property-services', 'kaftans'].includes(
+          slugValue,
+        ),
       sortOrder: (index + 1) * 10,
     }),
   ),
 ];
 
-const lines = [...categories, ...services].map((doc) => JSON.stringify(doc));
 const out = resolve(root, 'services.ndjson');
-writeFileSync(out, `${lines.join('\n')}\n`);
-console.log(`Wrote ${String(lines.length)} documents to ${out}`);
+writeFileSync(out, `${documents.map((item) => JSON.stringify(item)).join('\n')}\n`);
+console.log(`Wrote ${String(documents.length)} documents to ${out}`);

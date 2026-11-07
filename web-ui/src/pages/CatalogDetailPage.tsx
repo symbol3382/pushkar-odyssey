@@ -78,8 +78,14 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
       <div className="mx-auto grid max-w-page gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
         <div>
           <MarkdownText source={item.bodyMarkdown} fallback={item.description} />
-          {catalog.id === 'stay' ? (
-            <p className="mt-6 text-sm text-ink-soft">{t('pages.stayAvailability')}</p>
+          {item.startTime ? (
+            <p className="mt-6 text-sm text-ink-soft">
+              {t('pages.startTime')}: {item.startTime}
+            </p>
+          ) : null}
+          {item.seasonal ? <p className="mt-6 text-sm text-ink-soft">{t('pages.seasonal')}</p> : null}
+          {item.programFlow.length > 0 ? (
+            <BulletList title={t('pages.programFlow')} items={item.programFlow} />
           ) : null}
           {item.itinerary.length > 0 ? (
             <>
@@ -114,6 +120,8 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
           <BulletList title={t('pages.inclusions')} items={item.inclusions} />
           <BulletList title={t('pages.highlights')} items={item.highlights} />
           <BulletList title={t('pages.exclusions')} items={item.exclusions} />
+          <TextBlock title={t('pages.format')} text={item.format} />
+          <TextBlock title={t('pages.when')} text={item.when} />
           <TextBlock title={t('pages.enquiryNote')} text={item.enquiryNote} />
           <Gallery images={item.gallery} title={t('pages.gallery')} />
         </div>

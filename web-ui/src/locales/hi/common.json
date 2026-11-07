@@ -5,7 +5,7 @@
     "history": "इतिहास",
     "contact": "संपर्क करें",
     "explore": "खोजें",
-    "tours": "यात्राएँ",
+    "tours": "टूर पैकेज",
     "stays": "रहना",
     "poojas": "पूजा और आरती",
     "services": "सेवाएँ",
@@ -13,14 +13,16 @@
     "footerPoojas": "पूजा",
     "footerContact": "संपर्क",
     "destinations": "गंतव्य",
-    "darshan": "Darshan",
+    "darshan": "दर्शन",
     "vedicPoojas": "Vedic poojas",
     "desert": "Desert",
     "festivals": "Festivals",
     "products": "Products",
-    "events": "Events",
+    "events": "इवेंट्स",
     "property": "Property",
-    "boho": "बोहो कपड़े"
+    "boho": "बोहो कपड़े",
+    "cultural": "सांस्कृतिक कार्यक्रम",
+    "bestsellers": "बेस्ट सेलर"
   },
   "actions": {
     "bookWhatsApp": "व्हाट्सऐप पर बुक करें",

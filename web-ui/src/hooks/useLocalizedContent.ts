@@ -14,12 +14,12 @@ import type {
   WorkView,
 } from '../content/views';
 import {
+  getCatalog,
+  getCatalogBySlug,
   getFaqs,
   getHistory,
   getHome,
   getPageBySlug,
-  getServiceBySlug,
-  getServicesByCategory,
   getSiteSettings,
   getTestimonials,
   getWorks,
@@ -41,9 +41,10 @@ import { useContentQuery, type ContentQuery } from './useContentQuery';
 const emptyHome: HomeView = {
   heroImages: [],
   featuredDarshan: [],
-  featuredDesert: [],
+  featuredCultural: [],
   featuredTours: [],
-  featuredStays: [],
+  featuredEvents: [],
+  featuredBestsellers: [],
 };
 
 function useMapContext(): MapContext {
@@ -86,16 +87,12 @@ export function useLocalizedSite(): ContentQuery<SiteView> {
 export function useLocalizedCatalog(id: CatalogId): ContentQuery<CardView[]> {
   const catalog = catalogById(id);
   const context = useMapContext();
-  const load = useCallback(
-    () => getServicesByCategory(catalog.categorySlug),
-    [catalog.categorySlug],
-  );
+  const load = useCallback(() => getCatalog(catalog.documentType), [catalog.documentType]);
   const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getServicesByCategory>>) =>
-      mapCatalogCards(raw, catalog, context),
+    (raw: Awaited<ReturnType<typeof getCatalog>>) => mapCatalogCards(raw, catalog, context),
     [catalog, context],
   );
-  return useContentQuery(`services:${catalog.categorySlug}`, load, select, []);
+  return useContentQuery(catalog.documentType, load, select, []);
 }
 
 export function useLocalizedCatalogItem(
@@ -105,16 +102,15 @@ export function useLocalizedCatalogItem(
   const catalog = catalogById(id);
   const context = useMapContext();
   const load = useCallback(
-    () => getServiceBySlug(catalog.categorySlug, slug ?? ''),
-    [catalog.categorySlug, slug],
+    () => getCatalogBySlug(catalog.documentType, slug ?? ''),
+    [catalog.documentType, slug],
   );
   const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getServiceBySlug>>) =>
-      mapCatalogDetail(raw, catalog, context),
+    (raw: Awaited<ReturnType<typeof getCatalogBySlug>>) => mapCatalogDetail(raw, catalog, context),
     [catalog, context],
   );
   return useContentQuery(
-    slug ? `service:${catalog.categorySlug}:${slug}` : null,
+    slug ? `${catalog.documentType}:${slug}` : null,
     slug ? load : null,
     select,
     null,

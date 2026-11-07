@@ -80,7 +80,8 @@ export function catalogMeta(
   catalog: Catalog,
   context: MapContext,
 ): string | undefined {
-  if (catalog.id === 'tour' || catalog.id === 'desert') return durationOf(raw, context);
+  if (catalog.id === 'tour') return durationOf(raw, context);
+  if (raw.kind) return context.optionLabel(`${catalog.id}Kind`, raw.kind);
   return undefined;
 }
 
@@ -162,7 +163,12 @@ export function mapCatalogDetail(
       return [{ question, answer }];
     }),
     highlights: texts(raw.highlights, context.language),
+    programFlow: texts(raw.programFlow, context.language),
     enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
+    startTime: raw.startTime?.trim() ? raw.startTime.trim() : undefined,
+    seasonal: raw.seasonal === true,
+    format: raw.format ? context.optionLabel('format', raw.format) : undefined,
+    when: pickText(raw.when, context.language) || undefined,
     itinerary: (raw.itinerary ?? []).flatMap((stop) => {
       const title = pickText(stop.heading, context.language);
       if (!title || typeof stop.dayNumber !== 'number') return [];
@@ -242,14 +248,15 @@ export function mapSite(
   };
 }
 
-function rail(
-  id: 'darshan' | 'desert' | 'tour' | 'stay',
+function featuredRail(
+  id: Catalog['id'],
+  key: keyof Omit<RawHomePayload, 'home'>,
   raw: RawHomePayload | null,
   context: MapContext,
 ): CardView[] {
   const catalog = catalogs.find((item) => item.id === id);
-  if (catalog?.home !== 'rail') return [];
-  return cards(raw?.[catalog.featuredKey], context, catalog);
+  if (!catalog) return [];
+  return cards(raw?.[key], context, catalog);
 }
 
 export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeView {
@@ -259,10 +266,11 @@ export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeVi
   });
   return {
     heroImages,
-    featuredDarshan: rail('darshan', raw, context),
-    featuredDesert: rail('desert', raw, context),
-    featuredTours: rail('tour', raw, context),
-    featuredStays: rail('stay', raw, context),
+    featuredDarshan: featuredRail('darshan', 'featuredDarshan', raw, context),
+    featuredCultural: featuredRail('cultural', 'featuredCultural', raw, context),
+    featuredTours: featuredRail('tour', 'featuredTours', raw, context),
+    featuredEvents: featuredRail('events', 'featuredEvents', raw, context),
+    featuredBestsellers: featuredRail('bestsellers', 'featuredBestsellers', raw, context),
   };
 }
 

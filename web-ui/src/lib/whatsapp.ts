@@ -28,14 +28,10 @@ export function buildCallUrl(phone: string): string | null {
 
 const TYPE_KEYS: Record<BookingType, string> = {
   darshan: 'booking.typeDarshan',
-  vedicPooja: 'booking.typeVedic',
-  desert: 'booking.typeDesert',
+  cultural: 'booking.typeCultural',
   tour: 'booking.typeTour',
-  stay: 'booking.typeStay',
-  festival: 'booking.typeFestival',
-  product: 'booking.typeProduct',
-  hospitality: 'booking.typeEvent',
-  property: 'booking.typeProperty',
+  events: 'booking.typeEvent',
+  bestsellers: 'booking.typeBestseller',
   general: 'booking.typeGeneral',
 };
 

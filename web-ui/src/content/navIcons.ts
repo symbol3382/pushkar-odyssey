@@ -1,12 +1,9 @@
 import { createElement, type ReactNode } from 'react';
 import type { IconType } from 'react-icons';
 import {
-  LuBedDouble,
   LuBookOpen,
-  LuBuilding2,
   LuCalendarDays,
   LuCompass,
-  LuFlame,
   LuHouse,
   LuImages,
   LuLandmark,
@@ -14,7 +11,6 @@ import {
   LuMap,
   LuMessageCircle,
   LuPackage,
-  LuPartyPopper,
   LuSun,
 } from 'react-icons/lu';
 
@@ -24,15 +20,10 @@ const icons = {
   '/history': LuLandmark,
   '/contact': LuMail,
   '/darshan': LuBookOpen,
-  '/vedic-poojas': LuFlame,
-  '/desert': LuSun,
+  '/cultural-program': LuSun,
   '/tours': LuMap,
-  '/stays': LuBedDouble,
-  '/festivals': LuPartyPopper,
-  '/products': LuPackage,
   '/events': LuCalendarDays,
-  '/boho': LuPackage,
-  '/property': LuBuilding2,
+  '/best-sellers': LuPackage,
 } as const satisfies Record<string, IconType>;
 
 function resolveIcon(path: string): IconType {

@@ -29,10 +29,13 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Services")
             .items([
-              S.documentTypeListItem("serviceCategory").title(
-                "Service categories",
+              S.documentTypeListItem("darshan").title("Darshan"),
+              S.documentTypeListItem("culturalProgram").title(
+                "Cultural program",
               ),
-              S.documentTypeListItem("service").title("Services"),
+              S.documentTypeListItem("tourPackage").title("Tour packages"),
+              S.documentTypeListItem("event").title("Events"),
+              S.documentTypeListItem("bestSeller").title("Best sellers"),
             ]),
         ),
       S.listItem()

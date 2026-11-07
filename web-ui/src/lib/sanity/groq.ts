@@ -15,7 +15,11 @@ const card = `{
   days,
   nights,
   durationLabel,
-  "categorySlug": category->slug.current
+  kind,
+  visitFocus,
+  stayStyle,
+  seasonal,
+  when
 }`;
 
 const detail = `{
@@ -31,10 +35,18 @@ const detail = `{
   excluded,
   notes[]{ question, answer },
   highlights,
+  programFlow,
   enquiryNote,
   durationLabel,
   days,
   nights,
+  startTime,
+  kind,
+  visitFocus,
+  stayStyle,
+  format,
+  seasonal,
+  when,
   itinerary[]{
     dayNumber,
     heading,
@@ -42,7 +54,6 @@ const detail = `{
     location,
     image ${image}
   },
-  "categorySlug": category->slug.current,
   seo {
     title,
     description,
@@ -56,16 +67,31 @@ const seo = `{
   image ${image}
 }`;
 
-function featuredServices(categorySlug: string) {
-  return `*[_type == "service" && featured == true && category->slug.current == "${categorySlug}"] | order(sortOrder asc, title.en asc) ${card}`;
+const knownTypes = new Set([
+  'darshan',
+  'culturalProgram',
+  'tourPackage',
+  'event',
+  'bestSeller',
+]);
+
+function assertType(documentType: string) {
+  if (!knownTypes.has(documentType)) throw new Error(`Unknown document type ${documentType}`);
 }
 
-export function servicesByCategoryQuery() {
-  return `*[_type == "service" && category->slug.current == $categorySlug] | order(sortOrder asc, title.en asc) ${card}`;
+export function catalogListQuery(documentType: string) {
+  assertType(documentType);
+  return `*[_type == "${documentType}"] | order(sortOrder asc, title.en asc) ${card}`;
 }
 
-export function serviceBySlugQuery() {
-  return `*[_type == "service" && slug.current == $slug && category->slug.current == $categorySlug][0]${detail}`;
+export function catalogBySlugQuery(documentType: string) {
+  assertType(documentType);
+  return `*[_type == "${documentType}" && slug.current == $slug][0]${detail}`;
+}
+
+export function featuredByTypeQuery(documentType: string) {
+  assertType(documentType);
+  return `*[_type == "${documentType}" && featured == true] | order(sortOrder asc, title.en asc) ${card}`;
 }
 
 export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
@@ -92,10 +118,11 @@ export const homeQuery = `{
       []
     )
   },
-  "featuredDarshan": ${featuredServices('pushkar-darshan')},
-  "featuredDesert": ${featuredServices('desert-camping')},
-  "featuredTours": ${featuredServices('tour-packages')},
-  "featuredStays": ${featuredServices('stays')}
+  "featuredDarshan": *[_type == "darshan" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredCultural": *[_type == "culturalProgram" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredTours": *[_type == "tourPackage" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredEvents": *[_type == "event" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredBestsellers": *[_type == "bestSeller" && featured == true] | order(sortOrder asc, title.en asc) ${card}
 }`;
 
 export const historyQuery = `*[_id == "historyPage"][0]{
@@ -135,12 +162,4 @@ export const pageBySlugQuery = `*[_type == "page" && slug.current == $slug][0]{
   body,
   image ${image},
   seo ${seo}
-}`;
-
-export const sitemapQuery = `{
-  "services": *[_type == "service" && defined(slug.current) && defined(category->slug.current)]{
-    "slug": slug.current,
-    "categorySlug": category->slug.current
-  },
-  "pages": *[_type == "page" && defined(slug.current)].slug.current
 }`;
