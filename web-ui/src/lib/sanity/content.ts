@@ -1,11 +1,11 @@
 import { sanityFetch } from './client';
 import {
-  catalogBySlugQuery,
-  catalogListQuery,
   faqsQuery,
   historyQuery,
   homeQuery,
   pageBySlugQuery,
+  serviceBySlugQuery,
+  servicesByCategoryQuery,
   siteSettingsQuery,
   testimonialsQuery,
   worksQuery,
@@ -45,12 +45,18 @@ export function getFaqs(): Promise<RawFaq[]> {
   return sanityFetch('faqs', faqsQuery);
 }
 
-export function getCatalog(documentType: string): Promise<RawCatalog[]> {
-  return sanityFetch(documentType, catalogListQuery(documentType));
+export function getServicesByCategory(categorySlug: string): Promise<RawCatalog[]> {
+  return sanityFetch(`services:${categorySlug}`, servicesByCategoryQuery(), { categorySlug });
 }
 
-export function getCatalogBySlug(documentType: string, slug: string): Promise<RawCatalog | null> {
-  return sanityFetch(`${documentType}:${slug}`, catalogBySlugQuery(documentType), { slug });
+export function getServiceBySlug(
+  categorySlug: string,
+  slug: string,
+): Promise<RawCatalog | null> {
+  return sanityFetch(`service:${categorySlug}:${slug}`, serviceBySlugQuery(), {
+    categorySlug,
+    slug,
+  });
 }
 
 export function getPageBySlug(slug: string): Promise<RawPage | null> {

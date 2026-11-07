@@ -23,7 +23,7 @@ const HERO_CTA = {
   secondary: { to: '/vedic-poojas' },
 } as const;
 
-const HERO_ROTATE_MS = 1000;
+const HERO_ROTATE_MS = 4000;
 
 export function HomePage() {
   const { t } = useTranslation(['common', 'content']);

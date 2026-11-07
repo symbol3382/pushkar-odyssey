@@ -24,20 +24,10 @@ export interface RawCard {
   featuredImage?: SanityImage | null;
   price?: RawPrice | null;
   featured?: boolean | null;
-  duration?: LocaleString | null;
   durationLabel?: LocaleString | null;
   days?: number | null;
   nights?: number | null;
-  address?: LocaleString | null;
-  category?: string | null;
-  ritual?: string | null;
-  kind?: string | null;
-  adventureActivity?: string | null;
-  stayCategory?: string | null;
-  festival?: string | null;
-  catalog?: string | null;
-  propertyType?: string | null;
-  when?: LocaleString | null;
+  categorySlug?: string | null;
 }
 
 export interface RawItineraryDay {
@@ -59,28 +49,14 @@ export interface RawCoordinates {
 }
 
 export interface RawCatalog extends RawCard {
-  description?: LocaleBlocks | null;
+  description?: LocaleString | null;
   gallery?: SanityImage[] | null;
   included?: LocaleString[] | null;
   excluded?: LocaleString[] | null;
   notes?: RawNote[] | null;
   highlights?: LocaleString[] | null;
-  amenities?: LocaleString[] | null;
   itinerary?: RawItineraryDay[] | null;
   enquiryNote?: LocaleString | null;
-  preparation?: LocaleString | null;
-  season?: LocaleString | null;
-  transport?: LocaleString | null;
-  accommodation?: LocaleString | null;
-  rooms?: LocaleString | null;
-  coordinates?: RawCoordinates | null;
-  languages?: string[] | null;
-  minGroup?: number | null;
-  maxGroup?: number | null;
-  seasonal?: boolean | null;
-  format?: string | null;
-  purpose?: string[] | null;
-  location?: LocaleString | null;
   seo?: RawSeo | null;
 }
 

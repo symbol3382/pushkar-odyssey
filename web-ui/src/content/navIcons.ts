@@ -31,6 +31,7 @@ const icons = {
   '/festivals': LuPartyPopper,
   '/products': LuPackage,
   '/events': LuCalendarDays,
+  '/boho': LuPackage,
   '/property': LuBuilding2,
 } as const satisfies Record<string, IconType>;
 

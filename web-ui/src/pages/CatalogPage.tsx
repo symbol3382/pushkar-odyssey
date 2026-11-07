@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogById, type CatalogId } from '../content/catalogs';
-import type { CardView } from '../content/views';
 import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { PackageCard } from '../components/PackageCard';
 import { PageHero } from '../components/PageHero';
@@ -15,7 +14,6 @@ export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
   const listing = useLocalizedCatalog(catalogId);
   const items = listing.data ?? [];
   const brand = site.data?.brandName ?? t('site.brandName', { ns: 'content' });
-  const groups = productGroups(catalogId, items);
 
   return (
     <>
@@ -37,31 +35,20 @@ export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
           {items.length === 0 ? (
             <EmptyCatalog message={t(catalog.copy.empty)} />
           ) : (
-            <div className="space-y-12">
-              {groups.map((group) => (
-                <section key={group.key}>
-                  {group.label && (
-                    <h2 className="font-display text-2xl text-ink">{t(group.label)}</h2>
-                  )}
-                  <div
-                    className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-3 ${group.label ? 'mt-6' : ''}`}
-                  >
-                    {group.items.map((item, index) => (
-                      <PackageCard
-                        key={item.slug}
-                        to={item.to}
-                        title={item.title}
-                        summary={item.summary}
-                        image={item.image}
-                        imageAlt={item.imageAlt}
-                        imageSrcSet={item.imageSrcSet}
-                        priceLabel={item.priceLabel}
-                        meta={item.meta}
-                        index={index}
-                      />
-                    ))}
-                  </div>
-                </section>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((item, index) => (
+                <PackageCard
+                  key={item.slug}
+                  to={item.to}
+                  title={item.title}
+                  summary={item.summary}
+                  image={item.image}
+                  imageAlt={item.imageAlt}
+                  imageSrcSet={item.imageSrcSet}
+                  priceLabel={item.priceLabel}
+                  meta={item.meta}
+                  index={index}
+                />
               ))}
             </div>
           )}
@@ -75,18 +62,4 @@ export function CatalogPage({ catalogId }: { catalogId: CatalogId }) {
       </QueryStatus>
     </>
   );
-}
-
-function productGroups(catalogId: CatalogId, items: CardView[]) {
-  if (catalogId !== 'product') return [{ key: 'all', label: '', items }];
-  const local = items.filter((item) => item.groupKey === 'local');
-  const boho = items.filter((item) => item.groupKey === 'boho');
-  const other = items.filter((item) => item.groupKey !== 'local' && item.groupKey !== 'boho');
-  const groups = [
-    { key: 'local', label: 'catalog.productCatalog.local', items: local },
-    { key: 'boho', label: 'catalog.productCatalog.boho', items: boho },
-    { key: 'other', label: '', items: other },
-  ].filter((group) => group.items.length > 0);
-  if (groups.length <= 1) return [{ key: 'all', label: '', items }];
-  return groups;
 }

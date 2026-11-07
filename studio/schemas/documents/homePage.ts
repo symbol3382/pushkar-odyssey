@@ -5,7 +5,7 @@ export const homePage = defineType({
   name: "homePage",
   title: "Home page",
   type: "document",
-  description: `${publishingNote} Hero titles and button labels live in the website. Use this document for hero banner images only. Mark catalog items as Featured to show them on the home page rails.`,
+  description: `${publishingNote} Hero titles and button labels live in the website. Use this document for hero banner images only. Mark services as Featured to show them on the home page rails.`,
   fields: [
     defineField({
       name: "heroImages",

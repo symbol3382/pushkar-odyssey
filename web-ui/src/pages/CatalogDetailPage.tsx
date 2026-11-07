@@ -4,8 +4,8 @@ import { BookCTA } from '../components/BookCTA';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { BulletList, Gallery, TextBlock } from '../components/DetailBits';
 import { HeroScrim } from '../components/HeroScrim';
+import { MarkdownText } from '../components/MarkdownText';
 import { MissingContent, QueryStatus } from '../components/QueryStatus';
-import { RichText } from '../components/RichText';
 import { Seo } from '../components/Seo';
 import { StickyBookBar } from '../components/StickyBookBar';
 import { catalogById, type CatalogId } from '../content/catalogs';
@@ -35,14 +35,6 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
 
   const title = item.seoTitle ?? `${item.title} · ${brand}`;
   const description = item.seoDescription ?? item.summary;
-  const group =
-    item.minGroup && item.maxGroup
-      ? t('pages.groupRange', { min: item.minGroup, max: item.maxGroup })
-      : item.minGroup
-        ? t('pages.groupMin', { min: item.minGroup })
-        : item.maxGroup
-          ? t('pages.groupMax', { max: item.maxGroup })
-          : null;
 
   return (
     <article className="pb-24 lg:pb-0">
@@ -58,7 +50,7 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
         }
       />
       <div className="relative h-[50vh] min-h-80 overflow-hidden pt-16">
-        {item.image && (
+        {item.image ? (
           <img
             src={item.image}
             alt={item.imageAlt}
@@ -66,14 +58,14 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
             sizes="100vw"
             className="absolute inset-0 size-full object-cover"
           />
-        )}
+        ) : null}
         <HeroScrim tone="bottom" />
         <div className="text-shadow-hero absolute inset-x-0 bottom-0 mx-auto max-w-page px-4 pb-10 sm:px-6 lg:px-8">
-          {item.meta && (
+          {item.meta ? (
             <p className="text-xs uppercase tracking-[0.2em] text-gold-soft">{item.meta}</p>
-          )}
+          ) : null}
           <h1 className="mt-2 font-display text-4xl text-cream sm:text-5xl">{item.title}</h1>
-          {item.priceLabel && <p className="mt-2 text-lg text-bhagwa-light">{item.priceLabel}</p>}
+          {item.priceLabel ? <p className="mt-2 text-lg text-bhagwa-light">{item.priceLabel}</p> : null}
         </div>
       </div>
       <Breadcrumbs
@@ -85,12 +77,11 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
       />
       <div className="mx-auto grid max-w-page gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
         <div>
-          <RichText body={item.body} fallback={item.description} />
-          {catalog.id === 'stay' && (
+          <MarkdownText source={item.bodyMarkdown} fallback={item.description} />
+          {catalog.id === 'stay' ? (
             <p className="mt-6 text-sm text-ink-soft">{t('pages.stayAvailability')}</p>
-          )}
-          {item.seasonal && <p className="mt-6 text-sm text-ink-soft">{t('pages.seasonal')}</p>}
-          {item.itinerary.length > 0 && (
+          ) : null}
+          {item.itinerary.length > 0 ? (
             <>
               <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.itinerary')}</h2>
               <ol className="mt-4 space-y-4">
@@ -100,14 +91,14 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
                       {step.day}
                     </p>
                     <p className="font-medium text-ink">{step.title}</p>
-                    {step.location && <p className="text-sm text-maroon">{step.location}</p>}
+                    {step.location ? <p className="text-sm text-maroon">{step.location}</p> : null}
                     <p className="mt-1 text-sm text-ink-soft">{step.details}</p>
                   </li>
                 ))}
               </ol>
             </>
-          )}
-          {item.notes.length > 0 && (
+          ) : null}
+          {item.notes.length > 0 ? (
             <>
               <h2 className="mt-10 font-display text-2xl text-ink">{t('pages.notes')}</h2>
               <div className="mt-4 space-y-4">
@@ -119,41 +110,11 @@ export function CatalogDetailPage({ catalogId }: { catalogId: CatalogId }) {
                 ))}
               </div>
             </>
-          )}
+          ) : null}
           <BulletList title={t('pages.inclusions')} items={item.inclusions} />
           <BulletList title={t('pages.highlights')} items={item.highlights} />
           <BulletList title={t('pages.exclusions')} items={item.exclusions} />
-          <BulletList title={t('pages.amenities')} items={item.amenities} />
-          <TextBlock title={t('pages.format')} text={item.format} />
-          <TextBlock
-            title={t('pages.purpose')}
-            text={item.purposes.length > 0 ? item.purposes.join(' · ') : undefined}
-          />
-          <TextBlock title={t('pages.preparation')} text={item.preparation} />
-          <TextBlock title={t('pages.transport')} text={item.transport} />
-          <TextBlock title={t('pages.accommodation')} text={item.accommodation} />
-          <TextBlock title={t('pages.rooms')} text={item.rooms} />
-          <TextBlock title={t('pages.address')} text={item.address} />
-          <TextBlock title={t('pages.location')} text={item.location} />
-          <TextBlock title={t('pages.when')} text={item.when} />
-          <TextBlock title={t('pages.season')} text={item.season} />
-          {group && <TextBlock title={t('pages.groupSize')} text={group} />}
-          {item.languages.length > 0 && (
-            <TextBlock title={t('pages.languages')} text={item.languages.join(' · ')} />
-          )}
           <TextBlock title={t('pages.enquiryNote')} text={item.enquiryNote} />
-          {item.mapUrl && (
-            <p className="mt-6">
-              <a
-                href={item.mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-bhagwa hover:underline"
-              >
-                {t('actions.openMap')}
-              </a>
-            </p>
-          )}
           <Gallery images={item.gallery} title={t('pages.gallery')} />
         </div>
         <aside className="lg:sticky lg:top-24 lg:self-start">

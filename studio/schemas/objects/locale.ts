@@ -26,6 +26,7 @@ export const localeText = defineType({
   name: "localeText",
   title: "Localized text",
   type: "object",
+  description: "Plain text or Markdown (for service descriptions).",
   fields: localeFields("text"),
 });
 

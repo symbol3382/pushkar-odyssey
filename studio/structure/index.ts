@@ -24,59 +24,22 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.listItem()
-        .title("Sacred")
+        .title("Services")
         .child(
           S.list()
-            .title("Sacred")
+            .title("Services")
             .items([
-              S.documentTypeListItem("darshan").title("Darshan"),
-              S.documentTypeListItem("vedicPooja").title("Vedic poojas"),
-            ]),
-        ),
-      S.listItem()
-        .title("Journeys")
-        .child(
-          S.list()
-            .title("Journeys")
-            .items([
-              S.documentTypeListItem("desertExperience").title(
-                "Desert experiences",
+              S.documentTypeListItem("serviceCategory").title(
+                "Service categories",
               ),
-              S.documentTypeListItem("tourPackage").title("Tour packages"),
-              S.documentTypeListItem("stay").title("Stays"),
+              S.documentTypeListItem("service").title("Services"),
             ]),
         ),
       S.listItem()
-        .title("Celebrations")
+        .title("Reference")
         .child(
           S.list()
-            .title("Celebrations")
-            .items([
-              S.documentTypeListItem("festival").title("Festivals"),
-              S.documentTypeListItem("hospitality").title(
-                "Events and hospitality",
-              ),
-            ]),
-        ),
-      S.listItem()
-        .title("Shop")
-        .child(
-          S.list()
-            .title("Shop")
-            .items([S.documentTypeListItem("product").title("Products")]),
-        ),
-      S.listItem()
-        .title("Property")
-        .child(
-          S.list()
-            .title("Property")
-            .items([S.documentTypeListItem("property").title("Properties")]),
-        ),
-      S.listItem()
-        .title("Stories")
-        .child(
-          S.list()
-            .title("Stories")
+            .title("Reference")
             .items([
               S.documentTypeListItem("workItem").title("Works gallery"),
               S.documentTypeListItem("testimonial").title("Testimonials"),

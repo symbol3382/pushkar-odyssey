@@ -19,7 +19,6 @@ import type {
   LocaleString,
   RawCard,
   RawCatalog,
-  RawCoordinates,
   RawFaq,
   RawHistory,
   RawHomePayload,
@@ -60,20 +59,6 @@ function gallery(images: SanityImage[] | null | undefined): Media[] {
   });
 }
 
-function coordinates(
-  value: RawCoordinates | null | undefined,
-): { lat: number; lng: number } | null {
-  if (typeof value?.lat !== 'number' || typeof value.lng !== 'number') return null;
-  if (value.lat < -90 || value.lat > 90 || value.lng < -180 || value.lng > 180) return null;
-  return { lat: value.lat, lng: value.lng };
-}
-
-function mapUrl(value: RawCoordinates | null | undefined): string | undefined {
-  const point = coordinates(value);
-  if (!point) return undefined;
-  return `https://www.google.com/maps?q=${String(point.lat)},${String(point.lng)}`;
-}
-
 function seoFields(seo: RawSeo | null | undefined, language: string) {
   const image = imageFromSanity(seo?.image);
   return {
@@ -84,17 +69,10 @@ function seoFields(seo: RawSeo | null | undefined, language: string) {
 }
 
 function durationOf(raw: RawCard, context: MapContext): string | undefined {
-  const label =
-    pickText(raw.durationLabel, context.language) || pickText(raw.duration, context.language);
+  const label = pickText(raw.durationLabel, context.language);
   if (label) return label;
   if (typeof raw.days === 'number') return context.durationLabel(raw.days, raw.nights ?? 0);
   return undefined;
-}
-
-function kindValue(raw: RawCard, field: Catalog['kindField']): string | undefined {
-  if (!field) return undefined;
-  const value = raw[field];
-  return typeof value === 'string' && value.length > 0 ? value : undefined;
 }
 
 export function catalogMeta(
@@ -102,13 +80,8 @@ export function catalogMeta(
   catalog: Catalog,
   context: MapContext,
 ): string | undefined {
-  if (catalog.id === 'tour') return durationOf(raw, context);
-  if (catalog.id === 'desert' && raw.kind === 'adventure' && raw.adventureActivity) {
-    return context.optionLabel('adventure', raw.adventureActivity);
-  }
-  const value = kindValue(raw, catalog.kindField);
-  if (!value) return undefined;
-  return context.optionLabel(catalog.kindGroup, value);
+  if (catalog.id === 'tour' || catalog.id === 'desert') return durationOf(raw, context);
+  return undefined;
 }
 
 export function mapCard(
@@ -140,7 +113,6 @@ export function mapCard(
     ),
     meta,
     to: `${base}/${slug}`,
-    groupKey: raw.catalog ?? undefined,
   };
 }
 
@@ -179,7 +151,7 @@ export function mapCatalogDetail(
   return {
     ...card,
     description: pickText(raw.summary, context.language),
-    body: blocks(raw.description, context.language),
+    bodyMarkdown: pickText(raw.description, context.language),
     gallery: gallery(raw.gallery),
     inclusions: texts(raw.included, context.language),
     exclusions: texts(raw.excluded, context.language),
@@ -190,26 +162,7 @@ export function mapCatalogDetail(
       return [{ question, answer }];
     }),
     highlights: texts(raw.highlights, context.language),
-    amenities: texts(raw.amenities, context.language),
     enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
-    preparation: pickText(raw.preparation, context.language) || undefined,
-    season: pickText(raw.season, context.language) || undefined,
-    when: pickText(raw.when, context.language) || undefined,
-    transport: pickText(raw.transport, context.language) || undefined,
-    accommodation: pickText(raw.accommodation, context.language) || undefined,
-    rooms: pickText(raw.rooms, context.language) || undefined,
-    address: pickText(raw.address, context.language) || undefined,
-    mapUrl: mapUrl(raw.coordinates),
-    languages: (raw.languages ?? []).filter((item) => item.trim().length > 0),
-    minGroup: raw.minGroup ?? undefined,
-    maxGroup: raw.maxGroup ?? undefined,
-    seasonal: raw.seasonal === true,
-    format: raw.format ? context.optionLabel('format', raw.format) : undefined,
-    purposes: (raw.purpose ?? []).flatMap((item) => {
-      const label = context.optionLabel('purpose', item);
-      return label ? [label] : [];
-    }),
-    location: pickText(raw.location, context.language) || undefined,
     itinerary: (raw.itinerary ?? []).flatMap((stop) => {
       const title = pickText(stop.heading, context.language);
       if (!title || typeof stop.dayNumber !== 'number') return [];

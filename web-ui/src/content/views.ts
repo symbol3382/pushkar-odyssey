@@ -29,30 +29,14 @@ export interface NoteView {
 
 export interface CatalogDetailView extends CardView {
   description: string;
-  body: PortableTextBlock[] | null;
+  bodyMarkdown: string;
   gallery: Media[];
   inclusions: string[];
   exclusions: string[];
   notes: NoteView[];
   highlights: string[];
-  amenities: string[];
   itinerary: ItineraryStop[];
   enquiryNote?: string;
-  preparation?: string;
-  season?: string;
-  when?: string;
-  transport?: string;
-  accommodation?: string;
-  rooms?: string;
-  address?: string;
-  mapUrl?: string;
-  languages: string[];
-  minGroup?: number;
-  maxGroup?: number;
-  seasonal: boolean;
-  format?: string;
-  purposes: string[];
-  location?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: string;

@@ -19,7 +19,8 @@
     "festivals": "Festivals",
     "products": "Products",
     "events": "Events",
-    "property": "Property"
+    "property": "Property",
+    "boho": "बोहो कपड़े"
   },
   "actions": {
     "bookWhatsApp": "व्हाट्सऐप पर बुक करें",
@@ -44,7 +45,8 @@
     "allFestivals": "All festivals",
     "allProducts": "All products",
     "allEvents": "All events",
-    "allProperty": "All properties"
+    "allProperty": "All properties",
+    "allBoho": "सभी बोहो कपड़े"
   },
   "booking": {
     "bookTour": "यह यात्रा बुक करें",
@@ -111,7 +113,9 @@
     "staysEyebrow": "Stays",
     "staysTitle": "Places to stay in Pushkar",
     "moreEyebrow": "Also here",
-    "moreTitle": "More from Pushkar"
+    "moreTitle": "More from Pushkar",
+    "bohoEyebrow": "परिधान",
+    "bohoTitle": "बोहो कपड़े"
   },
   "works": {
     "eyebrow": "हमारे कार्य",
@@ -250,7 +254,13 @@
     "emptyFestivals": "No festivals are published yet.",
     "emptyProducts": "No products are published yet.",
     "emptyEvents": "No events are published yet.",
-    "emptyProperty": "No properties are published yet."
+    "emptyProperty": "No properties are published yet.",
+    "bohoEyebrow": "परिधान",
+    "bohoTitle": "बोहो कपड़े",
+    "bohoSubtitle": "काफ्तान, मैक्सी ड्रेस, किमोनो, ट्यूनिक, स्कार्फ और प्रिंटेड परिधान।",
+    "emptyBoho": "अभी कोई बोहो कपड़े प्रकाशित नहीं हैं।",
+    "notFoundBoho": "वह परिधान नहीं मिला",
+    "interestBoho": "बोहो कपड़े"
   },
   "welcome": {
     "namaste": "नमस्ते",
