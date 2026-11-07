@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { imageField, publishingNote, requiredLocale } from "../fields";
+import { publishingNote, requiredLocale } from "../fields";
 
 const optionalUrl = (name: string, title: string) =>
   defineField({
@@ -18,18 +18,6 @@ export const siteSettings = defineType({
   description: publishingNote,
   fields: [
     requiredLocale("name", "Site name", "localeString"),
-    imageField(
-      "logo",
-      "Logo",
-      false,
-      "Optional. Shown beside the site name. If empty, the website keeps its current mark.",
-    ),
-    imageField(
-      "favicon",
-      "Favicon",
-      false,
-      "Optional. The built-in icon is used until this is published.",
-    ),
     requiredLocale("description", "Short description", "localeText"),
     defineField({
       name: "email",
@@ -110,9 +98,9 @@ export const siteSettings = defineType({
     }),
   ],
   preview: {
-    select: { title: "name.en", media: "logo" },
-    prepare({ title, media }) {
-      return { title: title || "Site settings", media };
+    select: { title: "name.en" },
+    prepare({ title }) {
+      return { title: title || "Site settings" };
     },
   },
 });

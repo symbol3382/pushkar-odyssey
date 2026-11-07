@@ -104,8 +104,6 @@ export interface RawSiteSettings {
   youtube?: string | null;
   footerText?: LocaleString | null;
   enquiryTemplate?: LocaleString | null;
-  logo?: SanityImage | null;
-  favicon?: SanityImage | null;
   seo?: RawSeo | null;
 }
 

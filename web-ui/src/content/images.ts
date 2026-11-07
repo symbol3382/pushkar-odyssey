@@ -10,6 +10,7 @@
  *   image: images.homeHero,
  */
 export const images = {
+  logo: '/android-chrome-192x192.png',
   homeHero: '/images/home-hero.svg',
   lakeAarti: '/images/lake-aarti.svg',
   pushkarBazaar: '/images/pushkar-bazaar.svg',

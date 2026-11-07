@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { images } from '../content/images';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { markWelcomeSeen } from '../lib/welcome';
 
@@ -71,7 +72,7 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
             className="relative z-10 flex flex-col items-center px-6 text-center"
           >
             <motion.img
-              src="/android-chrome-192x192.png"
+              src={images.logo}
               alt=""
               className="mb-6 size-24 object-contain drop-shadow-xl"
               animate={{ rotate: [0, 4, -3, 0] }}

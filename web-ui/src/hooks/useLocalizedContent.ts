@@ -70,8 +70,6 @@ function useSiteCopy(): SiteView {
     tagline: t('site.tagline'),
     shortDescription: t('site.shortDescription'),
     footerText: '',
-    logo: null,
-    favicon: null,
     contact: { whatsapp: '', phone: '', email: '', address: '', mapUrl: '' },
     social: { instagram: '', facebook: '', youtube: '' },
     bookingTemplate: t('site.bookingTemplate'),

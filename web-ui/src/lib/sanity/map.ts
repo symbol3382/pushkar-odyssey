@@ -261,16 +261,12 @@ export function mapSite(
     };
   }
 
-  const logo = imageFromSanity(raw.logo, context.language);
-  const favicon = imageFromSanity(raw.favicon, context.language);
   const seoImage = imageFromSanity(raw.seo?.image, context.language);
   return {
     brandName: pickText(raw.name, context.language) || fallback.brandName,
     tagline: pickText(raw.description, context.language) || fallback.tagline,
     shortDescription: pickText(raw.description, context.language) || fallback.shortDescription,
     footerText: pickText(raw.footerText, context.language),
-    logo,
-    favicon,
     contact: {
       whatsapp: raw.whatsapp?.replace(/\D/g, '') ?? '',
       phone: raw.phone?.trim() ?? '',

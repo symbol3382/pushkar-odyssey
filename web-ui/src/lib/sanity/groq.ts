@@ -130,8 +130,6 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   youtube,
   footerText,
   enquiryTemplate,
-  logo ${image},
-  favicon ${image},
   seo ${seo}
 }`;
 

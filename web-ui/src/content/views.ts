@@ -107,8 +107,6 @@ export interface SiteView {
   tagline: string;
   shortDescription: string;
   footerText: string;
-  logo: Media | null;
-  favicon: Media | null;
   contact: {
     whatsapp: string;
     phone: string;

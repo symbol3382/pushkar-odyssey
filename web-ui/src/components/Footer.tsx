@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { images } from '../content/images';
 import { nav } from '../content/nav';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { buildCallUrl, buildWhatsAppUrl } from '../lib/whatsapp';
@@ -29,11 +30,7 @@ export function Footer() {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
         <div>
           <div className="flex items-center gap-3">
-            <img
-              src="/android-chrome-192x192.png"
-              alt=""
-              className="size-12 shrink-0 object-contain"
-            />
+            <img src={images.logo} alt="" className="size-12 shrink-0 object-contain" />
             <p className="font-display text-3xl text-cream">{site?.brandName}</p>
           </div>
           {site?.tagline && (

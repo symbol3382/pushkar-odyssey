@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { images } from '../content/images';
 import { nav } from '../content/nav';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -55,11 +56,7 @@ export function Header() {
             setOpen(false);
           }}
         >
-          <img
-            src="/android-chrome-192x192.png"
-            alt=""
-            className="size-11 shrink-0 object-contain"
-          />
+          <img src={images.logo} alt="" className="size-11 shrink-0 object-contain" />
           <span className="truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
             {site?.brandName}
           </span>
