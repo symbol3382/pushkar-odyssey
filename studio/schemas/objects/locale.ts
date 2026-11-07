@@ -10,7 +10,7 @@ function localeFields(kind: "string" | "text") {
       description:
         language.id === "en"
           ? "Write this in English. The website uses English when another language is empty."
-          : "Optional. Leave empty to show the English text.",
+          : "Optional Hindi. Leave empty to show the English text.",
     }),
   );
 }
@@ -41,7 +41,7 @@ export const localeBlockContent = defineType({
       description:
         language.id === "en"
           ? "Required. Use headings and paragraphs. Do not paste raw HTML."
-          : "Optional. Leave empty to show the English text.",
+          : "Optional Hindi. Leave empty to show the English text.",
       of: [
         defineArrayMember({
           type: "block",

@@ -55,13 +55,11 @@ export function Header() {
             setOpen(false);
           }}
         >
-          {site?.logo ? (
-            <img src={site.logo.src} alt="" className="size-9 shrink-0 rounded-full object-cover" />
-          ) : (
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa to-maroon font-display text-sm text-cream shadow-md shadow-bhagwa/30">
-              प
-            </span>
-          )}
+          <img
+            src="/android-chrome-192x192.png"
+            alt=""
+            className="size-11 shrink-0 object-contain"
+          />
           <span className="truncate font-display text-xl font-semibold tracking-tight text-ink transition group-hover:text-bhagwa sm:text-2xl">
             {site?.brandName}
           </span>

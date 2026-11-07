@@ -70,13 +70,13 @@ export function WelcomeLoader({ onDone }: WelcomeLoaderProps) {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 flex flex-col items-center px-6 text-center"
           >
-            <motion.span
-              className="mb-6 flex size-16 items-center justify-center rounded-full bg-gradient-to-br from-bhagwa-light to-bhagwa font-display text-2xl text-cream shadow-xl shadow-bhagwa/40"
-              animate={{ rotate: [0, 6, -4, 0] }}
+            <motion.img
+              src="/android-chrome-192x192.png"
+              alt=""
+              className="mb-6 size-24 object-contain drop-shadow-xl"
+              animate={{ rotate: [0, 4, -3, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              प
-            </motion.span>
+            />
             <p className="font-display text-4xl text-cream sm:text-5xl">{t('welcome.namaste')}</p>
             <p className="mt-2 font-display text-2xl text-gold-soft sm:text-3xl">{brandName}</p>
             {tagline && <p className="mt-3 max-w-sm text-sm text-sand/75">{tagline}</p>}

@@ -28,7 +28,14 @@ export function Footer() {
       <div className="mandala-bg absolute inset-0 opacity-40" aria-hidden />
       <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
         <div>
-          <p className="font-display text-3xl text-cream">{site?.brandName}</p>
+          <div className="flex items-center gap-3">
+            <img
+              src="/android-chrome-192x192.png"
+              alt=""
+              className="size-12 shrink-0 object-contain"
+            />
+            <p className="font-display text-3xl text-cream">{site?.brandName}</p>
+          </div>
           {site?.tagline && (
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-sand/80">{site.tagline}</p>
           )}

@@ -1,4 +1,4 @@
-export const CONTENT_LANGUAGES = ['en', 'hi', 'gu', 'mr', 'bn', 'ta', 'te'] as const;
+export const CONTENT_LANGUAGES = ['en', 'hi'] as const;
 
 export type ContentLanguage = (typeof CONTENT_LANGUAGES)[number];
 
