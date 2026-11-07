@@ -1,43 +1,17 @@
 import { defineField, defineType } from "sanity";
 import {
-  featuredField,
-  imageField,
+  catalogFields,
   publishingNote,
-  requiredLocale,
-  seoField,
-  slugField,
-  sortOrderField,
   stringList,
 } from "../fields";
 
-export const travelPackage = defineType({
-  name: "travelPackage",
-  title: "Travel package",
+export const tourPackage = defineType({
+  name: "tourPackage",
+  title: "Tour package",
   type: "document",
-  description: `${publishingNote} Leave the price empty for enquiry-only journeys.`,
+  description: `${publishingNote} A multi-day Pushkar itinerary. Leave the price empty when the journey is enquiry-only.`,
   fields: [
-    requiredLocale("title", "Title", "localeString"),
-    slugField,
-    requiredLocale("summary", "Summary", "localeText"),
-    requiredLocale("description", "Detailed description", "localeBlockContent"),
-    imageField("featuredImage", "Featured image", true),
-    defineField({
-      name: "gallery",
-      title: "Gallery",
-      type: "array",
-      of: [{ type: "galleryImage" }],
-    }),
-    defineField({
-      name: "startingLocation",
-      title: "Starting location",
-      type: "localeString",
-    }),
-    defineField({
-      name: "destinations",
-      title: "Destinations",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "destination" }] }],
-    }),
+    ...catalogFields(),
     defineField({
       name: "days",
       title: "Days",
@@ -63,8 +37,8 @@ export const travelPackage = defineType({
       type: "array",
       of: [{ type: "itineraryDay" }],
     }),
-    stringList("included", "Included services", "One entry per item."),
-    stringList("excluded", "Excluded services", "Optional."),
+    stringList("included", "Included", "One entry per item."),
+    stringList("excluded", "Not included", "Optional."),
     defineField({ name: "transport", title: "Transport", type: "localeText" }),
     defineField({
       name: "accommodation",
@@ -78,7 +52,6 @@ export const travelPackage = defineType({
       of: [{ type: "string" }],
       options: { layout: "tags" },
     }),
-    defineField({ name: "price", title: "Starting price", type: "price" }),
     defineField({
       name: "minGroup",
       title: "Minimum group size",
@@ -109,12 +82,8 @@ export const travelPackage = defineType({
       name: "season",
       title: "Best travel season",
       type: "localeString",
-      description:
-        "Optional. Leave empty if you do not want to recommend a season.",
+      description: "Optional. Leave empty if you do not want to recommend a season.",
     }),
-    featuredField,
-    sortOrderField,
-    seoField,
   ],
   orderings: [
     {
@@ -127,9 +96,9 @@ export const travelPackage = defineType({
     select: { title: "title.en", media: "featuredImage", featured: "featured" },
     prepare({ title, media, featured }) {
       return {
-        title: title || "Untitled package",
+        title: title || "Untitled tour",
         media,
-        subtitle: featured ? "Featured" : "Travel package",
+        subtitle: featured ? "Featured" : "Tour package",
       };
     },
   },

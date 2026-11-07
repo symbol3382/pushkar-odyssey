@@ -1,1 +1,1 @@
-export type BookingType = 'tour' | 'stay' | 'pooja' | 'service' | 'general' | 'destination';
+export type { BookingType } from './catalogs';

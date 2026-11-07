@@ -24,27 +24,53 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.listItem()
-        .title("Offerings")
+        .title("Sacred")
         .child(
           S.list()
-            .title("Offerings")
+            .title("Sacred")
             .items([
-              S.documentTypeListItem("pooja").title("Poojas"),
-              S.documentTypeListItem("travelPackage").title("Travel packages"),
+              S.documentTypeListItem("darshan").title("Darshan"),
+              S.documentTypeListItem("vedicPooja").title("Vedic poojas"),
+            ]),
+        ),
+      S.listItem()
+        .title("Journeys")
+        .child(
+          S.list()
+            .title("Journeys")
+            .items([
+              S.documentTypeListItem("desertExperience").title(
+                "Desert experiences",
+              ),
+              S.documentTypeListItem("tourPackage").title("Tour packages"),
               S.documentTypeListItem("stay").title("Stays"),
-              S.documentTypeListItem("experience").title(
-                "Guides, riding, and services",
+            ]),
+        ),
+      S.listItem()
+        .title("Celebrations")
+        .child(
+          S.list()
+            .title("Celebrations")
+            .items([
+              S.documentTypeListItem("festival").title("Festivals"),
+              S.documentTypeListItem("hospitality").title(
+                "Events and hospitality",
               ),
             ]),
         ),
       S.listItem()
-        .title("Places")
+        .title("Shop")
         .child(
           S.list()
-            .title("Places")
-            .items([
-              S.documentTypeListItem("destination").title("Destinations"),
-            ]),
+            .title("Shop")
+            .items([S.documentTypeListItem("product").title("Products")]),
+        ),
+      S.listItem()
+        .title("Property")
+        .child(
+          S.list()
+            .title("Property")
+            .items([S.documentTypeListItem("property").title("Properties")]),
         ),
       S.listItem()
         .title("Stories")

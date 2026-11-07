@@ -1,18 +1,14 @@
 import type { PortableTextBlock } from '@portabletext/types';
+import { catalogs, type Catalog } from '../../content/catalogs';
 import type {
   CardView,
-  ContentLink,
-  DestinationView,
-  ExperienceView,
+  CatalogDetailView,
   FaqView,
   HistoryView,
   HomeView,
   PageView,
-  PoojaView,
   SiteView,
-  StayView,
   TestimonialView,
-  TourView,
   WorkView,
 } from '../../content/views';
 import { imageFromSanity, type Media } from './images';
@@ -22,19 +18,15 @@ import type {
   LocaleBlocks,
   LocaleString,
   RawCard,
+  RawCatalog,
   RawCoordinates,
-  RawDestination,
-  RawExperience,
   RawFaq,
   RawHistory,
   RawHomePayload,
   RawPage,
-  RawPooja,
   RawSeo,
   RawSiteSettings,
-  RawStay,
   RawTestimonial,
-  RawTour,
   RawWork,
   SanityImage,
 } from './types';
@@ -44,6 +36,7 @@ export interface MapContext {
   fromLabel: string;
   durationLabel: (days: number, nights: number) => string;
   dayLabel: (day: number) => string;
+  optionLabel: (group: string, value: string) => string;
   fallbackHero?: string;
 }
 
@@ -82,17 +75,6 @@ function mapUrl(value: RawCoordinates | null | undefined): string | undefined {
   return `https://www.google.com/maps?q=${String(point.lat)},${String(point.lng)}`;
 }
 
-function link(
-  ref: { title?: LocaleString | null; slug?: string | null } | null | undefined,
-  language: string,
-  base: string,
-): ContentLink | undefined {
-  const slug = ref?.slug?.trim();
-  const title = pickText(ref?.title, language);
-  if (!slug || !title) return undefined;
-  return { title, to: `${base}/${slug}` };
-}
-
 function seoFields(seo: RawSeo | null | undefined, language: string) {
   const image = imageFromSanity(seo?.image, language);
   return {
@@ -108,6 +90,26 @@ function durationOf(raw: RawCard, context: MapContext): string | undefined {
   if (label) return label;
   if (typeof raw.days === 'number') return context.durationLabel(raw.days, raw.nights ?? 0);
   return undefined;
+}
+
+function kindValue(raw: RawCard, field: Catalog['kindField']): string | undefined {
+  if (!field) return undefined;
+  const value = raw[field];
+  return typeof value === 'string' && value.length > 0 ? value : undefined;
+}
+
+export function catalogMeta(
+  raw: RawCard,
+  catalog: Catalog,
+  context: MapContext,
+): string | undefined {
+  if (catalog.id === 'tour') return durationOf(raw, context);
+  if (catalog.id === 'desert' && raw.kind === 'adventure' && raw.adventureActivity) {
+    return context.optionLabel('adventure', raw.adventureActivity);
+  }
+  const value = kindValue(raw, catalog.kindField);
+  if (!value) return undefined;
+  return context.optionLabel(catalog.kindGroup, value);
 }
 
 export function mapCard(
@@ -139,28 +141,40 @@ export function mapCard(
     ),
     meta,
     to: `${base}/${slug}`,
+    groupKey: raw.catalog ?? undefined,
   };
 }
 
 function cards(
   items: RawCard[] | null | undefined,
   context: MapContext,
-  base: string,
-  metaFor?: (item: RawCard) => string | undefined,
+  catalog: Catalog,
 ): CardView[] {
   if (!items) return [];
   return items.flatMap((item) => {
-    const card = mapCard(item, context, base, metaFor?.(item));
+    const card = mapCard(item, context, catalog.path, catalogMeta(item, catalog, context));
     return card ? [card] : [];
   });
 }
 
-export function mapPooja(raw: RawPooja | null, context: MapContext): PoojaView | null {
+export function mapCatalogCards(
+  items: RawCatalog[] | null | undefined,
+  catalog: Catalog,
+  context: MapContext,
+): CardView[] {
+  return cards(items, context, catalog);
+}
+
+export function mapCatalogDetail(
+  raw: RawCatalog | null,
+  catalog: Catalog,
+  context: MapContext,
+): CatalogDetailView | null {
   const card = mapCard(
     raw,
     context,
-    '/poojas',
-    pickText(raw?.duration, context.language) || undefined,
+    catalog.path,
+    raw ? catalogMeta(raw, catalog, context) : undefined,
   );
   if (!raw || !card) return null;
   return {
@@ -170,38 +184,33 @@ export function mapPooja(raw: RawPooja | null, context: MapContext): PoojaView |
     gallery: gallery(raw.gallery, context.language),
     inclusions: texts(raw.included, context.language),
     exclusions: texts(raw.excluded, context.language),
-    timing: pickText(raw.duration, context.language) || undefined,
-    suitableFor: [],
-    preparation: pickText(raw.preparation, context.language) || undefined,
-    languages: (raw.languages ?? []).filter((item) => item.trim().length > 0),
-    enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
-    destination: link(raw.destination, context.language, '/destinations'),
-    category: pickText(raw.category, context.language) || undefined,
-    ...seoFields(raw.seo, context.language),
-  };
-}
-
-export function mapTour(raw: RawTour | null, context: MapContext): TourView | null {
-  const card = mapCard(raw, context, '/tours', raw ? durationOf(raw, context) : undefined);
-  if (!raw || !card) return null;
-  return {
-    ...card,
-    description: pickText(raw.summary, context.language),
-    body: blocks(raw.description, context.language),
-    gallery: gallery(raw.gallery, context.language),
-    inclusions: texts(raw.included, context.language),
-    exclusions: texts(raw.excluded, context.language),
-    startingLocation: pickText(raw.startingLocation, context.language) || undefined,
-    destinations: (raw.destinations ?? []).flatMap((item) => {
-      const mapped = link(item, context.language, '/destinations');
-      return mapped ? [mapped] : [];
+    notes: (raw.notes ?? []).flatMap((note) => {
+      const question = pickText(note.question, context.language);
+      const answer = pickText(note.answer, context.language);
+      if (!question || !answer) return [];
+      return [{ question, answer }];
     }),
+    highlights: texts(raw.highlights, context.language),
+    amenities: texts(raw.amenities, context.language),
+    enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
+    preparation: pickText(raw.preparation, context.language) || undefined,
+    season: pickText(raw.season, context.language) || undefined,
+    when: pickText(raw.when, context.language) || undefined,
     transport: pickText(raw.transport, context.language) || undefined,
     accommodation: pickText(raw.accommodation, context.language) || undefined,
+    rooms: pickText(raw.rooms, context.language) || undefined,
+    address: pickText(raw.address, context.language) || undefined,
+    mapUrl: mapUrl(raw.coordinates),
     languages: (raw.languages ?? []).filter((item) => item.trim().length > 0),
     minGroup: raw.minGroup ?? undefined,
     maxGroup: raw.maxGroup ?? undefined,
-    season: pickText(raw.season, context.language) || undefined,
+    seasonal: raw.seasonal === true,
+    format: raw.format ? context.optionLabel('format', raw.format) : undefined,
+    purposes: (raw.purpose ?? []).flatMap((item) => {
+      const label = context.optionLabel('purpose', item);
+      return label ? [label] : [];
+    }),
+    location: pickText(raw.location, context.language) || undefined,
     itinerary: (raw.itinerary ?? []).flatMap((stop) => {
       const title = pickText(stop.heading, context.language);
       if (!title || typeof stop.dayNumber !== 'number') return [];
@@ -216,85 +225,6 @@ export function mapTour(raw: RawTour | null, context: MapContext): TourView | nu
         },
       ];
     }),
-    ...seoFields(raw.seo, context.language),
-  };
-}
-
-export function mapStay(raw: RawStay | null, context: MapContext): StayView | null {
-  const location = pickText(raw?.address, context.language);
-  const card = mapCard(raw, context, '/stays', location || undefined);
-  if (!raw || !card) return null;
-  return {
-    ...card,
-    description: pickText(raw.summary, context.language),
-    body: blocks(raw.description, context.language),
-    gallery: gallery(raw.gallery, context.language),
-    inclusions: texts(raw.included, context.language),
-    amenities: texts(raw.amenities, context.language),
-    location: location || undefined,
-    address: location || undefined,
-    mapUrl: mapUrl(raw.coordinates),
-    accommodationType: raw.accommodationType ?? undefined,
-    rooms: pickText(raw.rooms, context.language) || undefined,
-    enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
-    destination: link(raw.destination, context.language, '/destinations'),
-    ...seoFields(raw.seo, context.language),
-  };
-}
-
-export function mapExperience(
-  raw: RawExperience | null,
-  context: MapContext,
-): ExperienceView | null {
-  const location = pickText(raw?.location, context.language);
-  const card = mapCard(
-    raw,
-    context,
-    '/services',
-    pickText(raw?.duration, context.language) || location || undefined,
-  );
-  if (!raw || !card) return null;
-  return {
-    ...card,
-    description: pickText(raw.summary, context.language),
-    body: blocks(raw.description, context.language),
-    gallery: gallery(raw.gallery, context.language),
-    inclusions: texts(raw.included, context.language),
-    exclusions: texts(raw.excluded, context.language),
-    experienceType: raw.experienceType ?? undefined,
-    location: location || undefined,
-    duration: pickText(raw.duration, context.language) || undefined,
-    languages: (raw.languages ?? []).filter((item) => item.trim().length > 0),
-    requirements: pickText(raw.requirements, context.language) || undefined,
-    enquiryNote: pickText(raw.enquiryNote, context.language) || undefined,
-    destination: link(raw.destination, context.language, '/destinations'),
-    ...seoFields(raw.seo, context.language),
-  };
-}
-
-export function mapDestination(
-  raw: RawDestination | null,
-  context: MapContext,
-): DestinationView | null {
-  const region = pickText(raw?.region, context.language);
-  const card = mapCard(raw, context, '/destinations', region || undefined);
-  if (!raw || !card) return null;
-  return {
-    ...card,
-    description: pickText(raw.summary, context.language),
-    body: blocks(raw.description, context.language),
-    gallery: gallery(raw.gallery, context.language),
-    region: region || undefined,
-    mapUrl: mapUrl(raw.coordinates),
-    visiting: pickText(raw.visiting, context.language) || undefined,
-    relatedPoojas: cards(
-      raw.relatedPoojas,
-      context,
-      '/poojas',
-      (item) => pickText(item.duration, context.language) || undefined,
-    ),
-    relatedTours: cards(raw.relatedTours, context, '/tours', (item) => durationOf(item, context)),
-    relatedExperiences: cards(raw.relatedExperiences, context, '/services'),
     ...seoFields(raw.seo, context.language),
   };
 }
@@ -364,26 +294,22 @@ export function mapSite(
   };
 }
 
+function rail(
+  id: 'darshan' | 'desert' | 'tour' | 'stay',
+  raw: RawHomePayload | null,
+  context: MapContext,
+): CardView[] {
+  const catalog = catalogs.find((item) => item.id === id);
+  if (catalog?.home !== 'rail') return [];
+  const pinned = raw?.home?.[catalog.featuredKey];
+  const flagged = raw?.[catalog.featuredKey];
+  const chosen = (pinned ?? []).some((item) => item.slug) ? pinned : flagged;
+  return cards(chosen, context, catalog);
+}
+
 export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeView {
   const home = raw?.home;
   const image = imageFromSanity(home?.heroImage, context.language);
-  const tours = featured(home?.featuredTours, raw?.featuredTours, context, '/tours', (item) =>
-    durationOf(item, context),
-  );
-  const poojas = featured(
-    home?.featuredPoojas,
-    raw?.featuredPoojas,
-    context,
-    '/poojas',
-    (item) => pickText(item.duration, context.language) || undefined,
-  );
-  const stays = featured(
-    home?.featuredStays,
-    raw?.featuredStays,
-    context,
-    '/stays',
-    (item) => pickText(item.address, context.language) || undefined,
-  );
   return {
     heroTitle: pickText(home?.heroTitle, context.language),
     heroSubtitle: pickText(home?.heroSubtitle, context.language),
@@ -392,27 +318,17 @@ export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeVi
     heroImageSrcSet: image?.srcSet,
     ctaPrimary: {
       label: pickText(home?.primaryCta?.label, context.language),
-      to: home?.primaryCta?.path?.startsWith('/') ? home.primaryCta.path : '/tours',
+      to: home?.primaryCta?.path?.startsWith('/') ? home.primaryCta.path : '/darshan',
     },
     ctaSecondary: {
       label: pickText(home?.secondaryCta?.label, context.language),
-      to: home?.secondaryCta?.path?.startsWith('/') ? home.secondaryCta.path : '/poojas',
+      to: home?.secondaryCta?.path?.startsWith('/') ? home.secondaryCta.path : '/tours',
     },
-    featuredTours: tours,
-    featuredPoojas: poojas,
-    featuredStays: stays,
+    featuredDarshan: rail('darshan', raw, context),
+    featuredDesert: rail('desert', raw, context),
+    featuredTours: rail('tour', raw, context),
+    featuredStays: rail('stay', raw, context),
   };
-}
-
-function featured(
-  pinned: RawCard[] | null | undefined,
-  flagged: RawCard[] | null | undefined,
-  context: MapContext,
-  base: string,
-  metaFor: (item: RawCard) => string | undefined,
-): CardView[] {
-  const chosen = (pinned ?? []).some((item) => item.slug) ? pinned : flagged;
-  return cards(chosen, context, base, metaFor);
 }
 
 export function mapHistory(

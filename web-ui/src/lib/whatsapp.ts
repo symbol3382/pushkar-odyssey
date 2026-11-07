@@ -27,12 +27,16 @@ export function buildCallUrl(phone: string): string | null {
 }
 
 const TYPE_KEYS: Record<BookingType, string> = {
+  darshan: 'booking.typeDarshan',
+  vedicPooja: 'booking.typeVedic',
+  desert: 'booking.typeDesert',
   tour: 'booking.typeTour',
   stay: 'booking.typeStay',
-  pooja: 'booking.typePooja',
-  service: 'booking.typeService',
+  festival: 'booking.typeFestival',
+  product: 'booking.typeProduct',
+  hospitality: 'booking.typeEvent',
+  property: 'booking.typeProperty',
   general: 'booking.typeGeneral',
-  destination: 'booking.typeDestination',
 };
 
 export function buildBookingMessage(

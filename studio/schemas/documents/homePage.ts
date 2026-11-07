@@ -12,7 +12,7 @@ function cta(name: string, title: string) {
         name: "path",
         title: "Path",
         type: "string",
-        description: "An internal path such as /tours or /poojas.",
+        description: "An internal path such as /darshan or /tours.",
         validation: (rule) =>
           rule.required().custom((value: string | undefined) => {
             if (!value?.startsWith("/")) return "Start the path with /";
@@ -45,8 +45,9 @@ export const homePage = defineType({
     imageField("heroImage", "Hero image", true),
     cta("primaryCta", "Primary button"),
     cta("secondaryCta", "Secondary button"),
-    references("featuredTours", "Featured tours", "travelPackage"),
-    references("featuredPoojas", "Featured poojas", "pooja"),
+    references("featuredDarshan", "Featured darshan", "darshan"),
+    references("featuredDesert", "Featured desert experiences", "desertExperience"),
+    references("featuredTours", "Featured tours", "tourPackage"),
     references("featuredStays", "Featured stays", "stay"),
   ],
   preview: {

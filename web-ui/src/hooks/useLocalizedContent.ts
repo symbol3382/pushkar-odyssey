@@ -1,55 +1,39 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { catalogById, type CatalogId } from '../content/catalogs';
 import { images } from '../content/images';
 import type {
   CardView,
-  DestinationView,
-  ExperienceView,
+  CatalogDetailView,
   FaqView,
   HistoryView,
   HomeView,
   PageView,
-  PoojaView,
   SiteView,
-  StayView,
   TestimonialView,
-  TourView,
   WorkView,
 } from '../content/views';
-import { pickText } from '../lib/sanity/locale';
 import {
-  getDestinationBySlug,
-  getDestinations,
-  getExperienceBySlug,
-  getExperiences,
+  getCatalog,
+  getCatalogBySlug,
   getFaqs,
   getHistory,
   getHome,
-  getHotelBySlug,
-  getHotels,
   getPageBySlug,
-  getPoojaBySlug,
-  getPoojas,
   getSiteSettings,
   getTestimonials,
-  getTravelPackageBySlug,
-  getTravelPackages,
   getWorks,
 } from '../lib/sanity/content';
 import type { MapContext } from '../lib/sanity/map';
 import {
-  mapCard,
-  mapDestination,
-  mapExperience,
+  mapCatalogCards,
+  mapCatalogDetail,
   mapFaq,
   mapHistory,
   mapHome,
   mapPage,
-  mapPooja,
   mapSite,
-  mapStay,
   mapTestimonial,
-  mapTour,
   mapWork,
 } from '../lib/sanity/map';
 import { useContentQuery, type ContentQuery } from './useContentQuery';
@@ -59,10 +43,11 @@ const emptyHome: HomeView = {
   heroSubtitle: '',
   heroImage: '',
   heroImageAlt: '',
-  ctaPrimary: { label: '', to: '/tours' },
-  ctaSecondary: { label: '', to: '/poojas' },
+  ctaPrimary: { label: '', to: '/darshan' },
+  ctaSecondary: { label: '', to: '/tours' },
+  featuredDarshan: [],
+  featuredDesert: [],
   featuredTours: [],
-  featuredPoojas: [],
   featuredStays: [],
 };
 
@@ -73,6 +58,7 @@ function useMapContext(): MapContext {
     fromLabel: t('pages.startingFrom'),
     durationLabel: (days, nights) => t('pages.durationNights', { days, nights }),
     dayLabel: (day) => t('pages.dayNumber', { day }),
+    optionLabel: (group, value) => t(`catalog.${group}.${value}`, { defaultValue: value }),
     fallbackHero: images.homeHero,
   };
 }
@@ -105,135 +91,37 @@ export function useLocalizedSite(): ContentQuery<SiteView> {
   return useContentQuery('site', getSiteSettings, select, copy);
 }
 
-export function useLocalizedTours(): ContentQuery<CardView[]> {
+export function useLocalizedCatalog(id: CatalogId): ContentQuery<CardView[]> {
+  const catalog = catalogById(id);
   const context = useMapContext();
+  const load = useCallback(() => getCatalog(catalog.documentType), [catalog.documentType]);
   const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getTravelPackages>>) =>
-      raw.flatMap((item) => {
-        const meta =
-          pickText(item.durationLabel, context.language) ||
-          pickText(item.duration, context.language) ||
-          (typeof item.days === 'number' ? context.durationLabel(item.days, item.nights ?? 0) : '');
-        const card = mapCard(item, context, '/tours', meta || undefined);
-        return card ? [card] : [];
-      }),
-    [context],
+    (raw: Awaited<ReturnType<typeof getCatalog>>) => mapCatalogCards(raw, catalog, context),
+    [catalog, context],
   );
-  return useContentQuery('tours', getTravelPackages, select, []);
+  return useContentQuery(catalog.documentType, load, select, []);
 }
 
-export function useLocalizedTour(slug: string | undefined): ContentQuery<TourView | null> {
-  const context = useMapContext();
-  const load = useCallback(() => getTravelPackageBySlug(slug ?? ''), [slug]);
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getTravelPackageBySlug>>) => mapTour(raw, context),
-    [context],
-  );
-  return useContentQuery(slug ? `tour:${slug}` : null, slug ? load : null, select, null);
-}
-
-export function useLocalizedStays(): ContentQuery<CardView[]> {
-  const context = useMapContext();
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getHotels>>) =>
-      raw.flatMap((item) => {
-        const card = mapCard(
-          item,
-          context,
-          '/stays',
-          pickText(item.address, context.language) || undefined,
-        );
-        return card ? [card] : [];
-      }),
-    [context],
-  );
-  return useContentQuery('stays', getHotels, select, []);
-}
-
-export function useLocalizedStay(slug: string | undefined): ContentQuery<StayView | null> {
-  const context = useMapContext();
-  const load = useCallback(() => getHotelBySlug(slug ?? ''), [slug]);
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getHotelBySlug>>) => mapStay(raw, context),
-    [context],
-  );
-  return useContentQuery(slug ? `stay:${slug}` : null, slug ? load : null, select, null);
-}
-
-export function useLocalizedPoojas(): ContentQuery<CardView[]> {
-  const context = useMapContext();
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getPoojas>>) =>
-      raw.flatMap((item) => {
-        const card = mapCard(
-          item,
-          context,
-          '/poojas',
-          pickText(item.duration, context.language) || undefined,
-        );
-        return card ? [card] : [];
-      }),
-    [context],
-  );
-  return useContentQuery('poojas', getPoojas, select, []);
-}
-
-export function useLocalizedPooja(slug: string | undefined): ContentQuery<PoojaView | null> {
-  const context = useMapContext();
-  const load = useCallback(() => getPoojaBySlug(slug ?? ''), [slug]);
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getPoojaBySlug>>) => mapPooja(raw, context),
-    [context],
-  );
-  return useContentQuery(slug ? `pooja:${slug}` : null, slug ? load : null, select, null);
-}
-
-export function useLocalizedServices(): ContentQuery<ExperienceView[]> {
-  const context = useMapContext();
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getExperiences>>) =>
-      raw.flatMap((item) => {
-        const view = mapExperience(item, context);
-        return view ? [view] : [];
-      }),
-    [context],
-  );
-  return useContentQuery('experiences', getExperiences, select, []);
-}
-
-export function useLocalizedService(slug: string | undefined): ContentQuery<ExperienceView | null> {
-  const context = useMapContext();
-  const load = useCallback(() => getExperienceBySlug(slug ?? ''), [slug]);
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getExperienceBySlug>>) => mapExperience(raw, context),
-    [context],
-  );
-  return useContentQuery(slug ? `experience:${slug}` : null, slug ? load : null, select, null);
-}
-
-export function useLocalizedDestinations(): ContentQuery<CardView[]> {
-  const context = useMapContext();
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getDestinations>>) =>
-      raw.flatMap((item) => {
-        const card = mapCard(item, context, '/destinations');
-        return card ? [card] : [];
-      }),
-    [context],
-  );
-  return useContentQuery('destinations', getDestinations, select, []);
-}
-
-export function useLocalizedDestination(
+export function useLocalizedCatalogItem(
+  id: CatalogId,
   slug: string | undefined,
-): ContentQuery<DestinationView | null> {
+): ContentQuery<CatalogDetailView | null> {
+  const catalog = catalogById(id);
   const context = useMapContext();
-  const load = useCallback(() => getDestinationBySlug(slug ?? ''), [slug]);
-  const select = useCallback(
-    (raw: Awaited<ReturnType<typeof getDestinationBySlug>>) => mapDestination(raw, context),
-    [context],
+  const load = useCallback(
+    () => getCatalogBySlug(catalog.documentType, slug ?? ''),
+    [catalog.documentType, slug],
   );
-  return useContentQuery(slug ? `destination:${slug}` : null, slug ? load : null, select, null);
+  const select = useCallback(
+    (raw: Awaited<ReturnType<typeof getCatalogBySlug>>) => mapCatalogDetail(raw, catalog, context),
+    [catalog, context],
+  );
+  return useContentQuery(
+    slug ? `${catalog.documentType}:${slug}` : null,
+    slug ? load : null,
+    select,
+    null,
+  );
 }
 
 export function useLocalizedPage(slug: string | undefined): ContentQuery<PageView | null> {

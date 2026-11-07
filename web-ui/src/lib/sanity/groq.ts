@@ -11,16 +11,78 @@ const card = `{
   title,
   summary,
   featuredImage ${image},
+  price,
+  featured,
+  days,
+  nights,
+  duration,
+  durationLabel,
+  address,
+  category,
+  ritual,
+  kind,
+  adventureActivity,
+  stayCategory,
+  festival,
+  catalog,
+  propertyType,
+  when
+}`;
+
+const detail = `{
+  _id,
+  "slug": slug.current,
+  title,
+  summary,
+  description,
+  featuredImage ${image},
+  gallery[] ${image},
+  price,
+  included,
+  excluded,
+  notes[]{ question, answer },
+  highlights,
+  amenities,
+  enquiryNote,
+  preparation,
   duration,
   durationLabel,
   days,
   nights,
+  season,
+  when,
+  transport,
+  accommodation,
+  rooms,
   address,
   location,
+  coordinates,
+  languages,
+  minGroup,
+  maxGroup,
+  seasonal,
+  format,
   category,
-  experienceType,
-  price,
-  featured
+  ritual,
+  kind,
+  adventureActivity,
+  stayCategory,
+  festival,
+  catalog,
+  propertyType,
+  purpose,
+  itinerary[]{
+    dayNumber,
+    heading,
+    description,
+    location,
+    image ${image}
+  },
+  seo {
+    title,
+    description,
+    image ${image}
+  }
 }`;
 
 const seo = `{
@@ -29,10 +91,31 @@ const seo = `{
   image ${image}
 }`;
 
-const reference = `{
-  "slug": slug.current,
-  title
-}`;
+const knownTypes = new Set([
+  'darshan',
+  'vedicPooja',
+  'desertExperience',
+  'tourPackage',
+  'stay',
+  'festival',
+  'product',
+  'hospitality',
+  'property',
+]);
+
+function assertType(documentType: string) {
+  if (!knownTypes.has(documentType)) throw new Error(`Unknown document type ${documentType}`);
+}
+
+export function catalogListQuery(documentType: string) {
+  assertType(documentType);
+  return `*[_type == "${documentType}"] | order(sortOrder asc, title.en asc) ${card}`;
+}
+
+export function catalogBySlugQuery(documentType: string) {
+  assertType(documentType);
+  return `*[_type == "${documentType}" && slug.current == $slug][0]${detail}`;
+}
 
 export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   name,
@@ -59,12 +142,14 @@ export const homeQuery = `{
     heroImage ${image},
     primaryCta{ label, path },
     secondaryCta{ label, path },
+    featuredDarshan[]->${card},
+    featuredDesert[]->${card},
     featuredTours[]->${card},
-    featuredPoojas[]->${card},
     featuredStays[]->${card}
   },
-  "featuredTours": *[_type == "travelPackage" && featured == true] | order(sortOrder asc, title.en asc) ${card},
-  "featuredPoojas": *[_type == "pooja" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredDarshan": *[_type == "darshan" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredDesert": *[_type == "desertExperience" && featured == true] | order(sortOrder asc, title.en asc) ${card},
+  "featuredTours": *[_type == "tourPackage" && featured == true] | order(sortOrder asc, title.en asc) ${card},
   "featuredStays": *[_type == "stay" && featured == true] | order(sortOrder asc, title.en asc) ${card}
 }`;
 
@@ -97,145 +182,6 @@ export const faqsQuery = `*[_type == "faq"] | order(sortOrder asc) {
   answer
 }`;
 
-export const poojasQuery = `*[_type == "pooja"] | order(sortOrder asc, title.en asc) ${card}`;
-
-export const poojaBySlugQuery = `*[_type == "pooja" && slug.current == $slug][0]{
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  featuredImage ${image},
-  gallery[] ${image},
-  category,
-  destination->${reference},
-  duration,
-  price,
-  included,
-  excluded,
-  preparation,
-  languages,
-  enquiryNote,
-  seo ${seo}
-}`;
-
-export const toursQuery = `*[_type == "travelPackage"] | order(sortOrder asc, title.en asc) ${card}`;
-
-export const tourBySlugQuery = `*[_type == "travelPackage" && slug.current == $slug][0]{
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  featuredImage ${image},
-  gallery[] ${image},
-  startingLocation,
-  destinations[]->${reference},
-  days,
-  nights,
-  durationLabel,
-  itinerary[]{
-    dayNumber,
-    heading,
-    description,
-    location,
-    image ${image}
-  },
-  included,
-  excluded,
-  transport,
-  accommodation,
-  languages,
-  price,
-  minGroup,
-  maxGroup,
-  season,
-  seo ${seo}
-}`;
-
-export const staysQuery = `*[_type == "stay"] | order(sortOrder asc, title.en asc) ${card}`;
-
-export const stayBySlugQuery = `*[_type == "stay" && slug.current == $slug][0]{
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  address,
-  destination->${reference},
-  coordinates,
-  featuredImage ${image},
-  gallery[] ${image},
-  amenities,
-  accommodationType,
-  rooms,
-  price,
-  included,
-  enquiryNote,
-  seo ${seo}
-}`;
-
-export const experiencesQuery = `*[_type == "experience"] | order(sortOrder asc, title.en asc) {
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  experienceType,
-  location,
-  destination->${reference},
-  featuredImage ${image},
-  gallery[] ${image},
-  duration,
-  languages,
-  included,
-  excluded,
-  price,
-  requirements,
-  enquiryNote,
-  seo ${seo}
-}`;
-
-export const experienceBySlugQuery = `*[_type == "experience" && slug.current == $slug][0]{
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  experienceType,
-  location,
-  destination->${reference},
-  featuredImage ${image},
-  gallery[] ${image},
-  duration,
-  languages,
-  included,
-  excluded,
-  price,
-  requirements,
-  enquiryNote,
-  seo ${seo}
-}`;
-
-export const destinationsQuery = `*[_type == "destination"] | order(sortOrder asc, title.en asc) ${card}`;
-
-export const destinationBySlugQuery = `*[_type == "destination" && slug.current == $slug][0]{
-  _id,
-  "slug": slug.current,
-  title,
-  summary,
-  description,
-  featuredImage ${image},
-  gallery[] ${image},
-  region,
-  coordinates,
-  visiting,
-  seo ${seo},
-  "relatedPoojas": *[_type == "pooja" && references(^._id)] | order(sortOrder asc) ${card},
-  "relatedTours": *[_type == "travelPackage" && references(^._id)] | order(sortOrder asc) ${card},
-  "relatedExperiences": *[_type == "experience" && references(^._id)] | order(sortOrder asc) ${card}
-}`;
-
 export const pageBySlugQuery = `*[_type == "page" && slug.current == $slug][0]{
   _id,
   "slug": slug.current,
@@ -246,18 +192,15 @@ export const pageBySlugQuery = `*[_type == "page" && slug.current == $slug][0]{
   seo ${seo}
 }`;
 
-export const relatedContentQuery = `{
-  "poojas": *[_type == "pooja" && references($id)] | order(sortOrder asc) ${card},
-  "tours": *[_type == "travelPackage" && references($id)] | order(sortOrder asc) ${card},
-  "stays": *[_type == "stay" && references($id)] | order(sortOrder asc) ${card},
-  "experiences": *[_type == "experience" && references($id)] | order(sortOrder asc) ${card}
-}`;
-
 export const sitemapQuery = `{
-  "tours": *[_type == "travelPackage" && defined(slug.current)].slug.current,
+  "darshan": *[_type == "darshan" && defined(slug.current)].slug.current,
+  "vedicPoojas": *[_type == "vedicPooja" && defined(slug.current)].slug.current,
+  "desert": *[_type == "desertExperience" && defined(slug.current)].slug.current,
+  "tours": *[_type == "tourPackage" && defined(slug.current)].slug.current,
   "stays": *[_type == "stay" && defined(slug.current)].slug.current,
-  "poojas": *[_type == "pooja" && defined(slug.current)].slug.current,
-  "experiences": *[_type == "experience" && defined(slug.current)].slug.current,
-  "destinations": *[_type == "destination" && defined(slug.current)].slug.current,
+  "festivals": *[_type == "festival" && defined(slug.current)].slug.current,
+  "products": *[_type == "product" && defined(slug.current)].slug.current,
+  "events": *[_type == "hospitality" && defined(slug.current)].slug.current,
+  "property": *[_type == "property" && defined(slug.current)].slug.current,
   "pages": *[_type == "page" && defined(slug.current)].slug.current
 }`;

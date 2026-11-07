@@ -11,7 +11,7 @@ export const page = defineType({
   name: "page",
   title: "Page",
   type: "document",
-  description: `${publishingNote} Use a page for ordinary text that does not fit poojas, tours, stays, or destinations. The address will be /pages/your-slug.`,
+  description: `${publishingNote} Use a page for ordinary text that does not fit a service listing. The address will be /pages/your-slug.`,
   fields: [
     requiredLocale("title", "Title", "localeString"),
     slugField,

@@ -17,11 +17,6 @@ export interface RawPrice {
   note?: LocaleString | null;
 }
 
-export interface RawReference {
-  title?: LocaleString | null;
-  slug?: string | null;
-}
-
 export interface RawCard {
   _id: string;
   slug?: string | null;
@@ -35,9 +30,15 @@ export interface RawCard {
   days?: number | null;
   nights?: number | null;
   address?: LocaleString | null;
-  location?: LocaleString | null;
-  category?: LocaleString | null;
-  experienceType?: string | null;
+  category?: string | null;
+  ritual?: string | null;
+  kind?: string | null;
+  adventureActivity?: string | null;
+  stayCategory?: string | null;
+  festival?: string | null;
+  catalog?: string | null;
+  propertyType?: string | null;
+  when?: LocaleString | null;
 }
 
 export interface RawItineraryDay {
@@ -48,33 +49,9 @@ export interface RawItineraryDay {
   image?: SanityImage | null;
 }
 
-export interface RawPooja extends RawCard {
-  description?: LocaleBlocks | null;
-  gallery?: SanityImage[] | null;
-  destination?: RawReference | null;
-  included?: LocaleString[] | null;
-  excluded?: LocaleString[] | null;
-  preparation?: LocaleString | null;
-  languages?: string[] | null;
-  enquiryNote?: LocaleString | null;
-  seo?: RawSeo | null;
-}
-
-export interface RawTour extends RawCard {
-  description?: LocaleBlocks | null;
-  gallery?: SanityImage[] | null;
-  startingLocation?: LocaleString | null;
-  destinations?: RawReference[] | null;
-  itinerary?: RawItineraryDay[] | null;
-  included?: LocaleString[] | null;
-  excluded?: LocaleString[] | null;
-  transport?: LocaleString | null;
-  accommodation?: LocaleString | null;
-  languages?: string[] | null;
-  minGroup?: number | null;
-  maxGroup?: number | null;
-  season?: LocaleString | null;
-  seo?: RawSeo | null;
+export interface RawNote {
+  question?: LocaleString | null;
+  answer?: LocaleString | null;
 }
 
 export interface RawCoordinates {
@@ -82,41 +59,30 @@ export interface RawCoordinates {
   lng?: number | null;
 }
 
-export interface RawStay extends RawCard {
+export interface RawCatalog extends RawCard {
   description?: LocaleBlocks | null;
   gallery?: SanityImage[] | null;
-  destination?: RawReference | null;
-  coordinates?: RawCoordinates | null;
-  amenities?: LocaleString[] | null;
-  accommodationType?: string | null;
-  rooms?: LocaleString | null;
-  included?: LocaleString[] | null;
-  enquiryNote?: LocaleString | null;
-  seo?: RawSeo | null;
-}
-
-export interface RawExperience extends RawCard {
-  description?: LocaleBlocks | null;
-  gallery?: SanityImage[] | null;
-  destination?: RawReference | null;
   included?: LocaleString[] | null;
   excluded?: LocaleString[] | null;
-  languages?: string[] | null;
-  requirements?: LocaleString | null;
+  notes?: RawNote[] | null;
+  highlights?: LocaleString[] | null;
+  amenities?: LocaleString[] | null;
+  itinerary?: RawItineraryDay[] | null;
   enquiryNote?: LocaleString | null;
-  seo?: RawSeo | null;
-}
-
-export interface RawDestination extends RawCard {
-  description?: LocaleBlocks | null;
-  gallery?: SanityImage[] | null;
-  region?: LocaleString | null;
+  preparation?: LocaleString | null;
+  season?: LocaleString | null;
+  transport?: LocaleString | null;
+  accommodation?: LocaleString | null;
+  rooms?: LocaleString | null;
   coordinates?: RawCoordinates | null;
-  visiting?: LocaleString | null;
+  languages?: string[] | null;
+  minGroup?: number | null;
+  maxGroup?: number | null;
+  seasonal?: boolean | null;
+  format?: string | null;
+  purpose?: string[] | null;
+  location?: LocaleString | null;
   seo?: RawSeo | null;
-  relatedPoojas?: RawCard[] | null;
-  relatedTours?: RawCard[] | null;
-  relatedExperiences?: RawCard[] | null;
 }
 
 export interface RawSeo {
@@ -154,15 +120,17 @@ export interface RawHome {
   heroImage?: SanityImage | null;
   primaryCta?: RawCta | null;
   secondaryCta?: RawCta | null;
+  featuredDarshan?: RawCard[] | null;
+  featuredDesert?: RawCard[] | null;
   featuredTours?: RawCard[] | null;
-  featuredPoojas?: RawCard[] | null;
   featuredStays?: RawCard[] | null;
 }
 
 export interface RawHomePayload {
   home: RawHome | null;
+  featuredDarshan: RawCard[];
+  featuredDesert: RawCard[];
   featuredTours: RawCard[];
-  featuredPoojas: RawCard[];
   featuredStays: RawCard[];
 }
 
@@ -211,9 +179,3 @@ export interface RawPage {
   seo?: RawSeo | null;
 }
 
-export interface RelatedContent {
-  poojas: RawCard[];
-  tours: RawCard[];
-  stays: RawCard[];
-  experiences: RawCard[];
-}

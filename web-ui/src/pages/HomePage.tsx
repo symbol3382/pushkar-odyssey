@@ -6,13 +6,12 @@ import { PackageCard } from '../components/PackageCard';
 import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
 import { WorksBanner } from '../components/WorksBanner';
+import { homeLinks, homeRails } from '../content/catalogs';
 import {
+  useLocalizedCatalog,
   useLocalizedHome,
-  useLocalizedPoojas,
   useLocalizedSite,
-  useLocalizedStays,
   useLocalizedTestimonials,
-  useLocalizedTours,
 } from '../hooks/useLocalizedContent';
 import { organizationJsonLd } from '../lib/structuredData';
 import type { CardView } from '../content/views';
@@ -21,11 +20,24 @@ export function HomePage() {
   const { t } = useTranslation(['common', 'content']);
   const home = useLocalizedHome();
   const site = useLocalizedSite();
-  const tours = useLocalizedTours();
-  const poojas = useLocalizedPoojas();
-  const stays = useLocalizedStays();
+  const darshan = useLocalizedCatalog('darshan');
+  const desert = useLocalizedCatalog('desert');
+  const tours = useLocalizedCatalog('tour');
+  const stays = useLocalizedCatalog('stay');
   const testimonials = useLocalizedTestimonials();
   const hero = home.data;
+  const counts = {
+    darshan: darshan.data?.length,
+    desert: desert.data?.length,
+    tour: tours.data?.length,
+    stay: stays.data?.length,
+  };
+  const featured = {
+    darshan: hero?.featuredDarshan ?? [],
+    desert: hero?.featuredDesert ?? [],
+    tour: hero?.featuredTours ?? [],
+    stay: hero?.featuredStays ?? [],
+  };
   const brand = site.data?.brandName ?? t('site.brandName', { ns: 'content' });
 
   return (
@@ -101,43 +113,44 @@ export function HomePage() {
 
       {home.status === 'ready' && (
         <>
-          <FeaturedSection
-            eyebrow={t('home.featuredJourneys')}
-            title={t('home.toursWithSoul')}
-            link={{
-              to: '/tours',
-              label: tours.data
-                ? t('home.allToursCount', { count: tours.data.length })
-                : t('actions.allTours'),
-            }}
-            items={hero?.featuredTours ?? []}
-            empty={t('pages.emptyTours')}
-          />
-          <FeaturedSection
-            eyebrow={t('home.rituals')}
-            title={t('home.poojasAarti')}
-            link={{
-              to: '/poojas',
-              label: poojas.data
-                ? t('home.browseCount', { count: poojas.data.length })
-                : t('actions.allPoojas'),
-            }}
-            items={hero?.featuredPoojas ?? []}
-            empty={t('pages.emptyPoojas')}
-            tone="sand"
-          />
-          <FeaturedSection
-            eyebrow={t('home.rest')}
-            title={t('home.staysNear')}
-            link={{
-              to: '/stays',
-              label: stays.data
-                ? t('home.viewStaysCount', { count: stays.data.length })
-                : t('actions.allStays'),
-            }}
-            items={hero?.featuredStays ?? []}
-            empty={t('pages.emptyStays')}
-          />
+          {homeRails.map((catalog, index) => (
+            <FeaturedSection
+              key={catalog.id}
+              eyebrow={t(catalog.copy.homeEyebrow)}
+              title={t(catalog.copy.homeTitle)}
+              link={{
+                to: catalog.path,
+                label:
+                  counts[catalog.id] != null
+                    ? t('home.browseCount', { count: counts[catalog.id] })
+                    : t(catalog.copy.all),
+              }}
+              items={featured[catalog.id]}
+              empty={t(catalog.copy.empty)}
+              tone={index % 2 === 1 ? 'sand' : undefined}
+            />
+          ))}
+          <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
+              {t('home.moreEyebrow')}
+            </p>
+            <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">{t('home.moreTitle')}</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {homeLinks.map((catalog) => (
+                <Link
+                  key={catalog.id}
+                  to={catalog.path}
+                  className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6 transition hover:border-bhagwa/40"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bhagwa">
+                    {t(catalog.copy.eyebrow)}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl text-ink">{t(catalog.copy.title)}</h3>
+                  <p className="mt-2 text-sm text-ink-soft">{t(catalog.copy.subtitle)}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
         </>
       )}
 

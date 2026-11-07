@@ -34,11 +34,15 @@ const staticRoutes = [
   '/works',
   '/history',
   '/contact',
+  '/darshan',
+  '/vedic-poojas',
+  '/desert',
   '/tours',
   '/stays',
-  '/poojas',
-  '/services',
-  '/destinations',
+  '/festivals',
+  '/products',
+  '/events',
+  '/property',
 ];
 const siteUrl = process.env.VITE_SITE_URL?.trim().replace(/\/$/, '');
 
@@ -70,19 +74,27 @@ if (projectId) {
       perspective: 'published',
     });
     const slugs = await client.fetch(`{
-      "tours": *[_type == "travelPackage" && defined(slug.current)].slug.current,
+      "darshan": *[_type == "darshan" && defined(slug.current)].slug.current,
+      "vedicPoojas": *[_type == "vedicPooja" && defined(slug.current)].slug.current,
+      "desert": *[_type == "desertExperience" && defined(slug.current)].slug.current,
+      "tours": *[_type == "tourPackage" && defined(slug.current)].slug.current,
       "stays": *[_type == "stay" && defined(slug.current)].slug.current,
-      "poojas": *[_type == "pooja" && defined(slug.current)].slug.current,
-      "experiences": *[_type == "experience" && defined(slug.current)].slug.current,
-      "destinations": *[_type == "destination" && defined(slug.current)].slug.current,
+      "festivals": *[_type == "festival" && defined(slug.current)].slug.current,
+      "products": *[_type == "product" && defined(slug.current)].slug.current,
+      "events": *[_type == "hospitality" && defined(slug.current)].slug.current,
+      "property": *[_type == "property" && defined(slug.current)].slug.current,
       "pages": *[_type == "page" && defined(slug.current)].slug.current
     }`);
     const groups = [
+      ['darshan', '/darshan'],
+      ['vedicPoojas', '/vedic-poojas'],
+      ['desert', '/desert'],
       ['tours', '/tours'],
       ['stays', '/stays'],
-      ['poojas', '/poojas'],
-      ['experiences', '/services'],
-      ['destinations', '/destinations'],
+      ['festivals', '/festivals'],
+      ['products', '/products'],
+      ['events', '/events'],
+      ['property', '/property'],
       ['pages', '/pages'],
     ];
     for (const [key, base] of groups) {

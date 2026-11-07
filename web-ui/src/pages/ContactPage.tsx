@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
 import { QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
+import { catalogs } from '../content/catalogs';
 import { images } from '../content/images';
 import { useLocalizedFaqs, useLocalizedSite } from '../hooks/useLocalizedContent';
 import { buildCallUrl, buildWhatsAppUrl } from '../lib/whatsapp';
@@ -20,13 +21,10 @@ export function ContactPage() {
   const [formError, setFormError] = useState('');
 
   const interestOptions = [
-    { value: 'tour', label: t('pages.interestTour') },
-    { value: 'stay', label: t('pages.interestStay') },
-    { value: 'pooja', label: t('pages.interestPooja') },
-    { value: 'service', label: t('pages.interestService') },
+    ...catalogs.map((catalog) => ({ value: catalog.id, label: t(catalog.copy.interest) })),
     { value: 'custom', label: t('pages.interestCustom') },
   ];
-  const selectedInterest = interest || interestOptions[0]?.value || 'tour';
+  const selectedInterest = interest || interestOptions[0]?.value || 'darshan';
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();

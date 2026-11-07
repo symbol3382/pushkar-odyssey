@@ -1,12 +1,8 @@
 import { defineField, defineType } from "sanity";
 import {
-  featuredField,
-  imageField,
+  catalogFields,
+  choiceField,
   publishingNote,
-  requiredLocale,
-  seoField,
-  slugField,
-  sortOrderField,
   stringList,
 } from "../fields";
 
@@ -16,71 +12,43 @@ export const stay = defineType({
   type: "document",
   description: `${publishingNote} This is a listing, not live room availability. Leave the price empty if it is not confirmed.`,
   fields: [
-    requiredLocale("title", "Hotel name", "localeString"),
-    slugField,
-    requiredLocale("summary", "Short description", "localeText"),
-    requiredLocale("description", "Full description", "localeBlockContent"),
+    ...catalogFields(),
+    choiceField("stayCategory", "Stay category", [
+      { title: "Room with a private pool", value: "private-pool" },
+      { title: "Stay near the lake", value: "near-lake" },
+      { title: "Luxury, boutique, or desert stay", value: "luxury-boutique-desert" },
+      { title: "Luxury hotel or resort", value: "luxury-hotel" },
+      { title: "Family and couple stay", value: "family-couple" },
+      { title: "Budget hotel", value: "budget" },
+      { title: "Other", value: "other" },
+    ]),
     defineField({ name: "address", title: "Address", type: "localeText" }),
-    defineField({
-      name: "destination",
-      title: "Destination",
-      type: "reference",
-      to: [{ type: "destination" }],
-    }),
     defineField({
       name: "coordinates",
       title: "Map coordinates",
       type: "coordinates",
     }),
-    imageField("featuredImage", "Featured image", true),
-    defineField({
-      name: "gallery",
-      title: "Gallery",
-      type: "array",
-      of: [{ type: "galleryImage" }],
-    }),
     stringList("amenities", "Amenities", "One entry per amenity."),
     defineField({
-      name: "accommodationType",
-      title: "Accommodation type",
-      type: "string",
-      options: {
-        list: [
-          { title: "Haveli", value: "haveli" },
-          { title: "Hotel", value: "hotel" },
-          { title: "Camp", value: "camp" },
-          { title: "Guesthouse", value: "guesthouse" },
-          { title: "Other", value: "other" },
-        ],
-      },
-    }),
-    defineField({
       name: "rooms",
-      title: "Rooms or packages",
+      title: "Rooms",
       type: "localeText",
       description:
-        "Describe room types or stay packages. Do not mark rooms as available.",
+        "Describe room types. Do not mark rooms as available.",
     }),
-    defineField({ name: "price", title: "Starting price", type: "price" }),
     stringList("included", "What's included", "Optional."),
-    defineField({
-      name: "enquiryNote",
-      title: "Enquiry instructions",
-      type: "localeText",
-      description:
-        "Optional. Do not imply that a room is held or a booking is confirmed.",
-    }),
-    featuredField,
-    sortOrderField,
-    seoField,
   ],
   preview: {
-    select: { title: "title.en", media: "featuredImage", featured: "featured" },
-    prepare({ title, media, featured }) {
+    select: {
+      title: "title.en",
+      media: "featuredImage",
+      stayCategory: "stayCategory",
+    },
+    prepare({ title, media, stayCategory }) {
       return {
         title: title || "Untitled stay",
         media,
-        subtitle: featured ? "Featured" : "Stay",
+        subtitle: stayCategory || "Stay",
       };
     },
   },

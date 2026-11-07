@@ -1,8 +1,8 @@
 {
   "site": {
     "brandName": "Pushkar Odyssey",
-    "tagline": "Sacred journeys · Warm stays · Timeless rituals",
-    "shortDescription": "Curated Pushkar experiences — temple aarti, guided tours, serene stays, and local services — booked simply over WhatsApp.",
+    "tagline": "Darshan, desert nights, stays, and the Pushkar bazaar",
+    "shortDescription": "Pushkar darshan, vedic poojas, desert camping, tours, stays, festivals, products, events, and property — arranged by enquiry on WhatsApp.",
     "address": "Near Brahma Temple, Pushkar, Rajasthan 305022",
     "bookingTemplate": "Namaste! I would like to book:\n\n*{{type}}*: {{title}}\nRef: {{slug}}\n{{details}}\n\nPlease share availability and next steps. Thank you.",
     "footerWhatsApp": "Namaste! I found {{brand}} online and would like to plan a visit.",

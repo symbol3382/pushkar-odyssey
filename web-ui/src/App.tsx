@@ -2,22 +2,15 @@ import { useCallback, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { WelcomeLoader } from './components/WelcomeLoader';
+import { catalogs } from './content/catalogs';
 import { shouldShowWelcome } from './lib/welcome';
+import { CatalogDetailPage } from './pages/CatalogDetailPage';
+import { CatalogPage } from './pages/CatalogPage';
 import { ContactPage } from './pages/ContactPage';
-import { DestinationDetailPage } from './pages/DestinationDetailPage';
-import { DestinationsPage } from './pages/DestinationsPage';
 import { GeneralPage } from './pages/GeneralPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { PoojaDetailPage } from './pages/PoojaDetailPage';
-import { PoojasPage } from './pages/PoojasPage';
-import { ServiceDetailPage } from './pages/ServiceDetailPage';
-import { ServicesPage } from './pages/ServicesPage';
-import { StayDetailPage } from './pages/StayDetailPage';
-import { StaysPage } from './pages/StaysPage';
-import { TourDetailPage } from './pages/TourDetailPage';
-import { ToursPage } from './pages/ToursPage';
 import { WorksPage } from './pages/WorksPage';
 
 export default function App() {
@@ -40,16 +33,20 @@ export default function App() {
               <Route path="works" element={<WorksPage />} />
               <Route path="history" element={<HistoryPage />} />
               <Route path="contact" element={<ContactPage />} />
-              <Route path="tours" element={<ToursPage />} />
-              <Route path="tours/:slug" element={<TourDetailPage />} />
-              <Route path="stays" element={<StaysPage />} />
-              <Route path="stays/:slug" element={<StayDetailPage />} />
-              <Route path="poojas" element={<PoojasPage />} />
-              <Route path="poojas/:slug" element={<PoojaDetailPage />} />
-              <Route path="services" element={<ServicesPage />} />
-              <Route path="services/:slug" element={<ServiceDetailPage />} />
-              <Route path="destinations" element={<DestinationsPage />} />
-              <Route path="destinations/:slug" element={<DestinationDetailPage />} />
+              {catalogs.map((catalog) => (
+                <Route
+                  key={catalog.path}
+                  path={catalog.path.slice(1)}
+                  element={<CatalogPage catalogId={catalog.id} />}
+                />
+              ))}
+              {catalogs.map((catalog) => (
+                <Route
+                  key={`${catalog.path}-detail`}
+                  path={`${catalog.path.slice(1)}/:slug`}
+                  element={<CatalogDetailPage catalogId={catalog.id} />}
+                />
+              ))}
               <Route path="pages/:slug" element={<GeneralPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

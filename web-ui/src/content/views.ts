@@ -1,11 +1,6 @@
 import type { PortableTextBlock } from '@portabletext/types';
 import type { Media } from '../lib/sanity/images';
 
-export interface ContentLink {
-  title: string;
-  to: string;
-}
-
 export interface CardView {
   slug: string;
   title: string;
@@ -16,6 +11,7 @@ export interface CardView {
   priceLabel: string | null;
   meta?: string;
   to: string;
+  groupKey?: string;
 }
 
 export interface ItineraryStop {
@@ -26,90 +22,37 @@ export interface ItineraryStop {
   image?: Media;
 }
 
-export interface TourView extends CardView {
+export interface NoteView {
+  question: string;
+  answer: string;
+}
+
+export interface CatalogDetailView extends CardView {
   description: string;
   body: PortableTextBlock[] | null;
   gallery: Media[];
   inclusions: string[];
   exclusions: string[];
-  startingLocation?: string;
-  destinations: ContentLink[];
+  notes: NoteView[];
+  highlights: string[];
+  amenities: string[];
+  itinerary: ItineraryStop[];
+  enquiryNote?: string;
+  preparation?: string;
+  season?: string;
+  when?: string;
   transport?: string;
   accommodation?: string;
+  rooms?: string;
+  address?: string;
+  mapUrl?: string;
   languages: string[];
   minGroup?: number;
   maxGroup?: number;
-  season?: string;
-  itinerary: ItineraryStop[];
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: string;
-}
-
-export interface PoojaView extends CardView {
-  description: string;
-  body: PortableTextBlock[] | null;
-  gallery: Media[];
-  inclusions: string[];
-  exclusions: string[];
-  timing?: string;
-  suitableFor: string[];
-  preparation?: string;
-  languages: string[];
-  enquiryNote?: string;
-  destination?: ContentLink;
-  category?: string;
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: string;
-}
-
-export interface StayView extends CardView {
-  description: string;
-  body: PortableTextBlock[] | null;
-  gallery: Media[];
-  inclusions: string[];
-  amenities: string[];
+  seasonal: boolean;
+  format?: string;
+  purposes: string[];
   location?: string;
-  address?: string;
-  mapUrl?: string;
-  accommodationType?: string;
-  rooms?: string;
-  enquiryNote?: string;
-  destination?: ContentLink;
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: string;
-}
-
-export interface ExperienceView extends CardView {
-  description: string;
-  body: PortableTextBlock[] | null;
-  gallery: Media[];
-  inclusions: string[];
-  exclusions: string[];
-  experienceType?: string;
-  location?: string;
-  duration?: string;
-  languages: string[];
-  requirements?: string;
-  enquiryNote?: string;
-  destination?: ContentLink;
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: string;
-}
-
-export interface DestinationView extends CardView {
-  description: string;
-  body: PortableTextBlock[] | null;
-  gallery: Media[];
-  region?: string;
-  mapUrl?: string;
-  visiting?: string;
-  relatedPoojas: CardView[];
-  relatedTours: CardView[];
-  relatedExperiences: CardView[];
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: string;
@@ -193,7 +136,8 @@ export interface HomeView {
   heroImageSrcSet?: string;
   ctaPrimary: { label: string; to: string };
   ctaSecondary: { label: string; to: string };
+  featuredDarshan: CardView[];
+  featuredDesert: CardView[];
   featuredTours: CardView[];
-  featuredPoojas: CardView[];
   featuredStays: CardView[];
 }

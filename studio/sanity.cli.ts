@@ -8,4 +8,7 @@ export default defineCliConfig({
     projectId: projectId || "missing-project-id",
     dataset,
   },
+  server: {
+    port: 3501,
+  },
 });

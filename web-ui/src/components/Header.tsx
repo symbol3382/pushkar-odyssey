@@ -99,7 +99,7 @@ export function Header() {
                   transition={{ duration: 0.2 }}
                   className="absolute right-0 top-full pt-2"
                 >
-                  <div className="min-w-48 overflow-hidden rounded-sm border border-bhagwa/15 bg-cream shadow-lg shadow-ink/10">
+                  <div className="max-h-[70vh] min-w-56 overflow-y-auto rounded-sm border border-bhagwa/15 bg-cream shadow-lg shadow-ink/10">
                     {nav.explore.map((item) => (
                       <Link
                         key={item.to}
@@ -145,7 +145,7 @@ export function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-bhagwa/10 bg-cream lg:hidden"
+            className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-bhagwa/10 bg-cream lg:hidden"
           >
             <nav className="flex flex-col gap-1 px-4 py-4" aria-label="Mobile">
               {[...nav.primary, ...nav.explore].map((item) => (

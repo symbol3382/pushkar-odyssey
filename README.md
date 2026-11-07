@@ -88,7 +88,7 @@ Leave the Cloudflare build command as `npm run deploy` if it is already set. Set
 
 `npm run deploy:sanity` is only for a machine where `sanity login` has already been run. It publishes a `*.sanity.studio` address instead of the Cloudflare Worker. The client signs in with their Sanity user. The freelancer should be invited as an editor or developer, not by sharing the client's login.
 
-7. Create content from the Studio desk: Site, Offerings, Places, and Stories. Publish each document when it is complete. Drafts stay private. Site settings, the home page, and history are single documents, so Studio hides duplicate and delete for those three.
+7. Create content from the Studio desk: Site, Sacred, Journeys, Celebrations, Shop, Property, and Stories. Publish each document when it is complete. Drafts stay private. Site settings, the home page, and history are single documents, so Studio hides duplicate and delete for those three.
 
 8. Confirm the website shows the published item. With the frontend env vars set, refresh `http://localhost:3001`. Publishing does not require a frontend rebuild, because the browser requests published content.
 
@@ -98,11 +98,11 @@ Use the least access that still lets the client work. An editor can create and p
 
 ### How the client edits content
 
-- Add a pooja, travel package, stay, guide or riding experience, or destination from the matching list. Fill the English fields, generate the slug, add an image with alt text, and publish.
+- Add a darshan visit, vedic pooja, desert experience, tour package, stay, festival, product, event, or property from the matching list. Fill the English fields, generate the slug, add an image with alt text, and publish.
 - Other languages are optional fields on the same document. An empty translation shows the English text. Do not leave English blank.
-- Prices are optional. Leave the price empty when the offer is enquiry-only. A number is a starting price, not a confirmed quote.
-- Link a pooja, package, stay, or experience to a destination. The destination page lists those links automatically.
-- Slugs become the public URL, such as `/tours/pushkar-sacred-circuit`. Change a slug only when you accept that older links will stop working.
+- Prices are optional. Leave the price empty when the offer is enquiry-only. A number is a starting price, not a confirmed quote. A stay listing does not show live room availability. A property price is not a confirmed offer.
+- Vedic poojas can be in person, online, or both. Desert night camps list the evening sequence under inclusions. Products belong to either the Pushkar goods catalog or the boho clothing catalog.
+- Slugs become the public URL, such as `/tours/pushkar-two-days`. Change a slug only when you accept that older links will stop working.
 - Testimonials and FAQs appear only after you publish real entries. Do not invent guest names, quotes, or ratings.
 - Works appear in the gallery. General pages are published at `/pages/your-slug`.
 - To unpublish, use Unpublish in the document menu. To avoid publishing a half-finished entry, keep it as a draft until the title, slug, and image are ready.
@@ -129,7 +129,7 @@ A merge to the production branch builds production. There is no custom Worker sc
 
 ## E. Content publishing workflow
 
-Editors publish in Studio. The website requests the published dataset when a visitor opens a page. A new pooja, package, stay, experience, or destination can appear without a new Git deploy. Sanity's CDN may take a short time to refresh.
+Editors publish in Studio. The website requests the published dataset when a visitor opens a page. A new darshan visit, ritual, desert experience, tour, stay, festival, product, event, or property can appear without a new Git deploy. Sanity's CDN may take a short time to refresh.
 
 Draft edits do not appear on the site and do not require a rebuild.
 
@@ -171,7 +171,7 @@ This repository does not guarantee that the production system will remain free.
 
 ## What the site does
 
-Visitors can browse tours, stays, poojas, services, destinations, works, history, and contact details. Enquiry buttons open WhatsApp or a phone call when the business has published those numbers. Sending a prefilled WhatsApp message does not confirm a booking. The contact form does not store the visitor's message. It opens WhatsApp, or it explains that WhatsApp is not configured.
+Visitors can browse darshan, vedic poojas, desert experiences, tours, stays, festivals, products, events, property, works, history, and contact details. Enquiry buttons open WhatsApp or a phone call when the business has published those numbers. Sending a prefilled WhatsApp message does not confirm a booking. The contact form does not store the visitor's message. It opens WhatsApp, or it explains that WhatsApp is not configured.
 
 There is no payment processing and no live room availability.
 

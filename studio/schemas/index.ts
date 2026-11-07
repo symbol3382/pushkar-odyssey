@@ -4,17 +4,21 @@ import { itineraryDay } from "./objects/itineraryDay";
 import { localeBlockContent, localeString, localeText } from "./objects/locale";
 import { price } from "./objects/price";
 import { seo } from "./objects/seo";
-import { destination } from "./documents/destination";
-import { experience } from "./documents/experience";
+import { darshan } from "./documents/darshan";
+import { desertExperience } from "./documents/desertExperience";
 import { faq } from "./documents/faq";
+import { festival } from "./documents/festival";
 import { historyPage } from "./documents/historyPage";
 import { homePage } from "./documents/homePage";
+import { hospitality } from "./documents/hospitality";
 import { page } from "./documents/page";
-import { pooja } from "./documents/pooja";
+import { product } from "./documents/product";
+import { property } from "./documents/property";
 import { siteSettings } from "./documents/siteSettings";
 import { stay } from "./documents/stay";
 import { testimonial } from "./documents/testimonial";
-import { travelPackage } from "./documents/travelPackage";
+import { tourPackage } from "./documents/tourPackage";
+import { vedicPooja } from "./documents/vedicPooja";
 import { workItem } from "./documents/workItem";
 
 export const schemaTypes = [
@@ -29,11 +33,15 @@ export const schemaTypes = [
   siteSettings,
   homePage,
   historyPage,
-  pooja,
-  travelPackage,
+  darshan,
+  vedicPooja,
+  desertExperience,
+  tourPackage,
   stay,
-  experience,
-  destination,
+  festival,
+  product,
+  hospitality,
+  property,
   workItem,
   testimonial,
   faq,
