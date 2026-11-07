@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { HiMiniBars3, HiMiniChevronDown, HiMiniXMark } from 'react-icons/hi2';
 import { images } from '../content/images';
 import { nav } from '../content/nav';
+import { BookNowIcon, ExploreIcon, NavItemIcon } from '../content/navIcons';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
@@ -33,7 +35,7 @@ export function Header() {
   }, [open]);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `relative text-sm tracking-wide transition ${
+    `inline-flex items-center gap-1.5 text-sm tracking-wide transition ${
       isActive ? 'text-bhagwa' : 'text-ink-soft hover:text-bhagwa'
     }`;
 
@@ -65,6 +67,7 @@ export function Header() {
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
           {nav.primary.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
+              <NavItemIcon path={item.to} className="size-4 shrink-0" />
               {t(item.labelKey)}
             </NavLink>
           ))}
@@ -79,11 +82,12 @@ export function Header() {
           >
             <button
               type="button"
-              className="flex items-center gap-1 text-sm tracking-wide text-ink-soft transition hover:text-bhagwa"
+              className="inline-flex items-center gap-1.5 text-sm tracking-wide text-ink-soft transition hover:text-bhagwa"
               aria-expanded={exploreOpen}
             >
+              <ExploreIcon className="size-4 shrink-0" aria-hidden />
               {t('nav.explore')}
-              <ChevronDown />
+              <HiMiniChevronDown className="size-3.5" aria-hidden />
             </button>
             <AnimatePresence>
               {exploreOpen && (
@@ -99,8 +103,9 @@ export function Header() {
                       <Link
                         key={item.to}
                         to={item.to}
-                        className="block px-4 py-2.5 text-sm text-ink-soft transition hover:bg-sand hover:text-bhagwa"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-ink-soft transition hover:bg-sand hover:text-bhagwa"
                       >
+                        <NavItemIcon path={item.to} className="size-4 shrink-0" />
                         {t(item.labelKey)}
                       </Link>
                     ))}
@@ -112,8 +117,9 @@ export function Header() {
           <LanguageSwitcher />
           <Link
             to="/contact"
-            className="rounded-sm bg-maroon px-4 py-2 text-sm font-medium text-cream transition hover:bg-maroon-deep"
+            className="inline-flex items-center gap-1.5 rounded-sm bg-maroon px-4 py-2 text-sm font-medium text-cream transition hover:bg-maroon-deep"
           >
+            <BookNowIcon className="size-4 shrink-0" aria-hidden />
             {t('nav.bookNow')}
           </Link>
         </nav>
@@ -129,7 +135,11 @@ export function Header() {
               setOpen((v) => !v);
             }}
           >
-            {open ? <CloseIcon /> : <MenuIcon />}
+            {open ? (
+              <HiMiniXMark className="size-5" aria-hidden />
+            ) : (
+              <HiMiniBars3 className="size-5" aria-hidden />
+            )}
           </button>
         </div>
       </div>
@@ -152,9 +162,12 @@ export function Header() {
                     setOpen(false);
                   }}
                   className={({ isActive }) =>
-                    `rounded-sm px-3 py-3 text-base ${isActive ? 'bg-sand text-bhagwa' : 'text-ink-soft'}`
+                    `inline-flex items-center gap-2.5 rounded-sm px-3 py-3 text-base ${
+                      isActive ? 'bg-sand text-bhagwa' : 'text-ink-soft'
+                    }`
                   }
                 >
+                  <NavItemIcon path={item.to} className="size-4 shrink-0" />
                   {t(item.labelKey)}
                 </NavLink>
               ))}
@@ -163,47 +176,5 @@ export function Header() {
         )}
       </AnimatePresence>
     </motion.header>
-  );
-}
-
-function ChevronDown() {
-  return (
-    <svg className="size-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
-      <path
-        fillRule="evenodd"
-        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function MenuIcon() {
-  return (
-    <svg
-      className="size-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      aria-hidden
-    >
-      <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      className="size-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      aria-hidden
-    >
-      <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
-    </svg>
   );
 }
