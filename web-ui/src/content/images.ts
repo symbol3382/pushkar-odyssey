@@ -7,11 +7,10 @@
  *
  * Usage in content:
  *   import { images } from '../images';
- *   image: images.homeHero,
+ *   image: images.lakeAarti,
  */
 export const images = {
   logo: '/android-chrome-192x192.png',
-  homeHero: '/images/home-hero.svg',
   lakeAarti: '/images/lake-aarti.svg',
   pushkarBazaar: '/images/pushkar-bazaar.svg',
   haveliStay: '/images/haveli-stay.svg',

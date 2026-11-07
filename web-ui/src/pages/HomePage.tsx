@@ -48,7 +48,7 @@ export function HomePage() {
   const tagline = t('site.tagline', { ns: 'content' });
   const heroTitle = t('home.heroTitle', { ns: 'content' });
   const heroSubtitle = t('home.heroSubtitle', { ns: 'content' });
-  const heroImage = hero?.heroImage ? hero.heroImage : undefined;
+  const heroImage = hero?.heroImage && hero.heroImage.length > 0 ? hero.heroImage : undefined;
   const heroImageAlt = hero?.heroImageAlt ?? heroTitle;
 
   return (

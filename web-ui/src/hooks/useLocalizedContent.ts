@@ -39,7 +39,7 @@ import {
 import { useContentQuery, type ContentQuery } from './useContentQuery';
 
 const emptyHome: HomeView = {
-  heroImage: images.homeHero,
+  heroImage: '',
   featuredDarshan: [],
   featuredDesert: [],
   featuredTours: [],
@@ -54,7 +54,6 @@ function useMapContext(): MapContext {
     durationLabel: (days, nights) => t('pages.durationNights', { days, nights }),
     dayLabel: (day) => t('pages.dayNumber', { day }),
     optionLabel: (group, value) => t(`catalog.${group}.${value}`, { defaultValue: value }),
-    fallbackHero: images.homeHero,
   };
 }
 

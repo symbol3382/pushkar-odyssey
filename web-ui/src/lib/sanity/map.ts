@@ -37,7 +37,6 @@ export interface MapContext {
   durationLabel: (days: number, nights: number) => string;
   dayLabel: (day: number) => string;
   optionLabel: (group: string, value: string) => string;
-  fallbackHero?: string;
 }
 
 function texts(items: LocaleString[] | null | undefined, language: string): string[] {
@@ -307,7 +306,7 @@ export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeVi
   const home = raw?.home;
   const image = imageFromSanity(home?.heroImage);
   return {
-    heroImage: image?.src ?? context.fallbackHero ?? '',
+    heroImage: image?.src ?? '',
     heroImageSrcSet: image?.srcSet,
     featuredDarshan: rail('darshan', raw, context),
     featuredDesert: rail('desert', raw, context),

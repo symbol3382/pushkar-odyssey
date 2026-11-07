@@ -44,8 +44,8 @@ export function Header() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 border-b border-bhagwa/10 bg-cream/75 backdrop-blur-md transition-shadow duration-300 ${
-        scrolled || open ? 'bg-cream/85 shadow-sm' : ''
+      className={`fixed inset-x-0 top-0 z-50 border-b border-bhagwa/10 bg-cream/55 backdrop-blur-md transition-shadow duration-300 ${
+        scrolled || open ? 'bg-cream/70 shadow-sm' : ''
       }`}
     >
       <div className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
