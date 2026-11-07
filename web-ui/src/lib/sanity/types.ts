@@ -107,17 +107,8 @@ export interface RawSiteSettings {
   seo?: RawSeo | null;
 }
 
-export interface RawCta {
-  label?: LocaleString | null;
-  path?: string | null;
-}
-
 export interface RawHome {
-  heroTitle?: LocaleString | null;
-  heroSubtitle?: LocaleString | null;
   heroImage?: SanityImage | null;
-  primaryCta?: RawCta | null;
-  secondaryCta?: RawCta | null;
   featuredDarshan?: RawCard[] | null;
   featuredDesert?: RawCard[] | null;
   featuredTours?: RawCard[] | null;

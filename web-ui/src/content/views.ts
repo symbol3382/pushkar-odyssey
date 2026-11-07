@@ -127,13 +127,9 @@ export interface SiteView {
 }
 
 export interface HomeView {
-  heroTitle: string;
-  heroSubtitle: string;
   heroImage: string;
-  heroImageAlt: string;
+  heroImageAlt?: string;
   heroImageSrcSet?: string;
-  ctaPrimary: { label: string; to: string };
-  ctaSecondary: { label: string; to: string };
   featuredDarshan: CardView[];
   featuredDesert: CardView[];
   featuredTours: CardView[];

@@ -39,12 +39,7 @@ import {
 import { useContentQuery, type ContentQuery } from './useContentQuery';
 
 const emptyHome: HomeView = {
-  heroTitle: '',
-  heroSubtitle: '',
-  heroImage: '',
-  heroImageAlt: '',
-  ctaPrimary: { label: '', to: '/darshan' },
-  ctaSecondary: { label: '', to: '/tours' },
+  heroImage: images.homeHero,
   featuredDarshan: [],
   featuredDesert: [],
   featuredTours: [],

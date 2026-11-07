@@ -7,6 +7,8 @@ import { EmptyCatalog, QueryStatus } from '../components/QueryStatus';
 import { Seo } from '../components/Seo';
 import { WorksBanner } from '../components/WorksBanner';
 import { homeLinks, homeRails } from '../content/catalogs';
+import { images } from '../content/images';
+import type { CardView } from '../content/views';
 import {
   useLocalizedCatalog,
   useLocalizedHome,
@@ -14,7 +16,11 @@ import {
   useLocalizedTestimonials,
 } from '../hooks/useLocalizedContent';
 import { organizationJsonLd } from '../lib/structuredData';
-import type { CardView } from '../content/views';
+
+const HERO_CTA = {
+  primary: { to: '/tours' },
+  secondary: { to: '/vedic-poojas' },
+} as const;
 
 export function HomePage() {
   const { t } = useTranslation(['common', 'content']);
@@ -38,7 +44,12 @@ export function HomePage() {
     tour: hero?.featuredTours ?? [],
     stay: hero?.featuredStays ?? [],
   };
-  const brand = site.data?.brandName ?? t('site.brandName', { ns: 'content' });
+  const brand = t('site.brandName', { ns: 'content' });
+  const tagline = t('site.tagline', { ns: 'content' });
+  const heroTitle = t('home.heroTitle', { ns: 'content' });
+  const heroSubtitle = t('home.heroSubtitle', { ns: 'content' });
+  const heroImage = hero?.heroImage ?? images.homeHero;
+  const heroImageAlt = hero?.heroImageAlt ?? heroTitle;
 
   return (
     <>
@@ -46,112 +57,95 @@ export function HomePage() {
         title={site.data?.seoTitle ?? brand}
         description={site.data?.seoDescription ?? t('site.shortDescription', { ns: 'content' })}
         path="/"
-        image={hero?.heroImage ?? site.data?.seoImage}
+        image={heroImage !== images.homeHero ? heroImage : site.data?.seoImage}
         jsonLd={site.data ? organizationJsonLd(site.data) : null}
       />
-      <QueryStatus query={home}>
-        {hero?.heroTitle ? (
-          <section className="relative min-h-dvh overflow-hidden grain-overlay">
-            {hero.heroImage && (
-              <img
-                src={hero.heroImage}
-                alt={hero.heroImageAlt}
-                srcSet={hero.heroImageSrcSet}
-                sizes="100vw"
-                className="absolute inset-0 size-full object-cover"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
-            <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
-            <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+
+      <section className="relative min-h-dvh overflow-hidden grain-overlay">
+        <img
+          src={heroImage}
+          alt={heroImageAlt}
+          srcSet={hero?.heroImageSrcSet}
+          sizes="100vw"
+          className="absolute inset-0 size-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-maroon/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-ink/40" />
+        <div className="relative mx-auto flex min-h-dvh max-w-page flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
+              {tagline}
+            </p>
+            <h1 className="mt-4 font-display text-5xl leading-[1.05] text-cream sm:text-6xl lg:text-7xl">
+              {heroTitle}
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-sand/90 sm:text-lg">
+              {heroSubtitle}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                to={HERO_CTA.primary.to}
+                className="rounded-sm bg-bhagwa px-6 py-3 text-sm font-medium text-cream shadow-lg shadow-bhagwa/30 transition hover:bg-bhagwa-light"
               >
-                {site.data?.tagline && (
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold-soft">
-                    {site.data.tagline}
-                  </p>
-                )}
-                <h1 className="mt-4 font-display text-5xl leading-[1.05] text-cream sm:text-6xl lg:text-7xl">
-                  {hero.heroTitle}
-                </h1>
-                {hero.heroSubtitle && (
-                  <p className="mt-5 max-w-3xl text-base leading-relaxed text-sand/90 sm:text-lg">
-                    {hero.heroSubtitle}
-                  </p>
-                )}
-                <div className="mt-8 flex flex-wrap gap-3">
-                  {hero.ctaPrimary.label && (
-                    <Link
-                      to={hero.ctaPrimary.to}
-                      className="rounded-sm bg-bhagwa px-6 py-3 text-sm font-medium text-cream shadow-lg shadow-bhagwa/30 transition hover:bg-bhagwa-light"
-                    >
-                      {hero.ctaPrimary.label}
-                    </Link>
-                  )}
-                  {hero.ctaSecondary.label && (
-                    <Link
-                      to={hero.ctaSecondary.to}
-                      className="rounded-sm border border-cream/40 bg-cream/10 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-cream/20"
-                    >
-                      {hero.ctaSecondary.label}
-                    </Link>
-                  )}
-                </div>
-              </motion.div>
+                {t('home.ctaPrimary', { ns: 'content' })}
+              </Link>
+              <Link
+                to={HERO_CTA.secondary.to}
+                className="rounded-sm border border-cream/40 bg-cream/10 px-6 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:bg-cream/20"
+              >
+                {t('home.ctaSecondary', { ns: 'content' })}
+              </Link>
             </div>
-          </section>
-        ) : (
-          <EmptyCatalog message={t('pages.emptyHome')} />
-        )}
-      </QueryStatus>
+          </motion.div>
+        </div>
+      </section>
 
       <WorksBanner />
 
-      {home.status === 'ready' && (
-        <>
-          {homeRails.map((catalog, index) => (
-            <FeaturedSection
+      {homeRails.map((catalog, index) => (
+        <FeaturedSection
+          key={catalog.id}
+          eyebrow={t(catalog.copy.homeEyebrow)}
+          title={t(catalog.copy.homeTitle)}
+          link={{
+            to: catalog.path,
+            label:
+              counts[catalog.id] != null
+                ? t('home.browseCount', { count: counts[catalog.id] })
+                : t(catalog.copy.all),
+          }}
+          items={featured[catalog.id]}
+          empty={t(catalog.copy.empty)}
+          loading={home.status === 'loading'}
+          tone={index % 2 === 1 ? 'sand' : undefined}
+        />
+      ))}
+
+      <section className="mx-auto max-w-page px-4 py-16 sm:px-6 lg:px-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
+          {t('home.moreEyebrow')}
+        </p>
+        <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">{t('home.moreTitle')}</h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {homeLinks.map((catalog) => (
+            <Link
               key={catalog.id}
-              eyebrow={t(catalog.copy.homeEyebrow)}
-              title={t(catalog.copy.homeTitle)}
-              link={{
-                to: catalog.path,
-                label:
-                  counts[catalog.id] != null
-                    ? t('home.browseCount', { count: counts[catalog.id] })
-                    : t(catalog.copy.all),
-              }}
-              items={featured[catalog.id]}
-              empty={t(catalog.copy.empty)}
-              tone={index % 2 === 1 ? 'sand' : undefined}
-            />
+              to={catalog.path}
+              className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6 transition hover:border-bhagwa/40"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bhagwa">
+                {t(catalog.copy.eyebrow)}
+              </p>
+              <h3 className="mt-2 font-display text-2xl text-ink">{t(catalog.copy.title)}</h3>
+              <p className="mt-2 text-sm text-ink-soft">{t(catalog.copy.subtitle)}</p>
+            </Link>
           ))}
-          <section className="mx-auto max-w-page px-4 py-16 sm:px-6 lg:px-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bhagwa">
-              {t('home.moreEyebrow')}
-            </p>
-            <h2 className="mt-1 font-display text-3xl text-ink sm:text-4xl">{t('home.moreTitle')}</h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {homeLinks.map((catalog) => (
-                <Link
-                  key={catalog.id}
-                  to={catalog.path}
-                  className="rounded-sm border border-bhagwa/15 bg-sand/40 p-6 transition hover:border-bhagwa/40"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bhagwa">
-                    {t(catalog.copy.eyebrow)}
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl text-ink">{t(catalog.copy.title)}</h3>
-                  <p className="mt-2 text-sm text-ink-soft">{t(catalog.copy.subtitle)}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </>
-      )}
+        </div>
+      </section>
 
       <QueryStatus query={testimonials}>
         {testimonials.data && testimonials.data.length > 0 && (
@@ -203,6 +197,7 @@ function FeaturedSection({
   link,
   items,
   empty,
+  loading,
   tone,
 }: {
   eyebrow: string;
@@ -210,12 +205,19 @@ function FeaturedSection({
   link: { to: string; label: string };
   items: CardView[];
   empty: string;
+  loading?: boolean;
   tone?: 'sand';
 }) {
   const body = (
     <div className="mx-auto max-w-page px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading eyebrow={eyebrow} title={title} link={link} />
-      {items.length === 0 ? (
+      {loading ? (
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3" role="status" aria-live="polite">
+          {['one', 'two', 'three'].map((item) => (
+            <div key={item} className="aspect-[4/3] animate-pulse rounded-sm bg-sand" />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
         <EmptyCatalog message={empty} />
       ) : (
         <div

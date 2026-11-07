@@ -1,27 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { imageField, publishingNote, requiredLocale } from "../fields";
-
-function cta(name: string, title: string) {
-  return defineField({
-    name,
-    title,
-    type: "object",
-    fields: [
-      requiredLocale("label", "Label", "localeString"),
-      defineField({
-        name: "path",
-        title: "Path",
-        type: "string",
-        description: "An internal path such as /darshan or /tours.",
-        validation: (rule) =>
-          rule.required().custom((value: string | undefined) => {
-            if (!value?.startsWith("/")) return "Start the path with /";
-            return true;
-          }),
-      }),
-    ],
-  });
-}
+import { imageField, publishingNote } from "../fields";
 
 function references(name: string, title: string, to: string) {
   return defineField({
@@ -38,22 +16,18 @@ export const homePage = defineType({
   name: "homePage",
   title: "Home page",
   type: "document",
-  description: publishingNote,
+  description: `${publishingNote} Hero titles and button labels live in the website. Use this document for the banner image and featured listings only.`,
   fields: [
-    requiredLocale("heroTitle", "Hero title", "localeString"),
-    requiredLocale("heroSubtitle", "Hero subtitle", "localeText"),
     imageField("heroImage", "Hero image", true),
-    cta("primaryCta", "Primary button"),
-    cta("secondaryCta", "Secondary button"),
     references("featuredDarshan", "Featured darshan", "darshan"),
     references("featuredDesert", "Featured desert experiences", "desertExperience"),
     references("featuredTours", "Featured tours", "tourPackage"),
     references("featuredStays", "Featured stays", "stay"),
   ],
   preview: {
-    select: { title: "heroTitle.en", media: "heroImage" },
-    prepare({ title, media }) {
-      return { title: title || "Home page", media };
+    select: { media: "heroImage" },
+    prepare({ media }) {
+      return { title: "Home page", media };
     },
   },
 });

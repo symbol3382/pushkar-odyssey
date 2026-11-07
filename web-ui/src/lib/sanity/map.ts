@@ -307,19 +307,9 @@ export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeVi
   const home = raw?.home;
   const image = imageFromSanity(home?.heroImage, context.language);
   return {
-    heroTitle: pickText(home?.heroTitle, context.language),
-    heroSubtitle: pickText(home?.heroSubtitle, context.language),
     heroImage: image?.src ?? context.fallbackHero ?? '',
-    heroImageAlt: image?.alt ?? pickText(home?.heroTitle, context.language),
+    heroImageAlt: image?.alt.trim() ? image.alt : undefined,
     heroImageSrcSet: image?.srcSet,
-    ctaPrimary: {
-      label: pickText(home?.primaryCta?.label, context.language),
-      to: home?.primaryCta?.path?.startsWith('/') ? home.primaryCta.path : '/darshan',
-    },
-    ctaSecondary: {
-      label: pickText(home?.secondaryCta?.label, context.language),
-      to: home?.secondaryCta?.path?.startsWith('/') ? home.secondaryCta.path : '/tours',
-    },
     featuredDarshan: rail('darshan', raw, context),
     featuredDesert: rail('desert', raw, context),
     featuredTours: rail('tour', raw, context),

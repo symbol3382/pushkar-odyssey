@@ -135,11 +135,7 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
 
 export const homeQuery = `{
   "home": *[_id == "homePage"][0]{
-    heroTitle,
-    heroSubtitle,
     heroImage ${image},
-    primaryCta{ label, path },
-    secondaryCta{ label, path },
     featuredDarshan[]->${card},
     featuredDesert[]->${card},
     featuredTours[]->${card},
