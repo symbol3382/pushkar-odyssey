@@ -53,10 +53,10 @@ function blocks(
   return value && value.length > 0 ? value : null;
 }
 
-function gallery(images: SanityImage[] | null | undefined, language: string): Media[] {
+function gallery(images: SanityImage[] | null | undefined): Media[] {
   if (!images) return [];
   return images.flatMap((image) => {
-    const media = imageFromSanity(image, language);
+    const media = imageFromSanity(image);
     return media ? [media] : [];
   });
 }
@@ -76,7 +76,7 @@ function mapUrl(value: RawCoordinates | null | undefined): string | undefined {
 }
 
 function seoFields(seo: RawSeo | null | undefined, language: string) {
-  const image = imageFromSanity(seo?.image, language);
+  const image = imageFromSanity(seo?.image);
   return {
     seoTitle: pickText(seo?.title, language) || undefined,
     seoDescription: pickText(seo?.description, language) || undefined,
@@ -121,13 +121,13 @@ export function mapCard(
   const slug = raw?.slug?.trim();
   const title = pickText(raw?.title, context.language);
   if (!raw || !slug || !title) return null;
-  const image = imageFromSanity(raw.featuredImage, context.language);
+  const image = imageFromSanity(raw.featuredImage);
   return {
     slug,
     title,
     summary: pickText(raw.summary, context.language),
     image: image?.src ?? '',
-    imageAlt: image?.alt ?? title,
+    imageAlt: title,
     imageSrcSet: image?.srcSet,
     priceLabel: formatStartingPrice(
       raw.price
@@ -181,7 +181,7 @@ export function mapCatalogDetail(
     ...card,
     description: pickText(raw.summary, context.language),
     body: blocks(raw.description, context.language),
-    gallery: gallery(raw.gallery, context.language),
+    gallery: gallery(raw.gallery),
     inclusions: texts(raw.included, context.language),
     exclusions: texts(raw.excluded, context.language),
     notes: (raw.notes ?? []).flatMap((note) => {
@@ -214,7 +214,7 @@ export function mapCatalogDetail(
     itinerary: (raw.itinerary ?? []).flatMap((stop) => {
       const title = pickText(stop.heading, context.language);
       if (!title || typeof stop.dayNumber !== 'number') return [];
-      const image = imageFromSanity(stop.image, context.language) ?? undefined;
+      const image = imageFromSanity(stop.image) ?? undefined;
       return [
         {
           day: context.dayLabel(stop.dayNumber),
@@ -233,14 +233,14 @@ export function mapPage(raw: RawPage | null, context: MapContext): PageView | nu
   const slug = raw?.slug?.trim();
   const title = pickText(raw?.title, context.language);
   if (!raw || !slug || !title) return null;
-  const image = imageFromSanity(raw.image, context.language);
+  const image = imageFromSanity(raw.image);
   return {
     slug,
     title,
     summary: pickText(raw.summary, context.language),
     body: blocks(raw.body, context.language),
     image: image?.src ?? '',
-    imageAlt: image?.alt ?? title,
+    imageAlt: title,
     imageSrcSet: image?.srcSet,
     ...seoFields(raw.seo, context.language),
   };
@@ -261,7 +261,7 @@ export function mapSite(
     };
   }
 
-  const seoImage = imageFromSanity(raw.seo?.image, context.language);
+  const seoImage = imageFromSanity(raw.seo?.image);
   return {
     brandName: pickText(raw.name, context.language) || fallback.brandName,
     tagline: pickText(raw.description, context.language) || fallback.tagline,
@@ -305,10 +305,9 @@ function rail(
 
 export function mapHome(raw: RawHomePayload | null, context: MapContext): HomeView {
   const home = raw?.home;
-  const image = imageFromSanity(home?.heroImage, context.language);
+  const image = imageFromSanity(home?.heroImage);
   return {
     heroImage: image?.src ?? context.fallbackHero ?? '',
-    heroImageAlt: image?.alt.trim() ? image.alt : undefined,
     heroImageSrcSet: image?.srcSet,
     featuredDarshan: rail('darshan', raw, context),
     featuredDesert: rail('desert', raw, context),
@@ -323,14 +322,15 @@ export function mapHistory(
   fallbackImage: string,
 ): HistoryView | null {
   if (!raw) return null;
-  const image = imageFromSanity(raw.heroImage, context.language);
+  const image = imageFromSanity(raw.heroImage);
+  const introTitle = pickText(raw.introTitle, context.language);
   return {
     intro: {
-      title: pickText(raw.introTitle, context.language),
+      title: introTitle,
       subtitle: pickText(raw.introSubtitle, context.language),
     },
     heroImage: image?.src ?? fallbackImage,
-    heroImageAlt: image?.alt ?? pickText(raw.introTitle, context.language),
+    heroImageAlt: introTitle,
     blocks: (raw.blocks ?? []).flatMap((block, index) => {
       const title = pickText(block.title, context.language);
       if (!title) return [];
@@ -349,14 +349,14 @@ export function mapHistory(
 export function mapWork(raw: RawWork, context: MapContext): WorkView | null {
   const title = pickText(raw.title, context.language);
   if (!title) return null;
-  const image = imageFromSanity(raw.image, context.language);
+  const image = imageFromSanity(raw.image);
   return {
     id: raw._id,
     title,
     category: pickText(raw.category, context.language),
     description: pickText(raw.summary, context.language),
     image: image?.src ?? '',
-    imageAlt: image?.alt ?? title,
+    imageAlt: title,
     imageSrcSet: image?.srcSet,
     date: raw.dateLabel?.trim() ?? '',
   };

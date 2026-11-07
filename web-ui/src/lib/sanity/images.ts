@@ -1,6 +1,5 @@
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { DEFAULT_SANITY_DATASET, readSanityEnv } from './config';
-import { pickText } from './locale';
 import type { SanityImage } from './types';
 
 export interface Media {
@@ -11,10 +10,7 @@ export interface Media {
 
 const WIDTHS = [480, 768, 1200, 1600];
 
-export function imageFromSanity(
-  source: SanityImage | null | undefined,
-  language: string,
-): Media | null {
+export function imageFromSanity(source: SanityImage | null | undefined): Media | null {
   const env = readSanityEnv();
   if (!source?.asset?._ref || !env.projectId) return null;
 
@@ -26,10 +22,10 @@ export function imageFromSanity(
   return {
     src: urlFor(960),
     srcSet: WIDTHS.map((width) => `${urlFor(width)} ${String(width)}w`).join(', '),
-    alt: pickText(source.alt, language),
+    alt: '',
   };
 }
 
-export function mediaFromSrc(src: string, alt: string): Media {
+export function mediaFromSrc(src: string, alt = ''): Media {
   return { src, alt };
 }

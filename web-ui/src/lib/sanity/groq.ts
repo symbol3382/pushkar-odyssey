@@ -1,5 +1,4 @@
 const image = `{
-  alt,
   crop,
   hotspot,
   asset

@@ -5,7 +5,6 @@ export type LocaleString = Partial<Record<ContentLanguage, string>>;
 export type LocaleBlocks = Partial<Record<ContentLanguage, PortableTextBlock[]>>;
 
 export interface SanityImage {
-  alt?: LocaleString | null;
   crop?: { top: number; bottom: number; left: number; right: number } | null;
   hotspot?: { x: number; y: number; height: number; width: number } | null;
   asset?: { _ref?: string; _type?: string } | null;

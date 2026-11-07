@@ -92,18 +92,12 @@ export function imageField(
     title,
     type: "galleryImage",
     description,
-    validation: (rule) =>
-      rule.custom(
-        (
-          value:
-            { asset?: { _ref?: string }; alt?: { en?: string } } | undefined,
-        ) => {
-          if (!value?.asset?._ref)
-            return required ? "An image is required" : true;
-          if (!value.alt?.en?.trim()) return "Alt text in English is required";
-          return true;
-        },
-      ),
+    validation: required
+      ? (rule) =>
+          rule.custom((value: { asset?: { _ref?: string } } | undefined) =>
+            value?.asset?._ref ? true : "An image is required",
+          )
+      : undefined,
   });
 }
 

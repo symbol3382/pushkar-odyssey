@@ -24,8 +24,7 @@ export const seo = defineType({
       name: "image",
       title: "Sharing image",
       type: "galleryImage",
-      description:
-        "Used when the page is shared. Alt text is required if you add an image.",
+      description: "Used when the page is shared.",
     }),
   ],
 });
