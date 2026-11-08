@@ -271,7 +271,10 @@
   },
   "footer": {
     "explore": "खोजें",
-    "reachUs": "हमसे जुड़ें",
+    "reachUs": "संपर्क करें",
+    "whatsapp": "व्हाट्सऐप",
+    "callUs": "हमें कॉल करें",
+    "writeToUs": "हमें लिखें",
     "copyright": "© {{year}} {{brand}}."
   },
   "language": {

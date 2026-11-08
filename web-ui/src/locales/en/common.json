@@ -298,7 +298,10 @@
   },
   "footer": {
     "explore": "Explore",
-    "reachUs": "Reach us",
+    "reachUs": "Contact us",
+    "whatsapp": "Whatsapp",
+    "callUs": "Call Us",
+    "writeToUs": "Write to us",
     "copyright": "© {{year}} {{brand}}."
   },
   "language": {

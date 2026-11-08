@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { FaWhatsapp } from 'react-icons/fa6';
+import { LuMail, LuPhone } from 'react-icons/lu';
 import { images } from '../content/images';
 import { nav } from '../content/nav';
 import { useLocalizedSite } from '../hooks/useLocalizedContent';
@@ -67,19 +69,25 @@ export function Footer() {
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cream underline-offset-4 hover:underline"
+                className="inline-flex items-center gap-2 text-cream hover:text-gold-soft"
               >
-                WhatsApp{site?.contact.phone ? ` ${site.contact.phone}` : ''}
+                <FaWhatsapp className="size-4 shrink-0" aria-hidden />
+                {t('footer.whatsapp')}
               </a>
             )}
             {call && site?.contact.phone && (
-              <a href={call} className="hover:text-cream">
-                {t('actions.call')} {site.contact.phone}
+              <a href={call} className="inline-flex items-center gap-2 hover:text-cream">
+                <LuPhone className="size-4 shrink-0" aria-hidden />
+                {t('footer.callUs')}
               </a>
             )}
             {site?.contact.email && (
-              <a href={`mailto:${site.contact.email}`} className="hover:text-cream">
-                {site.contact.email}
+              <a
+                href={`mailto:${site.contact.email}`}
+                className="inline-flex items-center gap-2 hover:text-cream"
+              >
+                <LuMail className="size-4 shrink-0" aria-hidden />
+                {t('footer.writeToUs')}
               </a>
             )}
             {socials.map((item) => (
