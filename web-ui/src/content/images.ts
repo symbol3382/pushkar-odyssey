@@ -1,8 +1,11 @@
+import contactUsBanner from '../assets/contact-us-banner.jpg';
+
 /**
  * Central image registry — edit paths/URLs here only.
  *
  * Values may be:
  * - a public-folder path (e.g. `/images/home-hero.svg`)
+ * - a bundled asset import
  * - an absolute URL (e.g. `https://cdn.example.com/photo.jpg`)
  *
  * Usage in content:
@@ -23,7 +26,7 @@ export const images = {
   templeGuide: '/images/temple-guide.svg',
   ritualPhoto: '/images/ritual-photo.svg',
   historyHero: '/images/history-hero.svg',
-  contactHero: '/images/contact-hero.svg',
+  contactHero: contactUsBanner,
 
   // Tours
   tourSacredCircuit: '/images/home-hero.svg',
